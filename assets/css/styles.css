@@ -66,3 +66,11 @@ main{min-height:55vh}.hero{max-width:var(--content);margin:0 auto;padding:76px 2
 
 /* About-card body copy uses the same accessible text token as other page prose. */
 .about-card p { color: #516873; }
+
+/* Compact, keyboard-accessible help buttons for advanced calculator inputs. */
+.tooltip-wrap{display:inline-block;position:relative;vertical-align:middle;margin:0 0 6px 5px}
+.tooltip-trigger{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;min-width:18px;padding:0;border:1px solid #6a8794;border-radius:50%;background:#fff;color:#244b5d;font-size:11px;font-weight:800;line-height:1;cursor:pointer}
+.tooltip-trigger:hover,.tooltip-trigger[aria-expanded="true"]{background:#eaf5f4;border-color:#087c74;color:#075e59}
+.tooltip-trigger:focus-visible{outline:3px solid #5cbab2;outline-offset:2px}
+.field-tooltip{display:block;margin:5px 0 8px;padding:9px 11px;max-width:100%;border:1px solid #c8dddf;border-radius:9px;background:#f3f9f9;color:#244452;font-size:12px;font-weight:500;line-height:1.5}
+.form-row .field-tooltip{width:100%}
