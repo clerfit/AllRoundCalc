@@ -271,9 +271,15 @@
     else if (routeName === "about") renderAbout();
     else if (routeName === "contact") renderContact();
     else renderNotFound();
-    document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
-      routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
-      ({ categories:"All categories", "calculator-preview":"Calculator layout preview", about:"About AllRoundCalc", contact:"Contact AllRoundCalc" }[routeName] || (routeName === "calculator" && window.AllRoundCalculations ? ((window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; }) || {}).name || "Calculator") : "Page not found")) + " — AllRoundCalc";
+    if (routeName === "calculator") {
+      const basicDefinition = window.AllRoundCalculations && window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; });
+      const advancedDefinition = window.AllRoundAdvancedCalculations && window.AllRoundAdvancedCalculations.definitions.find(function (item) { return item.id === path[1]; });
+      document.title = ((advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
+    } else {
+      document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
+        routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
+        ({ categories:"All categories", "calculator-preview":"Calculator layout preview", about:"About AllRoundCalc", contact:"Contact AllRoundCalc" }[routeName] || "Page not found") + " — AllRoundCalc";
+    }
   }
 
   menuToggle.addEventListener("click", function () { setDrawer(!drawer.classList.contains("is-open")); });
