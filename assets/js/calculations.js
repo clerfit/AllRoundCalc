@@ -55,6 +55,7 @@
     while (b) { const r = a % b; a = b; b = r; }
     return a;
   }
+  function gcdBig(a,b) { if(a<0n)a=-a; if(b<0n)b=-b; while(b!==0n){const r=a%b;a=b;b=r;} return a; }
   function fmt(n) {
     if (typeof n !== "number" || !Number.isFinite(n)) return String(n);
     if (Object.is(n, -0)) n = 0;
