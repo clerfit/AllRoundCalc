@@ -186,3 +186,19 @@ test("Phase 4 polynomial integration evaluates a definite integral", async ({ pa
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Definite integral: 9");
 });
+
+test("Phase 4 calculator form remains keyboard operable", async ({ page }) => {
+  await page.goto("/#/calculator/quadratic-equation");
+  const a = page.getByLabel("Coefficient a");
+  await a.focus();
+  await page.keyboard.type("1");
+  await page.keyboard.press("Tab");
+  await page.keyboard.type("-3");
+  await page.keyboard.press("Tab");
+  await page.keyboard.type("2");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Calculate" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#calculator-result")).toHaveText("Discriminant: 1; roots: 2, 1");
+  await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
+});

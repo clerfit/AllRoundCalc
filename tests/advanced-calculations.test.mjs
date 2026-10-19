@@ -86,3 +86,39 @@ test("successful Phase 4 calculators always expose the formula and definition", 
     assert.equal(answer.definition.id,id);
   }
 });
+
+test("linear and exponential solvers handle negative coefficients and fractional bases", () => {
+  assert.equal(calculate("linear-equation",{a:"-2",b:"4",c:"10"}).result,"x = -3");
+  assert.equal(calculate("logarithm",{x:"0.125",base:"0.5"}).result,"log base 0.5 of 0.125 = 3");
+  assert.equal(calculate("exponential-equation",{coefficient:"2",base:"0.5",target:"0.25"}).result,"x = 3");
+});
+test("inverse trigonometry includes valid endpoints and angle conversion accepts negative turns", () => {
+  assert.equal(calculate("inverse-trigonometry",{value:"-1",fn:"acos"}).result,"Angle: 180°; 3.14159265359 radians");
+  assert.equal(calculate("angle-converter",{angle:"-360"}).result,"Degrees: -360; radians: -6.28318530718");
+});
+test("coordinate geometry handles negative slope and coincident points", () => {
+  assert.equal(calculate("slope",{x1:"0",y1:"4",x2:"2",y2:"0"}).result,"Slope: -2");
+  assert.equal(calculate("distance-midpoint",{x1:"4",y1:"-3",x2:"4",y2:"-3"}).result,"Distance: 0; midpoint: (4, -3)");
+});
+test("circle and sequences handle zero-radius and one-term boundaries", () => {
+  assert.equal(calculate("circle",{radius:"0"}).result,"Circumference: 0; area: 0");
+  assert.equal(calculate("arithmetic-sequence",{first:"7",difference:"-4",n:"1"}).result,"nth term: 7; sum of first 1 terms: 7");
+  assert.equal(calculate("geometric-sequence",{first:"2",ratio:"-2",n:"3"}).result,"nth term: 8; sum of first 3 terms: 6");
+});
+test("polynomial tools handle constant, zero, and reversed-bound cases", () => {
+  assert.equal(calculate("polynomial-derivative",{coefficients:"0,0,5"}).result,"f′(x) = 0");
+  assert.equal(calculate("polynomial-integral",{coefficients:"1,0,0",lower:"3",upper:"0"}).result,"Definite integral: -9");
+  assert.throws(()=>calculate("polynomial-integral",{coefficients:"1,2",lower:"Infinity",upper:"2"}),/finite number/);
+});
+test("complex division handles a pure imaginary divisor", () => {
+  assert.equal(calculate("complex-numbers",{a:"1",b:"2",c:"0",d:"1",operation:"divide"}).result,"2 − 1i");
+});
+test("matrix and vector geometry handle identity and perpendicular inputs", () => {
+  assert.equal(calculate("matrix-2x2",{a:"1",b:"0",c:"0",d:"1"}).result,"Determinant: 1; inverse: [[1, 0], [0, 1]]");
+  assert.equal(calculate("vectors-2d",{ux:"1",uy:"0",vx:"0",vy:"1"}).result,"Dot product: 0; |u|: 1; |v|: 1; angle: 90°");
+});
+test("input validation rejects non-finite values and invalid sequence counts", () => {
+  assert.throws(()=>calculate("linear-equation",{a:"Infinity",b:"1",c:"2"}),/finite number/);
+  assert.throws(()=>calculate("arithmetic-sequence",{first:"1",difference:"1",n:"0"}),/at least 1/);
+  assert.throws(()=>calculate("polynomial-derivative",{coefficients:"1,2,3,4,5,6,7,8,9,10,11,12,13,14"}),/limited to degree 12/);
+});
