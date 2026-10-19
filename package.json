@@ -4,7 +4,7 @@
   "private": true,
   "description": "AllRoundCalc source and UI verification scripts",
   "scripts": {
-    "test": "node --test tests/ui-model.test.mjs tests/calculations.test.mjs",
+    "test": "node --test tests/ui-model.test.mjs tests/calculations.test.mjs tests/advanced-calculations.test.mjs",
     "test:e2e": "playwright test",
     "test:all": "npm test && npm run test:e2e"
   },

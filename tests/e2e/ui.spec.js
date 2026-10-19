@@ -139,3 +139,50 @@ test("Phase 3 percentage calculator shows its computed value", async ({ page }) 
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("120");
 });
+
+test("Phase 4 advanced mathematics category lists all reviewed calculator definitions", async ({ page }) => {
+  await page.goto("/#/category/advanced-mathematics");
+  await expect(page.getByRole("heading", { name: "Advanced Mathematics" })).toBeVisible();
+  await expect(page.getByText("18 calculators")).toBeVisible();
+  await expect(page.getByRole("link", { name: /Quadratic Equation Solver/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Polynomial Definite Integral/ })).toBeVisible();
+});
+
+test("Phase 4 quadratic solver handles two real roots and explains discriminant", async ({ page }) => {
+  await page.goto("/#/calculator/quadratic-equation");
+  await page.getByLabel("Coefficient a").fill("1");
+  await page.getByLabel("Coefficient b").fill("-3");
+  await page.getByLabel("Coefficient c").fill("2");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Discriminant: 1; roots: 2, 1");
+  await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
+});
+
+test("Phase 4 logarithm checks valid arguments and base", async ({ page }) => {
+  await page.goto("/#/calculator/logarithm");
+  await page.getByLabel("Positive argument x").fill("1000");
+  await page.getByLabel("Logarithm base b").fill("10");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("log base 10 of 1000 = 3");
+  await page.getByLabel("Logarithm base b").fill("1");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("alert")).toContainText("base must be positive and not equal to one");
+});
+
+test("Phase 4 trigonometry function and angle-unit controls calculate correctly", async ({ page }) => {
+  await page.goto("/#/calculator/trigonometry");
+  await page.getByLabel("Angle").fill("30");
+  await page.getByLabel("Function").selectOption("sin");
+  await page.getByLabel("Angle unit").selectOption("degrees");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("sin(30°) = 0.5");
+});
+
+test("Phase 4 polynomial integration evaluates a definite integral", async ({ page }) => {
+  await page.goto("/#/calculator/polynomial-integral");
+  await page.getByLabel("Polynomial coefficients (comma-separated, highest power first)").fill("1,0,0");
+  await page.getByLabel("Lower bound a").fill("0");
+  await page.getByLabel("Upper bound b").fill("3");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Definite integral: 9");
+});

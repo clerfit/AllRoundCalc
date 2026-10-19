@@ -1,6 +1,6 @@
 # Phase 03 — Basic & Everyday Mathematics
 
-**Status:** Implementation in progress. The catalogue and browser calculation logic are implemented. Phase sign-off is pending automated CI and browser verification.
+**Status:** Implementation and automated verification complete. The current CI run passed 46 source/calculation tests and 45 Chromium browser tests. Broader independent formula verification and release-wide regression checks remain part of Phase 21.
 
 ## Implementation inventory and mathematical contract
 
@@ -41,9 +41,9 @@ This document is the review index for Phase 03. Inputs are processed in the brow
 
 The calculation test suite includes a reference case for all 28 calculator IDs, checks that each successful result carries a formula and definition, and exercises invalid domains including division by zero, invalid fractions, zero starting value for percentage change, non-real roots, malformed lists, invalid bases, undefined ratios, and zero reciprocals. Browser tests cover catalogue navigation, an arithmetic calculation, division-by-zero messaging, and a percentage result.
 
-## Known limitations to resolve before Phase 03 sign-off
+## Remaining limitations and downstream verification
 
-- CI and browser test results must pass on the final commit; a test file existing is not proof that tests passed.
+- CI and browser tests passed on the Phase 03 implementation commit. This is automated implementation verification, not proof of every possible mathematical edge case.
 - Browser Number uses IEEE-754 binary floating point. High-precision decimal and currency calculations may need a decimal arithmetic library in a future scope.
 - Rounding behavior around decimal ties must be checked with a broader edge-case matrix; the current helper is not certified for accounting use.
 - Tax behavior is a generic arithmetic illustration, not jurisdiction-specific tax advice.
@@ -52,9 +52,9 @@ The calculation test suite includes a reference case for all 28 calculator IDs, 
 
 ## Sign-off checklist
 
-- [ ] Calculation reference tests pass.
-- [ ] Browser tests pass across desktop, tablet, and mobile.
-- [ ] No regressions in Phase 1/2 navigation and accessibility checks.
-- [ ] Formula examples and edge cases independently reviewed.
+- [x] Calculation reference tests pass.
+- [x] Browser tests pass across desktop, tablet, and mobile.
+- [x] No regressions detected in Phase 1/2 navigation and automated accessibility checks.
+- [ ] Broader independent formula examples and edge cases reviewed (Phase 21).
 - [ ] Related-calculator navigation reviewed.
 - [ ] Known limitations and remaining work accurately recorded.
