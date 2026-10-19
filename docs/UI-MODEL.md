@@ -43,5 +43,6 @@ Phase 02 defines the shared user interface and page patterns only. It does not i
 - Contact is informative only; no email address or form delivery has been invented.
 - A dependency-free source-contract test suite is provided at `tests/ui-model.test.mjs`; run it with `node --test tests/ui-model.test.mjs` using Node.js 20 or newer. It checks source-level contracts and contrast ratios.
 - Playwright end-to-end tests in `tests/e2e/ui.spec.js` exercise homepage, category search/navigation, sidebar keyboard dismissal, contact status, disabled calculator preview controls, page errors, and viewport overflow on Chromium desktop/tablet/mobile profiles.
-- Primary routes are audited against WCAG 2.1 A/AA rules using axe-core. Review any reported violations and fix them before sign-off.
-- Before Phase 02 can be signed off, syntax, links, narrow-screen layout, keyboard navigation, and screen-reader semantics should be checked in a real browser. Repository edits alone do not establish browser-tested acceptance.
+- Primary routes are audited against WCAG 2.1 A/AA rules using axe-core. All six audited routes passed in the successful CI run.
+- Browser verification passed across desktop, tablet, and mobile Chromium, including category search/navigation, disabled preview controls, keyboard skip navigation, sidebar dismissal/focus behavior, page errors, and horizontal overflow.
+- Phase 02 is signed off. Manual screen-reader/assistive-technology review remains in Phase 22 pre-release QA; no manual screen-reader test is claimed here.
