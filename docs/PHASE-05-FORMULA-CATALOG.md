@@ -32,7 +32,7 @@
 | Wave speed | v = fλ | Frequency and wavelength ≥ 0; speed refers to propagation speed in the relevant medium. | 50 Hz × 0.4 m = 20 m/s |
 | Spring-force magnitude | |F| = kx | Ideal Hooke's-law spring within its elastic range; spring constant and extension magnitude ≥ 0. | 200 N/m × 0.05 m = 10 N |
 
-| Projectile range | R = v² sin(2θ) / g | Launch/landing heights equal, no air resistance, 0° ≤ θ ≤ 90°, g > 0. | 20 m/s at 30° with g = 9.8 m/s² → about 35.346 m |
+| Projectile range | R = v² sin(2θ) / g | Launch/landing heights equal, no air resistance, 0° ≤ θ ≤ 90°, g > 0. | 20 m/s at 30° with g = 9.8 m/s² → about 35.348 m |
 | Projectile flight time | T = 2v sin(θ) / g | Launch/landing heights equal, no air resistance, g > 0. | 20 m/s at 30° with g = 10 m/s² → 2 s |
 | Projectile maximum height | H = v² sin²(θ) / (2g) | Height above launch point; no air resistance, g > 0. | 20 m/s at 30° with g = 10 m/s² → 5 m |
 | Impulse | J = FΔt | Constant net force; signed force and non-negative time interval. | 5 N for 3 s → 15 N·s |
