@@ -1,6 +1,6 @@
 # Phase 04 — Advanced Mathematics Formula Catalogue
 
-**Status: In progress.** The main identities below were checked against established OpenStax mathematics references before implementation. Automated source/calculation tests and responsive browser tests have passed. Passing fixtures verify the listed examples and tested behaviors; they do not prove every possible floating-point input, symbolic case, or near-singular system correct.
+**Status: Implementation and automated verification complete.** The main identities below were checked against established OpenStax mathematics references before implementation. Source/calculation tests and responsive browser tests pass. This phase is complete for implementation and automated verification; broader independent numerical review remains assigned to Phase 21, and manual assistive-technology review remains a site-wide Phase 22 release check. Passing fixtures do not prove every possible floating-point input, symbolic case, or near-singular system correct.
 
 ## Scope, numeric behavior, and conventions
 
@@ -21,13 +21,13 @@ Where a mathematical domain is undefined, the calculator must reject the input o
 | Inverse trigonometry | `arcsin(x)`, `arccos(x)`, `arctan(x)` | Arcsine and arccosine require −1 ≤ x ≤ 1. Principal ranges: arcsine [−90°, 90°], arccosine [0°, 180°], arctangent (−90°, 90°). Both degrees and radians are shown. | `arcsin(0.5) = 30° = π/6` |
 | Degree/radian conversion | `radians = degrees × π / 180` | Any finite degree value; result is not normalized to one turn. | `180° = π radians` |
 | Slope of a line | `m = (y₂ − y₁) / (x₂ − x₁)` | Finite Cartesian coordinates; vertical lines have undefined slope and are rejected. | Points (1, 2) and (3, 6) give slope 2. |
-| Distance and midpoint | `d = √((x₂−x₁)² + (y₂−y₁)²)`; `M = ((x₁+x₂)/2, (y₁+y₂)/2)` | Finite coordinates in the same coordinate system and units. | Points (0, 0) and (3, 4) give distance 5 and midpoint (1.5, 2). |
+| Distance and midpoint | `d = √((x₂−x₁)² + (y₂−y₁)²)`; `M = ((x₁+x₂)/2, (y₁+y₂)/2)` | Finite coordinates in the same coordinate system and units. Midpoint components are evaluated as `x₁/2 + x₂/2` to avoid avoidable overflow when same-sign coordinates are large. | Points (0, 0) and (3, 4) give distance 5 and midpoint (1.5, 2). |
 | Circle area/circumference | `A = πr²`; `C = 2πr` | Radius must be non-negative. Area uses square units; circumference uses linear units. | `r = 2 ⇒ A = C = 4π ≈ 12.5664` |
 | Arithmetic sequence/series | `aₙ = a₁ + (n−1)d`; `Sₙ = n(a₁+aₙ)/2` | n is an integer from 1 to 100,000; first term and difference are finite. | `a₁=3, d=2, n=5 ⇒ a₅=11, S₅=35` |
 | Geometric sequence/series | `aₙ = a₁rⁿ⁻¹`; for r ≠ 1, `Sₙ = a₁(1−rⁿ)/(1−r)`; for r = 1, `Sₙ = na₁` | n is an integer from 1 to 100,000. Non-finite results are rejected. | `a₁=2, r=3, n=4 ⇒ a₄=54, S₄=80` |
 | Polynomial derivative | Differentiate each term: `cxⁿ → cnxⁿ⁻¹`; a constant's derivative is zero. | Coefficients are listed highest power first; degree at most 12. This differentiates polynomials only. Numeric overflow is rejected instead of silently omitting terms. | `2x² + 3x + 4 → 4x + 3` |
 | Polynomial definite integral | For each `cxⁿ`, use `c(bⁿ⁺¹ − aⁿ⁺¹)/(n+1)` and sum the terms. | Polynomial degree at most 12, finite bounds, integer powers n ≥ 0, coefficients in descending-power order. Result is numerical and floating-point based. | `∫₀³ x² dx = 9` |
-| Complex-number arithmetic | Multiplication: `(a+bi)(c+di) = (ac−bd) + (ad+bc)i`. Division uses the conjugate and denominator `c²+d²`. | Finite real components. Division by 0 + 0i is undefined and rejected. | `(1+2i) + (3+4i) = 4+6i` |
+| Complex-number arithmetic | Multiplication: `(a+bi)(c+di) = (ac−bd) + (ad+bc)i`. Division uses the conjugate identity with scaled components to reduce avoidable overflow/underflow. | Finite real components. Division by 0 + 0i is undefined and rejected. Results outside the finite floating-point range are rejected. | `(1+2i) + (3+4i) = 4+6i` |
 | 2×2 matrix determinant/inverse | For A = [[a,b],[c,d]], `det(A)=ad−bc`; inverse is `1/det(A) × [[d,−b],[−c,a]]`. | Matrix entries must be finite. An inverse exists only when determinant ≠ 0; singular matrices report no inverse. | A = [[1,2],[3,4]] has determinant −2. |
 | 2D vector calculator | `u·v = uₓvₓ + uᵧvᵧ`; `|u| = √(uₓ²+uᵧ²)`; `cos(θ) = (u·v)/(|u||v|)` | Finite components. The cosine ratio is clamped to [−1, 1] for tiny rounding overshoots. Angle is undefined if either vector is zero. | `u=(1,2), v=(3,4) ⇒ u·v=11` |
 
@@ -52,7 +52,8 @@ These sources support the standard identities. Test fixtures and edge tests sepa
 ## Automated verification
 
 - [x] Reference examples for all 18 calculator IDs pass.
-- [x] Domain and edge-case tests pass for zero coefficients, non-unique systems, logarithm domains, inverse-trig domains, tangent singularities, vertical-line slopes, zero complex divisors, singular matrices, zero vectors, malformed polynomial coefficients, and derivative overflow.
+- [x] Domain and edge-case tests pass for zero coefficients and degenerate systems, logarithm domains, inverse-trig domains, tangent singularities, vertical-line slopes, zero complex divisors, singular matrices, zero vectors, malformed polynomial coefficients, and derivative overflow.
+- [x] Extreme-value regression tests cover scaled complex division with very large and very small finite values and midpoint calculations for very large finite coordinates.
 - [x] Browser tests pass across desktop, tablet, and mobile; they cover catalogue navigation, quadratic roots, logarithm success/error, trig unit/function controls, and definite integration.
 - [x] Automated WCAG 2.1 A/AA axe checks now cover all 18 Phase 04 calculator routes; calculator results use an explicitly named polite status region, and calculator pages expose calculator-specific document titles.
 - [x] JavaScript syntax, source-contract tests, and Phase 03 regression browser tests pass.
