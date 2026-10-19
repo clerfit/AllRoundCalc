@@ -208,7 +208,7 @@
       return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
     }).join("");
     const fields = def.fields.map(function (field) {
-      const listField = field[0] === "values" || field[0] === "weights";
+      const listField = field[0] === "values" || field[0] === "weights" || field[0] === "resistances";
       return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label><input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
     }).join("");
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:categoryName,href:"#/category/" + categoryId},{label:def.name}]) +
