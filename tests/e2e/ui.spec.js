@@ -30,6 +30,7 @@ test("sidebar opens, supports keyboard dismissal, and returns focus", async ({ p
   const menu = page.getByRole("button", { name: "Open navigation menu" });
   await menu.click();
   await expect(page.getByRole("navigation", { name: "Calculator categories" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
   await page.keyboard.press("Shift+Tab");
   await expect(drawerContactLink(page)).toBeFocused();
   await page.keyboard.press("Tab");
