@@ -132,6 +132,14 @@ test("complex division and midpoint avoid avoidable extreme-value overflow", () 
     "0.5 − 0.5i"
   );
   assert.equal(
+    calculate("complex-numbers",{a:"1e308",b:"1e308",c:"1e308",d:"1e308",operation:"divide"}).result,
+    "1"
+  );
+  assert.equal(
+    calculate("complex-numbers",{a:"1e-308",b:"1e-308",c:"1e-308",d:"1e-308",operation:"divide"}).result,
+    "1"
+  );
+  assert.equal(
     calculate("distance-midpoint",{x1:"1e308",y1:"1e308",x2:"1e308",y2:"1e308"}).result,
     "Distance: 0; midpoint: (1e+308, 1e+308)"
   );
