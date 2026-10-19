@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01–04 are complete for implementation and automated verification. Phase 04 provides 18 browser-local advanced-mathematics calculators. Phase 05 (Physics) has an initial set of 29 introductory browser-local calculators covering motion, forces, energy, matter, electricity, waves, and optics, with formula documentation, domain tests, and automated WCAG 2.1 A/AA checks. Phase 06 (Chemistry) is now in progress with 22 browser-local calculators for amount of substance, solutions, gases, acid/base estimates, and reaction yield/purity. Advanced mathematics, physics, and chemistry inputs include compact help tooltips. Independent formula review and human assistive-technology testing remain release requirements in Phases 21–22; the site is not yet launched.
+> **Project status:** Phases 01–05 have implementation and automated verification recorded; Phase 05 includes 29 introductory browser-local physics calculators. Phase 06 (Chemistry) is in progress with 22 browser-local calculators and contextual input help. Independent scientific review, human assistive-technology testing, and release checks remain scheduled work; the site is not yet launched.
 
 ## Principles
 
