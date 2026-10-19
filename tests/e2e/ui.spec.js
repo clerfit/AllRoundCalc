@@ -225,3 +225,55 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
   }
 });
 
+test("Phase 5 Physics category lists all 16 implemented calculators", async ({ page }) => {
+  await page.goto("/#/category/physics");
+  await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
+  await expect(page.getByText("16 calculators")).toBeVisible();
+  await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
+});
+
+test("Phase 5 speed calculator calculates, validates, and resets", async ({ page }) => {
+  await page.goto("/#/calculator/speed-distance-time");
+  await expect(page).toHaveTitle(/Speed from Distance and Time — AllRoundCalc$/);
+  await page.getByLabel("Distance (m)").fill("150");
+  await page.getByLabel("Elapsed time (s)").fill("10");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Average speed: 15 m/s");
+  await page.getByLabel("Elapsed time (s)").fill("0");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("alert")).toContainText("Elapsed time must be greater than zero");
+  await page.getByRole("button", { name: "Reset" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Enter values and select Calculate.");
+});
+
+test("Phase 5 Ohm's law calculator calculates voltage and shows its assumption", async ({ page }) => {
+  await page.goto("/#/calculator/ohms-law");
+  await page.getByLabel("Current (A)").fill("2");
+  await page.getByLabel("Resistance (Ω)").fill("6");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Voltage: 12 V");
+  await expect(page.locator("#calculator-result-note")).toContainText("Ohm's law applies to ohmic behavior");
+});
+
+test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = [
+    "speed-distance-time", "acceleration", "kinematic-displacement", "newtons-second-law",
+    "weight", "momentum", "kinetic-energy", "gravitational-potential-energy", "mechanical-work",
+    "mechanical-power", "density", "pressure", "ohms-law", "electrical-power", "wave-speed", "spring-force"
+  ];
+  for (const id of ids) {
+    const route = "/#/calculator/" + id;
+    await page.goto(route);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role", "status");
+    await expect(page).toHaveTitle(/— AllRoundCalc$/);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))))
+      .toEqual([]);
+  }
+});
