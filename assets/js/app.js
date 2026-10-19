@@ -149,7 +149,7 @@
       }).join("");
       app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
         '<div class="page-title-row"><div><p class="page-eyebrow">Phase 04 · Advanced Mathematics</p><h1>' + escapeHtml(category.name) + '</h1><p>Advanced mathematics tools with visible formulas, explicit domains, worked examples, and edge-case handling.</p></div><span class="status-pill">' + defs.length + ' calculators</span></div>' +
-        '<div class="status-note"><strong>Phase 4 is in progress.</strong> These calculators run locally in your browser. Check the formula notes and numeric limitations for each method.</div>' + catalogue);
+        '<div class="status-note"><strong>Phase 4 implementation and automated verification are complete.</strong> These calculators run locally in your browser. Broader independent numerical review and human assistive-technology testing remain part of site-wide release acceptance.</div>' + catalogue);
       return;
     }
     if (id === "physics" && window.AllRoundPhysicsCalculations) {
