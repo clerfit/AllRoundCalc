@@ -222,9 +222,46 @@
     const relatedLinks = api.definitions.filter(function (item) { return item.group === def.group && item.id !== id; }).slice(0, 4).map(function (item) {
       return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
     }).join("");
+    const fieldHelp = {
+      a:"Coefficient of the highest-power term or first variable, as defined by this formula.",
+      b:"Coefficient of the next term or second variable, as defined by this formula.",
+      c:"Constant term or third coefficient, as defined by this formula.",
+      angle:"Enter an angle in the unit stated beside the field. Check whether the model assumes degrees or radians.",
+      gravity:"Gravitational field strength; near Earth's surface a commonly used approximation is 9.81 m/s².",
+      mass:"Enter mass in the unit shown. Mass is not the same physical quantity as weight (force).",
+      time:"Enter a positive elapsed time unless the formula explicitly permits zero.",
+      distance:"Use the distance or separation defined by the formula and enter it in the displayed unit.",
+      volume:"Use the volume unit displayed; for concentration, use final solution volume when specified.",
+      temperature:"Use absolute temperature in kelvin when required by a gas law; temperature differences may be expressed in K or °C.",
+      pressure:"Use absolute pressure for gas laws, not gauge pressure.",
+      frequency:"Frequency is cycles per second (Hz).",
+      wavelength:"Wavelength is the distance between equivalent points on adjacent waves.",
+      resistance:"Resistance is measured in ohms (Ω); ideal zero-ohm cases may represent a short circuit.",
+      focalLength:"Use the signed focal length convention stated below; a zero focal length is not valid for the thin-lens equation.",
+      objectDistance:"Use the object distance under the sign convention stated in the limitations.",
+      imageDistance:"Use signed image distance; sign affects whether the image is real or virtual under the chosen convention.",
+      initialVelocity:"Signed initial velocity along the selected one-dimensional axis.",
+      finalVelocity:"Signed final velocity along the same axis as initial velocity.",
+      acceleration:"Acceleration is the rate of change of velocity; use m/s² and preserve the sign.",
+      force:"Use the force magnitude or signed force as specified by the label and formula.",
+      current:"Electric current in amperes (A); signed values follow the chosen sign convention.",
+      voltage:"Electric potential difference in volts (V).",
+      charge1:"Electric charge in coulombs (C); the result may depend on the magnitude or sign as noted.",
+      charge2:"Electric charge in coulombs (C); the result may depend on the magnitude or sign as noted.",
+      moles:"Amount of substance in moles (mol), not mass.",
+      molarMass:"Molar mass of the exact substance in g/mol; verify it independently from a trusted chemistry reference.",
+      concentration:"Enter concentration in mol/L as stated. The pH estimate may only apply to ideal dilute strong electrolytes.",
+      initialPressure:"Starting absolute pressure; do not use gauge pressure in gas-law equations.",
+      finalPressure:"Final absolute pressure; do not use gauge pressure in gas-law equations."
+    };
     const fields = def.fields.map(function (field) {
       const listField = field[0] === "values" || field[0] === "weights" || field[0] === "resistances";
-      return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label><input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
+      const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
+      const tipId = "field-tip-" + field[0];
+      const tip = (phase4 || phase5 || phase6)
+        ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Help for ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
+        : "";
+      return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
     }).join("");
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:categoryName,href:"#/category/" + categoryId},{label:def.name}]) +
       '<div class="page-title-row"><div><p class="page-eyebrow">' + phaseLabel + '</p><h1>' + escapeHtml(def.name) + '</h1><p>' + escapeHtml(def.description) + '</p></div><span class="status-pill">Available</span></div>' +
@@ -233,6 +270,24 @@
       '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Formula and assumptions</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula</h3><p id="calculator-formula">' + escapeHtml(def.formula) + '</p></article><article><h3>Worked example</h3><p>' + escapeHtml(def.example) + '</p></article><article><h3>Input guidance</h3><p>Enter finite numbers unless a field asks for a comma-separated list or integer. Invalid domains and division by zero are rejected. Results are displayed to a readable precision and are not a substitute for context-specific professional calculations.</p></article><article><h3>Limitations</h3><p>Calculations run locally in this browser. Decimal arithmetic uses JavaScript number precision; outputs are formatted for readability and may not represent arbitrary-precision decimal arithmetic.</p></article></div></div></section></div></div>' +
       '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related ' + (phase5 ? 'physics' : 'mathematics') + ' calculators</h2><a class="subtle-link" href="#/category/' + categoryId + '">' + (phase6 ? 'All Phase 6 tools' : phase5 ? 'All Phase 5 tools' : phase4 ? 'All Phase 4 tools' : 'All Phase 3 tools') + '</a></div><div class="panel-body"><div class="category-grid">' + relatedLinks + '</div></div></section>');
     const form = document.getElementById("calculator-form");
+    form.addEventListener("click", function (event) {
+      const trigger = event.target.closest(".tooltip-trigger");
+      if (!trigger) return;
+      const target = document.getElementById(trigger.getAttribute("aria-controls"));
+      const willOpen = target.hidden;
+      form.querySelectorAll(".field-tooltip").forEach(function (tip) { tip.hidden = true; });
+      form.querySelectorAll(".tooltip-trigger").forEach(function (button) { button.setAttribute("aria-expanded", "false"); });
+      target.hidden = !willOpen;
+      trigger.setAttribute("aria-expanded", String(willOpen));
+    });
+    form.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      const openTip = form.querySelector(".field-tooltip:not([hidden])");
+      if (!openTip) return;
+      openTip.hidden = true;
+      const trigger = form.querySelector('[aria-controls="' + openTip.id + '"]');
+      if (trigger) { trigger.setAttribute("aria-expanded", "false"); trigger.focus(); }
+    });
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       const values = {};
