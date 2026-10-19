@@ -63,3 +63,6 @@ main{min-height:55vh}.hero{max-width:var(--content);margin:0 auto;padding:76px 2
 @media (min-width: 701px) and (max-width: 920px) {
   .hero-art { overflow: clip; }
 }
+
+/* About-card body copy uses the same accessible text token as other page prose. */
+.about-card p { color: #516873; }
