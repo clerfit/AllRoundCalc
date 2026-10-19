@@ -47,7 +47,10 @@
     return parts.map((s,i) => num(s, "Coefficient " + (i+1)));
   }
   function polynomial(terms) {
-    const active = terms.filter(t => t.coef !== 0 && Number.isFinite(t.coef));
+    if (terms.some(t => !Number.isFinite(t.coef))) {
+      throw new Error("Polynomial coefficient operation exceeds the supported finite-number range.");
+    }
+    const active = terms.filter(t => t.coef !== 0);
     if (!active.length) return "0";
     return active.map((t,i) => {
       const negative = t.coef < 0;
@@ -79,7 +82,14 @@
         if (a === 0) throw new Error("Coefficient a must not be zero for a quadratic equation.");
         const d=b*b-4*a*c;
         if (!Number.isFinite(d)) throw new Error("The discriminant is outside the supported numeric range.");
-        if (d > 0) { const s=Math.sqrt(d); result="Discriminant: "+fmt(d)+"; roots: "+fmt((-b+s)/(2*a))+", "+fmt((-b-s)/(2*a)); }
+        if (d > 0) {
+          const s = Math.sqrt(d);
+          // Use the stable q form for one root and Vieta's product c/a for the other.
+          const q = -0.5 * (b + (b >= 0 ? s : -s));
+          const r1 = q === 0 ? (-b + s) / (2 * a) : q / a;
+          const r2 = q === 0 ? (-b - s) / (2 * a) : c / q;
+          result = "Discriminant: " + fmt(d) + "; roots: " + fmt(r1) + ", " + fmt(r2);
+        }
         else if (d === 0) result="Discriminant: 0; repeated root: "+fmt(-b/(2*a));
         else { const re=-b/(2*a), im=Math.sqrt(-d)/(2*Math.abs(a)); result="Discriminant: "+fmt(d)+"; complex roots: "+complexText(re,im)+" and "+complexText(re,-im); }
         formula="D = b² − 4ac; roots = (−b ± √D)/(2a)"; break;

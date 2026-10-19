@@ -69,19 +69,25 @@ Large categories may be split into additional subphases. The roadmap is a planni
 
 ## Repository structure
 
-- `index.html` — single-page site shell and shared footer/header.
-- `assets/css/styles.css` — responsive design system, page layouts, and reduced-motion styling.
-- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.\n- `assets/js/calculations.js` — Phase 03 calculation definitions, input validation, and browser-local calculation functions.\n- `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formulas, assumptions, domains, examples, limitations, and sign-off checklist.\n- `tests/calculations.test.mjs` — Phase 03 reference-example and edge-case tests.
+- `index.html` — site shell and shared header/footer.
+- `assets/css/styles.css` — responsive design system and page layouts.
+- `assets/js/app.js` — navigation, search, category pages, and shared calculator UI.
+- `assets/js/calculations.js` — Phase 03 calculation logic.
+- `assets/js/advanced-calculations.js` — Phase 04 advanced mathematics calculation logic.
+- `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formula catalogue and verification status.
+- `docs/PHASE-04-FORMULA-CATALOG.md` — Phase 04 formula contracts, reference links, assumptions, examples, and limits.
+- `tests/ui-model.test.mjs` — source-contract tests for the shared interface.
+- `tests/calculations.test.mjs` — Phase 03 reference examples and edge-case tests.
+- `tests/advanced-calculations.test.mjs` — Phase 04 reference examples and edge-case tests.
+- `tests/e2e/ui.spec.js` — Playwright interaction, responsive viewport, and accessibility checks.
+- `playwright.config.js` — Chromium desktop/tablet/mobile test configuration.
+- `.github/workflows/ui-verification.yml` — CI workflow for source, syntax, calculation, and browser checks.
 - `assets/icons/favicon.svg` — project favicon.
 - `docs/UI-MODEL.md` — Phase 02 scope, page patterns, interactions, and acceptance requirements.
-- `tests/ui-model.test.mjs` — dependency-free Node.js source-contract tests.
-- `tests/calculations.test.mjs` — Phase 03 reference-example and edge-case tests.\n- `tests/e2e/ui.spec.js` — Playwright interaction, responsive viewport, and accessibility checks.
-- `playwright.config.js` — Chromium desktop/tablet/mobile projects.
-- `.github/workflows/ui-verification.yml` — CI workflow for source and browser checks.
-- `CONTRIBUTING.md` — coding, privacy, accessibility, and verification conventions.
+- `CONTRIBUTING.md` — development, privacy, accessibility, and verification conventions.
 - `.gitignore` — ignores local environment files, secrets, and generated output.
 
-The initial UI uses semantic HTML, CSS, and browser-native JavaScript without third-party libraries or a build step. The GitHub repository description is intentionally left blank as requested.
+The site uses semantic HTML, CSS, and browser-native JavaScript without a production build step. The GitHub repository description is intentionally left blank as requested.
 
 ## Required review process for each calculator
 

@@ -44,6 +44,10 @@ test("quadratic solver handles repeated and complex roots", () => {
   assert.equal(calculate("quadratic-equation",{a:"1",b:"0",c:"1"}).result,"Discriminant: -4; complex roots: 1i and −1i");
   assert.throws(()=>calculate("quadratic-equation",{a:"0",b:"2",c:"1"}),/must not be zero/);
 });
+test("quadratic solver remains stable when one root is much smaller than the other", () => {
+  const answer = calculate("quadratic-equation",{a:"1",b:"100000000",c:"1"}).result;
+  assert.equal(answer,"Discriminant: 10000000000000000; roots: -100000000, -1e-8");
+});
 test("systems distinguish unique, inconsistent, and non-unique equations", () => {
   assert.throws(()=>calculate("linear-system-2x2",{a1:"1",b1:"1",c1:"2",a2:"2",b2:"2",c2:"5"}),/no solution/);
   assert.throws(()=>calculate("linear-system-2x2",{a1:"1",b1:"1",c1:"2",a2:"2",b2:"2",c2:"4"}),/infinitely many/);
@@ -65,6 +69,15 @@ test("calculus, complex numbers, matrices, and vectors handle special cases", ()
   assert.throws(()=>calculate("complex-numbers",{a:"1",b:"1",c:"0",d:"0",operation:"divide"}),/zero complex/);
   assert.match(calculate("matrix-2x2",{a:"1",b:"2",c:"2",d:"4"}).result,/inverse: does not exist/);
   assert.match(calculate("vectors-2d",{ux:"0",uy:"0",vx:"1",vy:"2"}).result,/angle: undefined/);
+});
+test("complex arithmetic uses correct component formulas for all operations", () => {
+  const values = {a:"1",b:"2",c:"3",d:"4"};
+  assert.equal(calculate("complex-numbers",{...values,operation:"subtract"}).result,"-2 − 2i");
+  assert.equal(calculate("complex-numbers",{...values,operation:"multiply"}).result,"-5 + 10i");
+  assert.equal(calculate("complex-numbers",{...values,operation:"divide"}).result,"0.44 + 0.08i");
+});
+test("polynomial differentiation rejects arithmetic overflow instead of dropping terms", () => {
+  assert.throws(() => calculate("polynomial-derivative",{coefficients:"1e308,0,0"}), /exceeds the supported finite-number range/);
 });
 test("successful Phase 4 calculators always expose the formula and definition", () => {
   for (const [id, values] of examples) {
