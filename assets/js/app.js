@@ -259,7 +259,7 @@
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
       const tip = (phase4 || phase5 || phase6)
-        ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Help for ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
+        ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
       return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
     }).join("");
