@@ -122,3 +122,17 @@ test("input validation rejects non-finite values and invalid sequence counts", (
   assert.throws(()=>calculate("arithmetic-sequence",{first:"1",difference:"1",n:"0"}),/at least 1/);
   assert.throws(()=>calculate("polynomial-derivative",{coefficients:"1,2,3,4,5,6,7,8,9,10,11,12,13,14"}),/limited to degree 12/);
 });
+test("complex division and midpoint avoid avoidable extreme-value overflow", () => {
+  assert.equal(
+    calculate("complex-numbers",{a:"1e200",b:"0",c:"1e200",d:"1e200",operation:"divide"}).result,
+    "0.5 − 0.5i"
+  );
+  assert.equal(
+    calculate("complex-numbers",{a:"1e-200",b:"0",c:"1e-200",d:"1e-200",operation:"divide"}).result,
+    "0.5 − 0.5i"
+  );
+  assert.equal(
+    calculate("distance-midpoint",{x1:"1e308",y1:"1e308",x2:"1e308",y2:"1e308"}).result,
+    "Distance: 0; midpoint: (1e+308, 1e+308)"
+  );
+});
