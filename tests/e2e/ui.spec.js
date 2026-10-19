@@ -102,3 +102,40 @@ test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }
       .toEqual([]);
   }
 });
+
+
+test("Phase 3 mathematics category lists working calculator tools", async ({ page }) => {
+  await page.goto("/#/category/basic-mathematics");
+  await expect(page.getByRole("heading", { name: "Basic & Everyday Mathematics" })).toBeVisible();
+  await expect(page.getByText("28 calculators")).toBeVisible();
+  await expect(page.getByRole("link", { name: /Percentage Calculator/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Prime Factorization/ })).toBeVisible();
+});
+
+test("Phase 3 arithmetic calculator calculates and explains the formula", async ({ page }) => {
+  await page.goto("/#/calculator/basic-arithmetic");
+  await page.getByLabel("First number").fill("12");
+  await page.getByLabel("Second number").fill("5");
+  await page.getByLabel("Operation").selectOption("multiply");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("60");
+  await expect(page.locator("#calculator-formula")).toHaveText("a × b");
+});
+
+test("Phase 3 rejects division by zero without displaying a numeric result", async ({ page }) => {
+  await page.goto("/#/calculator/basic-arithmetic");
+  await page.getByLabel("First number").fill("12");
+  await page.getByLabel("Second number").fill("0");
+  await page.getByLabel("Operation").selectOption("divide");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("alert")).toHaveText("Division by zero is undefined.");
+  await expect(page.locator("#calculator-result")).toHaveText("No result");
+});
+
+test("Phase 3 percentage calculator shows its computed value", async ({ page }) => {
+  await page.goto("/#/calculator/percentage");
+  await page.getByLabel("Base value").fill("800");
+  await page.getByLabel("Percentage (%)").fill("15");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("120");
+});
