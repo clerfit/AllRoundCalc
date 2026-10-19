@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01, 02, and 03 are complete for implementation and automated verification. Phase 04 (Advanced Mathematics) is in progress with a separate browser-local calculation module, a formula catalogue, and domain/edge-case tests. Broader independent scientific review and site-wide release checks remain scheduled for Phase 21.
+> **Project status:** Phases 01–04 are complete for implementation and automated verification. Phase 04 provides 18 browser-local advanced-mathematics calculators, a formula catalogue, domain/edge-case tests, and automated WCAG 2.1 A/AA checks across every Phase 04 calculator route. Broader independent scientific review and human assistive-technology testing remain release requirements in Phases 21–22.
 
 ## Principles
 
@@ -43,7 +43,7 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 01 | Create and document the GitHub repository — **complete** |
 | 02 | Design the complete responsive UI model and shared page templates — **complete** |
 | 03 | Basic & Everyday Mathematics — **implementation and automated verification complete** |
-| 04 | Advanced Mathematics — **in progress** |
+| 04 | Advanced Mathematics — **implementation and automated verification complete** |
 | 05 | Physics |
 | 06 | Chemistry |
 | 07 | Statistics & Probability |
