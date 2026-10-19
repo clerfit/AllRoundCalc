@@ -52,3 +52,7 @@ main{min-height:55vh}.hero{max-width:var(--content);margin:0 auto;padding:76px 2
 
 .noscript-note{max-width:1104px;margin:16px auto;padding:13px 16px;border:1px solid #d4e5e7;border-radius:10px;background:#f4f9f9;color:#4f6772;font-size:13px;}
 @media(max-width:700px){.noscript-note{margin:12px 20px;}}
+
+/* Ensure placeholder values remain readable while clearly non-final. */
+.result-placeholder,
+.output-value { color: #60777e; }
