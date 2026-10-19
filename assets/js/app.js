@@ -139,10 +139,73 @@
   function renderCategory(id) {
     const category = categories.find(function (item) { return item.id === id; });
     if (!category) return renderNotFound();
+    if (id === "basic-mathematics" && window.AllRoundCalculations) {
+      const defs = window.AllRoundCalculations.definitions;
+      const groups = [...new Set(defs.map(function (item) { return item.group; }))];
+      const catalogue = groups.map(function (group) {
+        return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
+          return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
+        }).join("") + '</div></div></section>';
+      }).join("");
+      app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
+        '<div class="page-title-row"><div><p class="page-eyebrow">Phase 03 · First calculator release</p><h1>' + escapeHtml(category.name) + '</h1><p>Working browser-based calculators with visible formulas, clear assumptions, and input validation.</p></div><span class="status-pill">' + defs.length + ' calculators</span></div>' +
+        '<div class="status-note"><strong>Phase 3 is in progress.</strong> These tools run locally in your browser. Results are numerical tools, not professional advice. Review formulas, assumptions, and edge cases shown on each page.</div>' + catalogue);
+      return;
+    }
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
       '<div class="page-title-row"><div><p class="page-eyebrow">Category overview</p><h1>' + escapeHtml(category.name) + '</h1><p>' + escapeHtml(category.description) + '</p></div><div class="category-icon" style="width:54px;height:54px;border-radius:15px">' + icon(category.icon) + '</div></div>' +
       '<div class="status-note"><strong>In development.</strong> This category is part of the AllRoundCalc roadmap. Individual calculators will be listed here only when their scope, formulas, assumptions, and verification plan are documented.</div>' +
-      '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Calculator catalogue</h2><span class="status-pill">Coming in later phases</span></div><div class="panel-body"><div class="empty-state"><h2>No calculators published yet</h2><p>We will add tools to this category after their formulas and expected results have been reviewed.</p></div></div></section><aside class="panel"><div class="panel-head"><h2>Release standards</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula review</h3><p>Document the method, variables, constants, and assumptions before implementation.</p></article><article><h3>Inputs and units</h3><p>Specify valid ranges, unit choices, and how invalid or missing values are handled.</p></article><article><h3>Verification</h3><p>Compare outputs with independent examples and test edge cases before release.</p></article><article><h3>Privacy</h3><p>Keep entered values in the browser wherever practical and disclose any data dependency.</p></article></div></div></aside></div>');
+      '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Calculator catalogue</h2><span class="status-pill">Coming in later phases</span></div><div class="panel-body"><div class="empty-state"><h2>No calculators published yet</h2><p>We will add tools to this category after their formulas and expected results have been reviewed.</p></div></div></section><aside class="panel"><div class="panel-head"><h2>Release standards</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula review</h3><p>Document the method, variables, and assumptions.</p></article><article><h3>Inputs and units</h3><p>Specify valid ranges, unit choices, and invalid-value behavior.</p></article><article><h3>Verification</h3><p>Compare outputs with independent examples and test edge cases.</p></article><article><h3>Privacy</h3><p>Keep entered values in the browser wherever practical.</p></article></div></div></aside></div>');
+  }
+  function renderCalculator(id) {
+    const api = window.AllRoundCalculations;
+    const def = api && api.definitions.find(function (item) { return item.id === id; });
+    if (!def) return renderNotFound();
+    const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
+      ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
+      : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
+      : id === "proportion-type" ? '<div class="form-row"><label for="calc-mode">Relationship</label><select id="calc-mode"><option value="direct">Direct proportion</option><option value="inverse">Inverse proportion</option></select></div>'
+      : id === "factors-multiples" ? '<div class="form-row"><label for="calc-mode">Find</label><select id="calc-mode"><option value="factors">Positive factors</option><option value="multiples">First multiples</option></select></div>'
+      : "";
+    const fields = def.fields.map(function (field) {
+      const listField = field[0] === "values" || field[0] === "weights";
+      return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label><input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
+    }).join("");
+    app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:"Basic & Everyday Mathematics",href:"#/category/basic-mathematics"},{label:def.name}]) +
+      '<div class="page-title-row"><div><p class="page-eyebrow">Phase 03 · Basic & Everyday Mathematics</p><h1>' + escapeHtml(def.name) + '</h1><p>' + escapeHtml(def.description) + '</p></div><span class="status-pill">Available</span></div>' +
+      '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Enter values</h2><span class="status-pill">Runs in browser</span></div><div class="panel-body"><form id="calculator-form" novalidate>' + fields + extra + '<button class="button button-primary" type="submit">Calculate</button> <button class="button" type="reset">Reset</button></form><p id="calculator-error" role="alert" hidden></p></div></section>' +
+      '<div><section class="panel"><div class="panel-head"><h2>Result</h2></div><div class="panel-body"><p class="output-label">Calculated result</p><p class="output-value" id="calculator-result" aria-live="polite">Enter values and select Calculate.</p><p class="body-copy" id="calculator-result-note"></p></div></section>' +
+      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Formula and assumptions</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula</h3><p id="calculator-formula">' + escapeHtml(def.formula) + '</p></article><article><h3>Worked example</h3><p>' + escapeHtml(def.example) + '</p></article><article><h3>Input guidance</h3><p>Enter finite numbers unless a field asks for a comma-separated list or integer. Invalid domains and division by zero are rejected. Results are displayed to a readable precision and are not a substitute for context-specific professional calculations.</p></article><article><h3>Limitations</h3><p>Calculations run locally in this browser. Decimal arithmetic uses JavaScript number precision; outputs are formatted for readability and may not represent arbitrary-precision decimal arithmetic.</p></article></div></div></section></div></div>' +
+      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related mathematics calculators</h2><a class="subtle-link" href="#/category/basic-mathematics">All Phase 3 tools</a></div><div class="panel-body"><p>Explore related tools in the Basic & Everyday Mathematics catalogue.</p></div></section>');
+    const form = document.getElementById("calculator-form");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const values = {};
+      def.fields.forEach(function (field) { values[field[0]] = document.getElementById("calc-" + field[0]).value; });
+      const op = document.getElementById("calc-operation");
+      const mode = document.getElementById("calc-mode");
+      if (op) values.operation = op.value;
+      if (mode) values.mode = mode.value;
+      const error = document.getElementById("calculator-error");
+      try {
+        const output = api.calculate(id, values);
+        document.getElementById("calculator-result").textContent = output.result;
+        document.getElementById("calculator-formula").textContent = output.formula;
+        document.getElementById("calculator-result-note").textContent = output.note || "";
+        error.hidden = true;
+        error.textContent = "";
+      } catch (e) {
+        error.textContent = e.message || "Please check the entered values.";
+        error.hidden = false;
+        document.getElementById("calculator-result").textContent = "No result";
+        document.getElementById("calculator-result-note").textContent = "";
+      }
+    });
+    form.addEventListener("reset", function () {
+      document.getElementById("calculator-result").textContent = "Enter values and select Calculate.";
+      document.getElementById("calculator-result-note").textContent = "";
+      document.getElementById("calculator-error").hidden = true;
+    });
   }
   function renderCalculatorPreview() {
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"Calculator layout preview"}]) +
@@ -176,12 +239,13 @@
     else if (routeName === "categories") renderCategories(params.get("q") || "");
     else if (routeName === "category") renderCategory(path[1] || "");
     else if (routeName === "calculator-preview") renderCalculatorPreview();
+    else if (routeName === "calculator") renderCalculator(path[1] || "");
     else if (routeName === "about") renderAbout();
     else if (routeName === "contact") renderContact();
     else renderNotFound();
     document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
       routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
-      ({ categories:"All categories", "calculator-preview":"Calculator layout preview", about:"About AllRoundCalc", contact:"Contact AllRoundCalc" }[routeName] || "Page not found") + " — AllRoundCalc";
+      ({ categories:"All categories", "calculator-preview":"Calculator layout preview", about:"About AllRoundCalc", contact:"Contact AllRoundCalc" }[routeName] || (routeName === "calculator" && window.AllRoundCalculations ? ((window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; }) || {}).name || "Calculator") : "Page not found")) + " — AllRoundCalc";
   }
 
   menuToggle.addEventListener("click", function () { setDrawer(!drawer.classList.contains("is-open")); });
