@@ -75,6 +75,9 @@ Large categories may be split into additional subphases. The roadmap is a planni
 - `assets/icons/favicon.svg` — project favicon.
 - `docs/UI-MODEL.md` — Phase 02 scope, page patterns, interactions, and acceptance requirements.
 - `tests/ui-model.test.mjs` — dependency-free Node.js source-contract tests.
+- `tests/e2e/ui.spec.js` — Playwright interaction, responsive viewport, and accessibility checks.
+- `playwright.config.js` — Chromium desktop/tablet/mobile projects.
+- `.github/workflows/ui-verification.yml` — CI workflow for source and browser checks.
 - `CONTRIBUTING.md` — coding, privacy, accessibility, and verification conventions.
 - `.gitignore` — ignores local environment files, secrets, and generated output.
 
@@ -118,7 +121,7 @@ Privacy claims must reflect verified production behavior, including unavoidable 
 
 Implemented in the repository so far: responsive home page styling, sixteen-category data model, searchable category directory, category overview template, reusable calculator layout preview, about page, contact status page, sidebar navigation, keyboard dismissal/focus handling, shared footer/header, and favicon.
 
-Static checks completed: JavaScript parses; CSS braces are balanced; the sixteen category IDs are unique; referenced local CSS, JavaScript, and favicon paths exist; responsive breakpoints and reduced-motion styling are present; the main text/accent tokens meet the 4.5:1 contrast threshold on white and pale surfaces; and the UI script contains no fetch, browser-storage, XHR, or beacon calls. A dependency-free source-contract suite is included at `tests/ui-model.test.mjs` and can be run with `node --test tests/ui-model.test.mjs` on Node.js 20+. Source checks do not substitute for rendering the site in a browser.\n\nStill required before Phase 02 sign-off: real-browser verification of layout and interactions at mobile/tablet/desktop widths; link and keyboard checks; semantic/accessibility review; and fixes for any defects found. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
+Static checks completed: JavaScript parses; CSS braces are balanced; the sixteen category IDs are unique; referenced local CSS, JavaScript, and favicon paths exist; responsive breakpoints and reduced-motion styling are present; the main text/accent tokens meet the 4.5:1 contrast threshold on white and pale surfaces; and the UI script contains no fetch, browser-storage, XHR, or beacon calls. A dependency-free source-contract suite is included at `tests/ui-model.test.mjs` and can be run with `node --test tests/ui-model.test.mjs` on Node.js 20+. Playwright browser checks cover desktop, tablet, and mobile Chromium; primary routes also receive an automated WCAG 2.1 A/AA audit. The GitHub Actions workflow is running these checks; its final result must be reviewed before Phase 02 sign-off. Automated checks do not replace manual screen-reader review.\n\nStill required before Phase 02 sign-off: successful Playwright runs across mobile/tablet/desktop; review and fixes for any automated accessibility violations; manual keyboard and screen-reader review; and any remaining defects. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
 
 ## Disclaimer
 
