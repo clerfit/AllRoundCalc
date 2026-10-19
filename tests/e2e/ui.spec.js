@@ -75,3 +75,15 @@ test("no uncaught page errors while navigating primary views", async ({ page }) 
   }
   expect(errors).toEqual([]);
 });
+
+test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  for (const route of ["/#/home", "/#/categories", "/#/category/physics", "/#/calculator-preview", "/#/about", "/#/contact"]) {
+    await page.goto(route);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))))
+      .toEqual([]);
+  }
+});
