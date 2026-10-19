@@ -1,17 +1,17 @@
 # Phase 06 — Chemistry Formula Catalogue
 
-**Status: In progress.** This initial implementation slice provides 22 browser-local chemistry calculators. Automated examples and domain tests verify selected cases only; they do not certify every possible input or replace independent chemistry review.
+**Status: Implementation and automated verification complete for this documented introductory scope.** The current library provides 30 browser-local chemistry calculators. This is not an exhaustive chemistry reference; independent scientific review remains in Phase 21. Automated examples and domain tests verify selected cases only; they do not certify every possible input or replace independent chemistry review.
 
 ## Calculator inventory
 
 | Group | Calculators |
 |---|---|
-| Moles and molar mass | Amount from mass; mass from amount; particles from moles; moles from particles |
-| Solutions and concentration | Molarity; moles from molarity; dilution; solute mass for solution preparation; mass percent; volume percent; mass-based ppm |
+| Moles and molar mass | Amount from mass; mass from amount; particles from moles; moles from particles; elemental mass percent |
+| Solutions and concentration | Molarity; moles from molarity; dilution; solute mass for solution preparation; mass percent; volume percent; mass-based ppm; molality; mole fraction |
 | Physical properties | Density from mass and volume |
-| Gases and thermodynamics | Ideal-gas pressure; volume; temperature; combined gas law; heat transfer from specific heat |
+| Gases and thermodynamics | Ideal-gas pressure; volume; temperature; combined gas law; heat transfer from specific heat; reaction enthalpy; Dalton partial-pressure sum |
 | Acids and bases | Strong-acid pH estimate; strong-base pH estimate; pH from pOH |
-| Reaction calculations | Percent yield; percent purity |
+| Reaction calculations | Percent yield; percent purity; stoichiometric mole conversion; titration concentration; atom economy |
 
 ## Formula assumptions and unit conventions
 
@@ -33,12 +33,12 @@
 
 ## Phase 06 acceptance checklist
 
-- [x] Current implementation inventory and assumptions documented.
+- [x] Current implementation inventory and assumptions documented.\n- [x] 30 calculator definitions with input-level help, formula notes, and stated limitations.\n- [x] Source tests cover reference examples and invalid domains for the documented catalogue.\n- [x] Responsive browser checks and automated WCAG 2.1 A/AA checks cover all 30 chemistry calculator routes.
 - [x] Browser-local calculation module with finite-input and domain validation.
 - [x] Field-level help text for chemistry inputs.
 - [x] Automated reference examples and invalid-domain tests added to CI.
 - [ ] Independently review formulas and examples against authoritative chemistry references.
-- [ ] Expand coverage to balanced-equation stoichiometry, limiting reactants, empirical/molecular formulas, equilibrium, buffers, titration, electrochemistry, kinetics, thermochemistry, and colligative properties.
+- [ ] Future expansion may add full limiting-reactant workflows, empirical/molecular formula derivation, equilibrium and buffers, electrochemistry, kinetics, and colligative properties; these are outside this introductory release scope.
 - [ ] Complete broader regression, keyboard, screen-reader, and mobile checks in later release QA.
 
-A phase is not complete merely because this initial slice and its tests exist.
+Phase 06 implementation and automated verification are complete for the documented 30-calculator introductory scope. Independent chemistry review, human screen-reader testing, and full-site release checks remain explicitly open in Phases 20–23.
