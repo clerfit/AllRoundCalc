@@ -34,3 +34,7 @@ Do not invent formulas, silently substitute assumptions, or present estimates as
 - Do not mark a feature as working merely because its layout exists.
 - For every user-facing behavior, verify success, empty, invalid, and failure states where applicable.
 - Report what was tested, what was not tested, and any remaining limitations accurately.
+
+## Run the UI source-contract checks
+
+Use Node.js 20 or newer and run `node --test tests/ui-model.test.mjs`. This dependency-free suite checks local asset references, static accessibility hooks, the sixteen-category taxonomy, navigation/search markers, privacy-by-default source constraints, and text-token contrast ratios. It is not a substitute for testing the rendered site in a real browser at mobile, tablet, and desktop widths.
