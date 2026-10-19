@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phase 01 is signed off. Phase 02 is in progress: the responsive UI shell, category navigation, search, and reusable calculator-page preview are now in the repository. No calculator calculations are active yet.
+> **Project status:** Phases 01 and 02 are signed off. Phase 02 delivered the responsive UI shell, category navigation and search, shared page templates, and passing automated source, browser, and accessibility checks. No calculator calculations are active yet.
 
 ## Principles
 
@@ -41,7 +41,7 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | Phase | Scope |
 |---|---|
 | 01 | Create and document the GitHub repository — **complete** |
-| 02 | Design the complete responsive UI model and shared page templates — **in progress** |
+| 02 | Design the complete responsive UI model and shared page templates — **complete** |
 | 03 | Basic & Everyday Mathematics |
 | 04 | Advanced Mathematics |
 | 05 | Physics |
@@ -117,11 +117,33 @@ Privacy claims must reflect verified production behavior, including unavoidable 
 - [x] Repository description intentionally left blank per user preference.
 - [x] Phase 01 scope kept to repository and project documentation; Phase 02 started as the next phase.
 
-## Phase 02 status
+## Phase 02 sign-off
 
-Implemented in the repository so far: responsive home page styling, sixteen-category data model, searchable category directory, category overview template, reusable calculator layout preview, about page, contact status page, sidebar navigation, keyboard dismissal/focus handling, shared footer/header, and favicon.
+**Status: Complete. Phase 03 has not been started.**
 
-Static checks completed: JavaScript parses; CSS braces are balanced; the sixteen category IDs are unique; referenced local CSS, JavaScript, and favicon paths exist; responsive breakpoints and reduced-motion styling are present; the main text/accent tokens meet the 4.5:1 contrast threshold on white and pale surfaces; and the UI script contains no fetch, browser-storage, XHR, or beacon calls. A dependency-free source-contract suite is included at `tests/ui-model.test.mjs` and can be run with `node --test tests/ui-model.test.mjs` on Node.js 20+. Playwright browser checks cover desktop, tablet, and mobile Chromium; primary routes also receive an automated WCAG 2.1 A/AA audit. The GitHub Actions workflow is running these checks; its final result must be reviewed before Phase 02 sign-off. Automated checks do not replace manual screen-reader review.\n\nStill required before Phase 02 sign-off: successful Playwright runs across mobile/tablet/desktop; review and fixes for any automated accessibility violations; manual keyboard and screen-reader review; and any remaining defects. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
+Delivered:
+- Responsive home page with AllRoundCalc branding, category search, featured subject areas, and project principles.
+- All sixteen category entries, a searchable catalogue, and individual category overview pages.
+- Reusable calculator-page preview with input/unit, result, formula, assumptions, and limitation sections. Preview controls remain disabled; no unverified calculations are presented as working.
+- Shared header, footer, menu, category navigation, keyboard dismissal, skip link, search result announcements, About page, Contact status page, and favicon.
+- Responsive layouts, visible keyboard focus, reduced-motion styling, improved contrast, and first-party-only UI assets.
+- Source-contract tests, Playwright tests across desktop/tablet/mobile Chromium, and axe-core WCAG 2.1 A/AA checks on six primary routes.
+
+Verification:
+- **9 source-contract assertions passed.**
+- **33 browser tests passed** across desktop, tablet, and mobile Chromium.
+- **Automated WCAG 2.1 A/AA checks passed** for Home, Categories, a Category page, Calculator Preview, About, and Contact.
+- The successful GitHub Actions run is recorded at [UI verification run 26](https://github.com/clerfit/AllRoundCalc/actions/runs/39226251381).
+- Tablet horizontal overflow and text-contrast issues found during testing were fixed before the successful run.
+- Manual screen-reader/assistive-technology testing remains part of Phase 22 pre-release accessibility QA; it is not represented as completed here.
+
+Scope boundaries:
+- No calculator formulas or active calculation logic have been added.
+- Contact delivery is not configured and no contact form claims to send messages.
+- Deployment and production privacy/security checks remain in their scheduled later phases.
+- The GitHub repository description remains intentionally blank, as requested.
+
+Phase 02 is signed off. Do not begin Phase 03 until the user explicitly asks to start the calculator implementation phase.
 
 ## Disclaimer
 
