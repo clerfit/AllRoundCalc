@@ -99,8 +99,14 @@
         const delta=a1*b2-a2*b1, dx=c1*b2-c2*b1, dy=a1*c2-a2*c1;
         if (![delta,dx,dy].every(Number.isFinite)) throw new Error("Determinant overflow; reduce the scale of the inputs.");
         if (delta === 0) {
-          if (a1===0 && b1===0 && a2===0 && b2===0 && (c1!==0 || c2!==0)) throw new Error("The system is inconsistent and has no solution.");
-          if (dx===0 && dy===0) throw new Error("The system does not have a unique solution (it has infinitely many solutions).");
+          // A zero coefficient row is consistent only when its right-hand side is zero.
+          if ((a1 === 0 && b1 === 0 && c1 !== 0) || (a2 === 0 && b2 === 0 && c2 !== 0)) {
+            throw new Error("The system is inconsistent and has no solution.");
+          }
+          // For dependent rows, both augmented minors must also be zero.
+          if (a1*c2 === a2*c1 && b1*c2 === b2*c1) {
+            throw new Error("The system does not have a unique solution (it has infinitely many solutions).");
+          }
           throw new Error("The system is inconsistent and has no solution.");
         }
         result="x = "+fmt(dx/delta)+"; y = "+fmt(dy/delta); break;
