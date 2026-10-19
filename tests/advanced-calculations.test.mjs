@@ -41,7 +41,7 @@ for (const [id, values, expected] of examples) {
 }
 test("quadratic solver handles repeated and complex roots", () => {
   assert.equal(calculate("quadratic-equation",{a:"1",b:"2",c:"1"}).result,"Discriminant: 0; repeated root: -1");
-  assert.equal(calculate("quadratic-equation",{a:"1",b:"0",c:"1"}).result,"Discriminant: -4; complex roots: 0 + 1i and 0 − 1i");
+  assert.equal(calculate("quadratic-equation",{a:"1",b:"0",c:"1"}).result,"Discriminant: -4; complex roots: 1i and −1i");
   assert.throws(()=>calculate("quadratic-equation",{a:"0",b:"2",c:"1"}),/must not be zero/);
 });
 test("systems distinguish unique, inconsistent, and non-unique equations", () => {

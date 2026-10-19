@@ -171,7 +171,7 @@ test("Phase 4 logarithm checks valid arguments and base", async ({ page }) => {
 
 test("Phase 4 trigonometry function and angle-unit controls calculate correctly", async ({ page }) => {
   await page.goto("/#/calculator/trigonometry");
-  await page.getByLabel("Angle").fill("30");
+  await page.getByLabel("Angle", { exact: true }).fill("30");
   await page.getByLabel("Function").selectOption("sin");
   await page.getByLabel("Angle unit").selectOption("degrees");
   await page.getByRole("button", { name: "Calculate" }).click();

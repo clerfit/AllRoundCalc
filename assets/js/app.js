@@ -139,14 +139,6 @@
   function renderCategory(id) {
     const category = categories.find(function (item) { return item.id === id; });
     if (!category) return renderNotFound();
-    if (id === "basic-mathematics" && window.AllRoundCalculations) {
-      const defs = window.AllRoundCalculations.definitions;
-      const groups = [...new Set(defs.map(function (item) { return item.group; }))];
-      const catalogue = groups.map(function (group) {
-        return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
-          return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
-        }).join("") + '</div></div></section>';
-      }).join("");
       if (id === "advanced-mathematics" && window.AllRoundAdvancedCalculations) {
       const defs = window.AllRoundAdvancedCalculations.definitions;
       const groups = [...new Set(defs.map(function (item) { return item.group; }))];
@@ -160,6 +152,14 @@
         '<div class="status-note"><strong>Phase 4 is in progress.</strong> These calculators run locally in your browser. Check the formula notes and numeric limitations for each method.</div>' + catalogue);
       return;
     }
+    if (id === "basic-mathematics" && window.AllRoundCalculations) {
+      const defs = window.AllRoundCalculations.definitions;
+      const groups = [...new Set(defs.map(function (item) { return item.group; }))];
+      const catalogue = groups.map(function (group) {
+        return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
+          return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
+        }).join("") + '</div></div></section>';
+      }).join("");
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
         '<div class="page-title-row"><div><p class="page-eyebrow">Phase 03 · First calculator release</p><h1>' + escapeHtml(category.name) + '</h1><p>Working browser-based calculators with visible formulas, clear assumptions, and input validation.</p></div><span class="status-pill">' + defs.length + ' calculators</span></div>' +
         '<div class="status-note"><strong>Phase 3 automated verification passed.</strong> These tools run locally in your browser. Results are numerical tools, not professional advice. Review formulas, assumptions, and edge cases shown on each page.</div>' + catalogue);
