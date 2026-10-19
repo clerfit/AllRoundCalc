@@ -4,9 +4,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/chemistry-calculations.js");
 
-test("Phase 6 chemistry catalogue contains 22 unique calculators with documented field help",()=>{
-  assert.equal(definitions.length,22);
-  assert.equal(new Set(definitions.map(x=>x.id)).size,22);
+test("Phase 6 chemistry catalogue contains 30 unique calculators with documented field help",()=>{
+  assert.equal(definitions.length,30);
+  assert.equal(new Set(definitions.map(x=>x.id)).size,30);
   for(const d of definitions){assert.ok(d.formula,d.id+" formula");assert.ok(d.example,d.id+" example");assert.ok(d.fields.length,d.id+" fields");for(const f of d.fields){assert.ok(f[2],d.id+" field help "+f[0]);}}
 });
 const cases=[
@@ -31,7 +31,15 @@ const cases=[
  ["pH-strong-base",{concentration:"0.001"},"Estimated pH: 11"],
  ["ph-from-poh",{poh:"3"},"Estimated pH: 11"],
  ["percent-yield",{actualYield:"8",theoreticalYield:"10"},"Percent yield: 80%"],
- ["percent-purity",{pureMass:"9",sampleMass:"10"},"Percent purity: 90%"]
+ ["percent-purity",{pureMass:"9",sampleMass:"10"},"Percent purity: 90%"],
+ ["molality",{moles:"1",solventMass:"2"},"Molality: 0.5 mol/kg"],
+ ["mole-fraction",{componentMoles:"1",otherMoles:"3"},"Component mole fraction: 0.25"],
+ ["stoichiometric-mole-conversion",{knownMoles:"2",knownCoefficient:"2",targetCoefficient:"3"},"Target species amount: 3 mol"],
+ ["titration-concentration",{titrantConcentration:"0.1",titrantVolume:"0.025",unknownVolume:"0.05",unknownCoefficient:"1",titrantCoefficient:"1"},"Unknown concentration: 0.05 mol/L"],
+ ["atom-economy",{desiredCoefficient:"1",desiredMolarMass:"80",reactantMassSum:"100"},"Atom economy: 80%"],
+ ["reaction-enthalpy",{moles:"2",molarEnthalpy:"-100"},"Reaction heat: -200 kJ"],
+ ["dalton-partial-pressures",{partialPressures:"100000,20000"},"Total pressure: 120000 Pa"],
+ ["element-mass-percent",{elementCount:"1",elementMolarMass:"4.0026",compoundMolarMass:"18.015"},"Elemental mass percent: 22.2228143211%"],
 ];
 test("Phase 6 chemistry calculators match reference examples",()=>{
  for(const [id,values,expected] of cases){assert.equal(calculate(id,values).result,expected,id);}
@@ -46,6 +54,12 @@ test("Phase 6 rejects invalid domains and non-finite values",()=>{
   ["pH-strong-acid",{concentration:"0"}],
   ["percent-yield",{actualYield:"1",theoreticalYield:"0"}],
   ["percent-purity",{pureMass:"11",sampleMass:"10"}],
-  ["density-chemistry",{mass:"Infinity",volume:"2"}]
+  ["density-chemistry",{mass:"Infinity",volume:"2"}],
+  ["mole-fraction",{componentMoles:"0",otherMoles:"0"}],
+  ["stoichiometric-mole-conversion",{knownMoles:"1",knownCoefficient:"0",targetCoefficient:"1"}],
+  ["titration-concentration",{titrantConcentration:"0.1",titrantVolume:"0.02",unknownVolume:"0",unknownCoefficient:"1",titrantCoefficient:"1"}],
+  ["atom-economy",{desiredCoefficient:"1",desiredMolarMass:"80",reactantMassSum:"0"}],
+  ["dalton-partial-pressures",{partialPressures:"100,,200"}],
+  ["element-mass-percent",{elementCount:"10",elementMolarMass:"20",compoundMolarMass:"100"}],
  ]) assert.throws(()=>calculate(id,values),undefined,id);
 });
