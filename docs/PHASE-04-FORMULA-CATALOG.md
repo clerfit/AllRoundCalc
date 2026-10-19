@@ -57,7 +57,7 @@ These sources support the standard identities. Test fixtures and edge tests sepa
 - [x] Browser tests pass across desktop, tablet, and mobile; they cover catalogue navigation, quadratic roots, logarithm success/error, trig unit/function controls, and definite integration.
 - [x] Automated WCAG 2.1 A/AA axe checks now cover all 18 Phase 04 calculator routes; calculator results use an explicitly named polite status region, and calculator pages expose calculator-specific document titles.
 - [x] JavaScript syntax, source-contract tests, and Phase 03 regression browser tests pass.
-- [ ] A human screen-reader/assistive-technology session and broader independent numerical review remain open; automated accessibility checks are not a substitute for these reviews.
+- [ ] Human screen-reader/assistive-technology testing and broader independent numerical review remain open; automated accessibility checks are not a substitute for these reviews.
 - [ ] Phase 21 must perform site-wide formula verification and regression before release sign-off.
 
 ## Known limitations
