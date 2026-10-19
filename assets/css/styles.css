@@ -56,3 +56,10 @@ main{min-height:55vh}.hero{max-width:var(--content);margin:0 auto;padding:76px 2
 /* Ensure placeholder values remain readable while clearly non-final. */
 .result-placeholder,
 .output-value { color: #60777e; }
+
+/* Browser-audit fixes: keep decorative hero orbits inside tablet viewports and
+   ensure helper copy passes normal-text contrast on the result surface. */
+.body-copy { color: #516873; }
+@media (min-width: 701px) and (max-width: 920px) {
+  .hero-art { overflow: clip; }
+}
