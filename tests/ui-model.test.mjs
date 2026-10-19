@@ -81,8 +81,8 @@ function contrastRatio(first, second) {
 }
 
 test("muted text and accent tokens meet WCAG AA contrast on light surfaces", () => {
-  const muted = [...css.matchAll(/--muted:\\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
-  const teal = [...css.matchAll(/--teal:\\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
+  const muted = [...css.matchAll(/--muted:\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
+  const teal = [...css.matchAll(/--teal:\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
   assert.ok(muted, "the muted text token should exist");
   assert.ok(teal, "the accent token should exist");
   assert.ok(contrastRatio(muted, "#ffffff") >= 4.5, "muted text should reach 4.5:1 on white");
