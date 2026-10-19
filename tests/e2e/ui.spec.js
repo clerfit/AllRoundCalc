@@ -294,3 +294,37 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Signed image distance: 0.15 m");
 });
+
+test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
+  await page.goto("/#/category/chemistry");
+  await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
+  await expect(page.getByText("22 calculators")).toBeVisible();
+  await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
+});
+
+test("Phase 6 dilution calculator exposes a usable field tooltip", async ({ page }) => {
+  await page.goto("/#/calculator/dilution");
+  await expect(page).toHaveTitle(/Solution Dilution — AllRoundCalc$/);
+  const help = page.getByRole("button", { name: "Help for Initial concentration C₁ (mol/L)" });
+  await expect(help).toBeVisible();
+  await help.click();
+  await expect(page.locator("#field-tip-initialConcentration")).toBeVisible();
+  await page.getByLabel("Initial concentration C₁ (mol/L)").fill("2");
+  await page.getByLabel("Initial volume V₁ (L)").fill("0.1");
+  await page.getByLabel("Final volume V₂ (L)").fill("0.5");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Final concentration: 0.4 mol/L");
+});
+
+test("advanced calculator tooltips can be opened and dismissed by keyboard", async ({ page }) => {
+  await page.goto("/#/calculator/quadratic-equation");
+  const help = page.getByRole("button", { name: /Help for Coefficient a/ });
+  await expect(help).toBeVisible();
+  await help.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#field-tip-a")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#field-tip-a")).toBeHidden();
+});
