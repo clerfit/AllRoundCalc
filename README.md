@@ -71,11 +71,11 @@ Large categories may be split into additional subphases. The roadmap is a planni
 
 - `index.html` — single-page site shell and shared footer/header.
 - `assets/css/styles.css` — responsive design system, page layouts, and reduced-motion styling.
-- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.\n- `assets/js/calculations.js` — Phase 03 calculation definitions, input validation, and browser-local calculation functions.\n- `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formulas, assumptions, domains, examples, limitations, and sign-off checklist.\n- `tests/calculations.test.cjs` — Phase 03 reference-example and edge-case tests.
+- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.\n- `assets/js/calculations.js` — Phase 03 calculation definitions, input validation, and browser-local calculation functions.\n- `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formulas, assumptions, domains, examples, limitations, and sign-off checklist.\n- `tests/calculations.test.mjs` — Phase 03 reference-example and edge-case tests.
 - `assets/icons/favicon.svg` — project favicon.
 - `docs/UI-MODEL.md` — Phase 02 scope, page patterns, interactions, and acceptance requirements.
 - `tests/ui-model.test.mjs` — dependency-free Node.js source-contract tests.
-- `tests/e2e/ui.spec.js` — Playwright interaction, responsive viewport, and accessibility checks.
+- `tests/calculations.test.mjs` — Phase 03 reference-example and edge-case tests.\n- `tests/e2e/ui.spec.js` — Playwright interaction, responsive viewport, and accessibility checks.
 - `playwright.config.js` — Chromium desktop/tablet/mobile projects.
 - `.github/workflows/ui-verification.yml` — CI workflow for source and browser checks.
 - `CONTRIBUTING.md` — coding, privacy, accessibility, and verification conventions.
