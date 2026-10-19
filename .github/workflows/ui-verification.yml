@@ -1,5 +1,9 @@
 name: UI verification
 
+concurrency:
+  group: ui-verification-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [main]
