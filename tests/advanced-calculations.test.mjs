@@ -136,3 +136,18 @@ test("complex division and midpoint avoid avoidable extreme-value overflow", () 
     "Distance: 0; midpoint: (1e+308, 1e+308)"
   );
 });
+test("linear systems classify zero-coefficient equations by their right-hand sides", () => {
+  assert.throws(
+    () => calculate("linear-system-2x2",{a1:"0",b1:"0",c1:"0",a2:"1",b2:"1",c2:"2"}),
+    /infinitely many solutions/
+  );
+  assert.throws(
+    () => calculate("linear-system-2x2",{a1:"0",b1:"0",c1:"1",a2:"1",b2:"1",c2:"2"}),
+    /no solution/
+  );
+  assert.throws(
+    () => calculate("linear-system-2x2",{a1:"1",b1:"1",c1:"2",a2:"0",b2:"0",c2:"1"}),
+    /no solution/
+  );
+});
+
