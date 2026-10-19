@@ -69,6 +69,28 @@ test("the UI is responsive, keyboard-visible, and reduced-motion aware", () => {
   assert.match(css, /prefers-reduced-motion/);
 });
 
+function relativeLuminance(hex) {
+  const channels = hex.slice(1).match(/.{2}/g).map((value) => parseInt(value, 16) / 255);
+  const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+
+function contrastRatio(first, second) {
+  const values = [relativeLuminance(first), relativeLuminance(second)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
+test("muted text and accent tokens meet WCAG AA contrast on light surfaces", () => {
+  const muted = [...css.matchAll(/--muted:\\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
+  const teal = [...css.matchAll(/--teal:\\s*(#[0-9a-f]{6})/gi)].at(-1)?.[1];
+  assert.ok(muted, "the muted text token should exist");
+  assert.ok(teal, "the accent token should exist");
+  assert.ok(contrastRatio(muted, "#ffffff") >= 4.5, "muted text should reach 4.5:1 on white");
+  assert.ok(contrastRatio(muted, "#f5f9fa") >= 4.5, "muted text should reach 4.5:1 on pale surfaces");
+  assert.ok(contrastRatio(teal, "#ffffff") >= 4.5, "accent text should reach 4.5:1 on white");
+  assert.ok(contrastRatio(teal, "#f5f9fa") >= 4.5, "accent text should reach 4.5:1 on pale surfaces");
+});
+
 test("Phase 02 does not claim working calculator logic or contact delivery", () => {
   assert.match(appJs, /Not a working calculator/);
   assert.match(appJs, /Calculate · not active/);
