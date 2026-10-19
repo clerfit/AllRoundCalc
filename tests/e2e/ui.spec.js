@@ -307,7 +307,7 @@ test("Phase 6 Chemistry category lists the implemented calculator catalogue", as
 test("Phase 6 dilution calculator exposes a usable field tooltip", async ({ page }) => {
   await page.goto("/#/calculator/dilution");
   await expect(page).toHaveTitle(/Solution Dilution — AllRoundCalc$/);
-  const help = page.getByRole("button", { name: "Help for Initial concentration C₁ (mol/L)" });
+  const help = page.getByRole("button", { name: "Show field help: Initial concentration C₁ (mol/L)" });
   await expect(help).toBeVisible();
   await help.click();
   await expect(page.locator("#field-tip-initialConcentration")).toBeVisible();
@@ -320,7 +320,7 @@ test("Phase 6 dilution calculator exposes a usable field tooltip", async ({ page
 
 test("advanced calculator tooltips can be opened and dismissed by keyboard", async ({ page }) => {
   await page.goto("/#/calculator/quadratic-equation");
-  const help = page.getByRole("button", { name: /Help for Coefficient a/ });
+  const help = page.getByRole("button", { name: /Show field help: Coefficient a/ });
   await expect(help).toBeVisible();
   await help.focus();
   await page.keyboard.press("Enter");
