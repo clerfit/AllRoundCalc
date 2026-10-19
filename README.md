@@ -117,7 +117,7 @@ Privacy claims must reflect verified production behavior, including unavoidable 
 
 Implemented in the repository so far: responsive home page styling, sixteen-category data model, searchable category directory, category overview template, reusable calculator layout preview, about page, contact status page, sidebar navigation, keyboard dismissal/focus handling, shared footer/header, and favicon.
 
-Still required before Phase 02 sign-off: real-browser verification of layout and interactions at mobile/tablet/desktop widths; link and keyboard checks; semantic/accessibility review; and any fixes found during those checks. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
+Static checks completed: JavaScript parses; CSS braces are balanced; the sixteen category IDs are unique; referenced local CSS, JavaScript, and favicon paths exist; responsive breakpoints and reduced-motion styling are present; and the UI script contains no fetch, browser-storage, XHR, or beacon calls. These checks do not substitute for rendering the site in a browser.\n\nStill required before Phase 02 sign-off: real-browser verification of layout and interactions at mobile/tablet/desktop widths; link and keyboard checks; semantic/accessibility review; and fixes for any defects found. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
 
 ## Disclaimer
 
