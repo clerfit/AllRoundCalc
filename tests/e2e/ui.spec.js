@@ -19,7 +19,7 @@ test("all category page contains sixteen categories and filters by query", async
 });
 
 test("category links open the corresponding category page", async ({ page }) => {
-  await page.goto("/#/home");
+  await page.goto("/#/categories");
   await page.getByRole("link", { name: /Explore Unit Converters/ }).click();
   await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
   await expect(page.getByText(/In development/i)).toBeVisible();
