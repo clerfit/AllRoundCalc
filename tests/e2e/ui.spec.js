@@ -202,3 +202,26 @@ test("Phase 4 calculator form remains keyboard operable", async ({ page }) => {
   await expect(page.locator("#calculator-result")).toHaveText("Discriminant: 1; roots: 2, 1");
   await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
 });
+
+test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const calculatorIds = [
+    "linear-equation", "quadratic-equation", "linear-system-2x2", "logarithm",
+    "exponential-equation", "trigonometry", "inverse-trigonometry", "angle-converter",
+    "slope", "distance-midpoint", "circle", "arithmetic-sequence", "geometric-sequence",
+    "polynomial-derivative", "polynomial-integral", "complex-numbers", "matrix-2x2", "vectors-2d"
+  ];
+  for (const id of calculatorIds) {
+    const route = "/#/calculator/" + id;
+    await page.goto(route);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role", "status");
+    await expect(page).toHaveTitle(/— AllRoundCalc$/);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))))
+      .toEqual([]);
+  }
+});
+
