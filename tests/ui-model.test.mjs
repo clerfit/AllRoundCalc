@@ -81,5 +81,5 @@ test("the browser UI does not add user-value storage or network calls", () => {
   assert.doesNotMatch(appJs, /\bfetch\s*\(|\blocalStorage\b|\bsessionStorage\b|\bXMLHttpRequest\b|\bsendBeacon\b/);
   assert.doesNotMatch(html, /<script\b[^>]*\bsrc=["']https?:\/\//i);
   assert.doesNotMatch(css, /@import\s+url\s*\(/i);
-  assert.match(contributorDocs, /Do not add accounts, input history storage, tracking, analytics/);
+  assert.match(contributorDocs, /Do not add accounts, input-history storage, or analytics/);
 });
