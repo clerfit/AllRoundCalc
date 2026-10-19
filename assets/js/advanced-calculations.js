@@ -149,7 +149,7 @@
       }
       case "distance-midpoint": {
         const x1=num(v.x1,"x₁"), y1=num(v.y1,"y₁"), x2=num(v.x2,"x₂"), y2=num(v.y2,"y₂");
-        const distance=Math.hypot(x2-x1,y2-y1), mx=(x1+x2)/2, my=(y1+y2)/2;
+        const distance=Math.hypot(x2-x1,y2-y1), mx=x1/2+x2/2, my=y1/2+y2/2;
         result="Distance: "+fmt(distance)+"; midpoint: ("+fmt(mx)+", "+fmt(my)+")";
         formula="Distance = √((x₂−x₁)²+(y₂−y₁)²); midpoint = ((x₁+x₂)/2, (y₁+y₂)/2)"; break;
       }
