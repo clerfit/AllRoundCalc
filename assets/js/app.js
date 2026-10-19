@@ -80,9 +80,9 @@
     if (open) {
       lastFocusedElement = document.activeElement;
       closeDrawerButton.focus({ preventScroll: true });
-      window.requestAnimationFrame(function () {
+      window.setTimeout(function () {
         if (drawer.classList.contains("is-open")) closeDrawerButton.focus({ preventScroll: true });
-      });
+      }, 0);
     } else if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
       lastFocusedElement.focus();
       lastFocusedElement = null;
