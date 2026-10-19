@@ -30,6 +30,7 @@ test("sidebar opens, supports keyboard dismissal, and returns focus", async ({ p
   const menu = page.getByRole("button", { name: "Open navigation menu" });
   await menu.click();
   await expect(page.getByRole("navigation", { name: "Calculator categories" })).toBeVisible();
+  console.log("drawer focus state", JSON.stringify(await page.evaluate(() => { const d = document.querySelector("#site-drawer"); const c = document.querySelector("#close-drawer"); return { activeId: document.activeElement && document.activeElement.id, drawerClass: d.className, ariaHidden: d.getAttribute("aria-hidden"), inert: d.hasAttribute("inert"), visibility: getComputedStyle(d).visibility, closeFocused: document.activeElement === c }; })));
   await expect(page.locator(".site-drawer").getByRole("button", { name: "Close navigation menu" })).toBeFocused();
   await page.keyboard.press("Shift+Tab");
   await expect(drawerContactLink(page)).toBeFocused();
