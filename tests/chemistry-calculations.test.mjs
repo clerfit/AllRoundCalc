@@ -39,7 +39,7 @@ const cases=[
  ["atom-economy",{desiredCoefficient:"1",desiredMolarMass:"80",reactantMassSum:"100"},"Atom economy: 80%"],
  ["reaction-enthalpy",{moles:"2",molarEnthalpy:"-100"},"Reaction heat: -200 kJ"],
  ["dalton-partial-pressures",{partialPressures:"100000,20000"},"Total pressure: 120000 Pa"],
- ["element-mass-percent",{elementCount:"1",elementMolarMass:"4.0026",compoundMolarMass:"18.015"},"Elemental mass percent: 22.2228143211%"],
+ ["element-mass-percent",{elementCount:"1",elementMolarMass:"4.0026",compoundMolarMass:"18.015"},"Elemental mass percent: 22.2181515404%"],
 ];
 test("Phase 6 chemistry calculators match reference examples",()=>{
  for(const [id,values,expected] of cases){assert.equal(calculate(id,values).result,expected,id);}
