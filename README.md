@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01 and 02 are signed off. Phase 02 delivered the responsive UI shell, category navigation and search, shared page templates, and passing automated source, browser, and accessibility checks. No calculator calculations are active yet.
+> **Project status:** Phases 01 and 02 are signed off. Phase 03 is in progress: 28 Basic & Everyday Mathematics calculator tools have been catalogued, implemented in the browser calculation engine, and given formula documentation and automated test cases. Final CI/browser verification and phase sign-off are pending.
 
 ## Principles
 
@@ -71,7 +71,7 @@ Large categories may be split into additional subphases. The roadmap is a planni
 
 - `index.html` — single-page site shell and shared footer/header.
 - `assets/css/styles.css` — responsive design system, page layouts, and reduced-motion styling.
-- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.
+- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.\n- `assets/js/calculations.js` — Phase 03 calculation definitions, input validation, and browser-local calculation functions.\n- `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formulas, assumptions, domains, examples, limitations, and sign-off checklist.\n- `tests/calculations.test.cjs` — Phase 03 reference-example and edge-case tests.
 - `assets/icons/favicon.svg` — project favicon.
 - `docs/UI-MODEL.md` — Phase 02 scope, page patterns, interactions, and acceptance requirements.
 - `tests/ui-model.test.mjs` — dependency-free Node.js source-contract tests.
@@ -119,7 +119,7 @@ Privacy claims must reflect verified production behavior, including unavoidable 
 
 ## Phase 02 sign-off
 
-**Status: Complete. Phase 03 has not been started.**
+**Status: Complete.** Phase 02 remains signed off; Phase 03 is now in progress as a separate implementation phase.
 
 Delivered:
 - Responsive home page with AllRoundCalc branding, category search, featured subject areas, and project principles.
@@ -143,8 +143,27 @@ Scope boundaries:
 - Deployment and production privacy/security checks remain in their scheduled later phases.
 - The GitHub repository description remains intentionally blank, as requested.
 
-Phase 02 is signed off. Do not begin Phase 03 until the user explicitly asks to start the calculator implementation phase.
+Phase 02 is signed off. Phase 03 was started with explicit user approval; see the Phase 03 progress section below.
 
-## Disclaimer
+
+## Phase 03 progress — Basic & Everyday Mathematics
+
+**Status: Implementation committed; verification pending. Do not treat the phase as signed off until the latest CI run is successful and the remaining review items are resolved.**
+
+Implemented in the current branch:
+- A catalogue of 28 calculator tools across arithmetic, fractions, decimals, powers/roots, percentages and everyday money, ratios/proportions/averages, precision and notation, factors/multiples, and numerical utilities.
+- Browser-local calculation engine with shared validation and explicit domain errors.
+- Individual calculator pages with input forms, visible formula, worked example, assumptions/limitations, reset behavior, error messages, and related-tool navigation.
+- Formula catalogue documenting domains, assumptions, reference examples, known limitations, and a Phase 03 sign-off checklist.
+- Automated test cases for every calculator ID plus key invalid inputs and edge cases.
+- CI updated to run the calculation tests and syntax-check the new engine.
+
+Verification is pending. A commit or the existence of tests does not prove that the tests pass. Decimal calculations use JavaScript binary floating-point; the rounding helper is not certified for accounting use. Tax tools are generic arithmetic only. See the formula catalogue for exact restrictions and remaining limitations.
+
+Browser review links:
+- [Basic & Everyday Mathematics catalogue](https://github.com/clerfit/AllRoundCalc/blob/main/docs/PHASE-03-FORMULA-CATALOG.md)
+- [Calculation engine](https://github.com/clerfit/AllRoundCalc/blob/main/assets/js/calculations.js)
+- [Calculation tests](https://github.com/clerfit/AllRoundCalc/blob/main/tests/calculations.test.cjs)
+\n## Disclaimer
 
 AllRoundCalc is a planned software project. The contents of this repository do not constitute medical, financial, engineering, legal, or other professional advice. Any published calculator must state relevant assumptions and limitations.
