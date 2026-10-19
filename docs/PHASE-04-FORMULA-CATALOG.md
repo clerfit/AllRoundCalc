@@ -54,8 +54,9 @@ These sources support the standard identities. Test fixtures and edge tests sepa
 - [x] Reference examples for all 18 calculator IDs pass.
 - [x] Domain and edge-case tests pass for zero coefficients, non-unique systems, logarithm domains, inverse-trig domains, tangent singularities, vertical-line slopes, zero complex divisors, singular matrices, zero vectors, malformed polynomial coefficients, and derivative overflow.
 - [x] Browser tests pass across desktop, tablet, and mobile; they cover catalogue navigation, quadratic roots, logarithm success/error, trig unit/function controls, and definite integration.
+- [x] Automated WCAG 2.1 A/AA axe checks now cover all 18 Phase 04 calculator routes; calculator results use an explicitly named polite status region, and calculator pages expose calculator-specific document titles.
 - [x] JavaScript syntax, source-contract tests, and Phase 03 regression browser tests pass.
-- [ ] Broader independent numerical review and manual assistive-technology review remain open.
+- [ ] A human screen-reader/assistive-technology session and broader independent numerical review remain open; automated accessibility checks are not a substitute for these reviews.
 - [ ] Phase 21 must perform site-wide formula verification and regression before release sign-off.
 
 ## Known limitations
