@@ -298,7 +298,7 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
 test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
   await page.goto("/#/category/chemistry");
   await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
-  await expect(page.getByText("22 calculators")).toBeVisible();
+  await expect(page.getByText("30 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
@@ -327,4 +327,17 @@ test("advanced calculator tooltips can be opened and dismissed by keyboard", asy
   await expect(page.locator("#field-tip-a")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.locator("#field-tip-a")).toBeHidden();
+});
+
+test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = ["moles-from-mass","mass-from-moles","particles-from-moles","moles-from-particles","molarity","moles-from-molarity","dilution","solution-preparation-mass","mass-percent","volume-percent","ppm-mass","density-chemistry","ideal-gas-pressure","ideal-gas-volume","ideal-gas-temperature","gas-law-combined","heat-from-specific-heat","pH-strong-acid","pH-strong-base","ph-from-poh","percent-yield","percent-purity","molality","mole-fraction","stoichiometric-mole-conversion","titration-concentration","atom-economy","reaction-enthalpy","dalton-partial-pressures","element-mass-percent"];
+  for (const id of ids) {
+    const route = "/#/calculator/" + id;
+    await page.goto(route);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role", "status");
+    const results = await new AxeBuilder({ page }).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa"]).analyze();
+    expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})))).toEqual([]);
+  }
 });
