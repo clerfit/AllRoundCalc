@@ -13,8 +13,8 @@ module.exports = defineConfig({
   },
   projects: [
     { name: "desktop-chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 1000 } } },
-    { name: "tablet-chromium", use: { ...devices["iPad (gen 7)"], defaultBrowserType: "chromium" } },
-    { name: "mobile-chromium", use: { ...devices["Pixel 7"], defaultBrowserType: "chromium" } }
+    { name: "tablet-chromium", use: { ...devices["iPad (gen 7)"], browserName: "chromium" } },
+    { name: "mobile-chromium", use: { ...devices["Pixel 7"], browserName: "chromium" } }
   ],
   webServer: {
     command: "node scripts/serve.mjs",
