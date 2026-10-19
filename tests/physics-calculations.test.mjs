@@ -5,9 +5,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/physics-calculations.js");
 
-test("Phase 5 catalogue contains 16 unique physics calculators with documented contracts", () => {
-  assert.equal(definitions.length, 16);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 16);
+test("Phase 5 catalogue contains 29 unique physics calculators with documented contracts", () => {
+  assert.equal(definitions.length, 29);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 29);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -30,7 +30,20 @@ const examples = [
   ["ohms-law",{current:"2",resistance:"6"},"Voltage: 12 V"],
   ["electrical-power",{voltage:"12",current:"2"},"Electrical power: 24 W"],
   ["wave-speed",{frequency:"50",wavelength:"0.4"},"Wave speed: 20 m/s"],
-  ["spring-force",{springConstant:"200",extension:"0.05"},"Spring-force magnitude: 10 N"]
+  ["spring-force",{springConstant:"200",extension:"0.05"},"Spring-force magnitude: 10 N"],
+  ["projectile-range",{speed:"20",angle:"30",gravity:"9.8"},"Horizontal range: 35.346 m"],
+  ["projectile-flight-time",{speed:"20",angle:"30",gravity:"10"},"Flight time: 2 s"],
+  ["projectile-max-height",{speed:"20",angle:"30",gravity:"10"},"Maximum height above launch point: 5 m"],
+  ["impulse",{force:"5",time:"3"},"Impulse: 15 N·s"],
+  ["spring-potential-energy",{springConstant:"200",extension:"0.1"},"Elastic potential energy: 1 J"],
+  ["gravitation-force",{mass1:"1",mass2:"1",distance:"1"},"Gravitational force magnitude: 6.6743e-11 N"],
+  ["coulomb-force",{charge1:"0.000001",charge2:"0.000002",distance:"1"},"Electrostatic force magnitude: 0.0179751035846 N"],
+  ["resistance-series",{resistances:"2,3,5"},"Equivalent series resistance: 10 Ω"],
+  ["resistance-parallel",{resistance1:"6",resistance2:"3"},"Equivalent parallel resistance: 2 Ω"],
+  ["heat-energy",{mass:"2",specificHeat:"4200",temperatureChange:"5"},"Heat transfer: 42000 J"],
+  ["thermal-expansion",{initialLength:"2",coefficient:"0.000012",temperatureChange:"50"},"Change in length: 0.0012 m"],
+  ["thin-lens-image-distance",{focalLength:"0.1",objectDistance:"0.3"},"Signed image distance: 0.15 m"],
+  ["lens-magnification",{imageDistance:"0.15",objectDistance:"0.3"},"Transverse magnification: -0.5"]
 ];
 
 test("reference example for each Phase 5 calculator returns the documented result", () => {
@@ -77,4 +90,20 @@ test("numeric overflow is reported rather than returning Infinity", () => {
 
 test("unknown physics calculator IDs are rejected", () => {
   assert.throws(() => calculate("not-a-physics-tool",{}),/Unknown physics calculator/);
+});
+
+test("projectile tools enforce same-height angle and gravity assumptions", () => {
+  assert.throws(() => calculate("projectile-range",{speed:"20",angle:"91",gravity:"9.8"}),/from 0° through 90°/);
+  assert.throws(() => calculate("projectile-flight-time",{speed:"20",angle:"30",gravity:"0"}),/greater than zero/);
+  assert.equal(calculate("projectile-range",{speed:"20",angle:"0",gravity:"10"}).result,"Horizontal range: 0 m");
+});
+
+test("field-force, circuit, thermal, and optics calculators validate singular cases", () => {
+  assert.throws(() => calculate("gravitation-force",{mass1:"1",mass2:"1",distance:"0"}),/greater than zero/);
+  assert.throws(() => calculate("coulomb-force",{charge1:"1",charge2:"1",distance:"0"}),/greater than zero/);
+  assert.equal(calculate("resistance-parallel",{resistance1:"0",resistance2:"5"}).result,"Equivalent parallel resistance: 0 Ω");
+  assert.equal(calculate("resistance-series",{resistances:"1, 2, 3"}).result,"Equivalent series resistance: 6 Ω");
+  assert.throws(() => calculate("resistance-series",{resistances:"1,,3"}),/empty item/);
+  assert.throws(() => calculate("thin-lens-image-distance",{focalLength:"0.1",objectDistance:"0.1"}),/image is at infinity/);
+  assert.equal(calculate("heat-energy",{mass:"2",specificHeat:"4200",temperatureChange:"-5"}).result,"Heat transfer: -42000 J");
 });
