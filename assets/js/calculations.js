@@ -74,11 +74,11 @@
         formula = ({add:"a + b",subtract:"a − b",multiply:"a × b",divide:"a ÷ b"})[op]; break;
       }
       case "fraction-calculator": {
-        const a=integer(v.a,"Numerator A"), b=integer(v.b,"Denominator A"), c=integer(v.c,"Numerator B"), d=integer(v.d,"Denominator B"), op=v.operation||"add";
-        if (!b||!d) throw new Error("Fraction denominators cannot be zero.");
+        const a=BigInt(integer(v.a,"Numerator A")), b=BigInt(integer(v.b,"Denominator A")), c=BigInt(integer(v.c,"Numerator B")), d=BigInt(integer(v.d,"Denominator B")), op=v.operation||"add";
+        if (b===0n||d===0n) throw new Error("Fraction denominators cannot be zero.");
         let n, den;
-        if(op==="add"){n=a*d+c*b;den=b*d;} else if(op==="subtract"){n=a*d-c*b;den=b*d;} else if(op==="multiply"){n=a*c;den=b*d;} else if(op==="divide"){if(c===0)throw new Error("Cannot divide by a zero fraction.");n=a*d;den=b*c;} else throw new Error("Choose a valid operation.");
-        if(den<0){n=-n;den=-den;} const g=gcd(n,den); result=(n/g)+"/"+(den/g); note="Exact integer fraction simplified to lowest terms."; formula="Selected operation, followed by division of numerator and denominator by their GCD"; break;
+        if(op==="add"){n=a*d+c*b;den=b*d;} else if(op==="subtract"){n=a*d-c*b;den=b*d;} else if(op==="multiply"){n=a*c;den=b*d;} else if(op==="divide"){if(c===0n)throw new Error("Cannot divide by a zero fraction.");n=a*d;den=b*c;} else throw new Error("Choose a valid operation.");
+        if(den<0n){n=-n;den=-den;} const g=gcdBig(n,den); result=(n/g).toString()+"/"+(den/g).toString(); note="Exact integer fraction simplified using integer arithmetic."; formula="Selected operation, followed by division of numerator and denominator by their GCD"; break;
       }
       case "powers": { const a=finite(v.base,"Base"), e=finite(v.exponent,"Exponent"); result=Math.pow(a,e); if(!Number.isFinite(result)) throw new Error("The result is outside the supported finite-number range."); if(a===0&&e===0) note="0⁰ is indeterminate in many mathematical contexts; this tool follows JavaScript's convention and returns 1."; break; }
       case "roots": { const x=finite(v.value,"Radicand"), n=integer(v.index,"Root index",1,99); if(x<0&&n%2===0) throw new Error("An even root of a negative number is not real."); result=x<0?-Math.pow(-x,1/n):Math.pow(x,1/n); break; }
