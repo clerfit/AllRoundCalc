@@ -78,7 +78,10 @@
     document.body.classList.toggle("drawer-open", open);
     if (open) {
       lastFocusedElement = document.activeElement;
-      closeDrawerButton.focus();
+      closeDrawerButton.focus({ preventScroll: true });
+      window.requestAnimationFrame(function () {
+        if (drawer.classList.contains("is-open")) closeDrawerButton.focus({ preventScroll: true });
+      });
     } else if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
       lastFocusedElement.focus();
       lastFocusedElement = null;
