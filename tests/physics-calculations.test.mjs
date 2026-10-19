@@ -31,7 +31,7 @@ const examples = [
   ["electrical-power",{voltage:"12",current:"2"},"Electrical power: 24 W"],
   ["wave-speed",{frequency:"50",wavelength:"0.4"},"Wave speed: 20 m/s"],
   ["spring-force",{springConstant:"200",extension:"0.05"},"Spring-force magnitude: 10 N"],
-  ["projectile-range",{speed:"20",angle:"30",gravity:"9.8"},"Horizontal range: 35.346 m"],
+  ["projectile-range",{speed:"20",angle:"30",gravity:"9.8"},"Horizontal range: 35.3479756596 m"],
   ["projectile-flight-time",{speed:"20",angle:"30",gravity:"10"},"Flight time: 2 s"],
   ["projectile-max-height",{speed:"20",angle:"30",gravity:"10"},"Maximum height above launch point: 5 m"],
   ["impulse",{force:"5",time:"3"},"Impulse: 15 N·s"],
