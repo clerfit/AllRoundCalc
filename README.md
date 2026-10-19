@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01–04 are complete for implementation and automated verification. Phase 04 provides 18 browser-local advanced-mathematics calculators. Phase 05 (Physics) is in progress with 29 introductory browser-local calculators covering motion, forces, energy, matter, electricity, waves, and optics, plus a formula catalogue, domain/edge-case tests, and automated WCAG 2.1 A/AA checks on its calculator routes. Broader independent formula review and human assistive-technology testing remain release requirements in Phases 21–22; the site is not yet launched.
+> **Project status:** Phases 01–04 are complete for implementation and automated verification. Phase 04 provides 18 browser-local advanced-mathematics calculators. Phase 05 (Physics) has an initial set of 29 introductory browser-local calculators covering motion, forces, energy, matter, electricity, waves, and optics, with formula documentation, domain tests, and automated WCAG 2.1 A/AA checks. Phase 06 (Chemistry) is now in progress with 22 browser-local calculators for amount of substance, solutions, gases, acid/base estimates, and reaction yield/purity. Advanced mathematics, physics, and chemistry inputs include compact help tooltips. Independent formula review and human assistive-technology testing remain release requirements in Phases 21–22; the site is not yet launched.
 
 ## Principles
 
@@ -170,6 +170,6 @@ Browser review links:
 - [Basic & Everyday Mathematics catalogue](https://github.com/clerfit/AllRoundCalc/blob/main/docs/PHASE-03-FORMULA-CATALOG.md)
 - [Calculation engine](https://github.com/clerfit/AllRoundCalc/blob/main/assets/js/calculations.js)
 - [Calculation tests](https://github.com/clerfit/AllRoundCalc/blob/main/tests/calculations.test.cjs)
-\n## Disclaimer
+\n## Phase 05 progress — Physics\n\n**Status: Initial implementation slice complete; Phase 06 has started.** The current catalogue contains 29 introductory calculators. The browser UI provides formula/assumption notes, and compact field-help buttons are available on advanced mathematics, physics, and chemistry calculators. The automated tests and browser accessibility checks passed in the latest recorded run; independent scientific review is still outstanding. This does not mean every physics topic is covered.\n\n## Phase 06 progress — Chemistry\n\n**Status: In progress.** An initial set of 22 browser-local chemistry calculators has been added. Each input includes contextual help and each calculator documents its formula and assumptions. Tests have been added to the default source-test suite; phase acceptance depends on the new CI run and further independent chemistry review. This is not a complete chemistry library.\n\n## Disclaimer
 
 AllRoundCalc is a planned software project. The contents of this repository do not constitute medical, financial, engineering, legal, or other professional advice. Any published calculator must state relevant assumptions and limitations.
