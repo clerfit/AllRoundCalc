@@ -120,7 +120,7 @@
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories"}]) +
       '<div class="page-title-row"><div><p class="page-eyebrow">The AllRoundCalc library</p><h1>Explore all categories</h1><p>Browse the planned subject areas. Category listings will expand as individual calculators pass formula review and testing.</p></div><div class="library-count"><strong>16</strong> planned categories</div></div>' +
       '<label class="sr-only" for="category-search">Filter categories</label><div class="page-search">' + icon("calculator") + '<input id="category-search" type="search" placeholder="Filter categories…" value="' + escapeHtml(query || "") + '" autocomplete="off"></div>' +
-      '<div class="page-toolbar"><p id="category-count">' + filtered.length + ' of ' + categories.length + ' categories</p><p>Calculator availability: in development</p></div>' +
+      '<div class="page-toolbar"><p id="category-count" aria-live="polite" aria-atomic="true">' + filtered.length + ' of ' + categories.length + ' categories</p><p>Calculator availability: in development</p></div>' +
       '<div class="category-grid" id="all-category-grid">' + filtered.map(categoryCard).join("") + '</div>' +
       (filtered.length ? "" : '<div class="empty-state"><h2>No matching categories</h2><p>Try another subject or a shorter search phrase.</p></div>') +
       '<div class="catalog-note"><span class="note-icon" aria-hidden="true">i</span><p><strong>Planned categories, not live calculators.</strong> Formula and feature availability will be shown clearly as the library is built.</p></div>');
