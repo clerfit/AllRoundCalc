@@ -37,4 +37,4 @@ Do not invent formulas, silently substitute assumptions, or present estimates as
 
 ## Run the UI source-contract checks
 
-Use Node.js 20 or newer and run `node --test tests/ui-model.test.mjs`. This dependency-free suite checks local asset references, static accessibility hooks, the sixteen-category taxonomy, navigation/search markers, privacy-by-default source constraints, and text-token contrast ratios. It is not a substitute for testing the rendered site in a real browser at mobile, tablet, and desktop widths.
+Use Node.js 20 or newer and run `node --test tests/ui-model.test.mjs` for source-contract checks. Run `npm install`, `npx playwright install chromium`, then `npm run test:e2e` for Chromium desktop/tablet/mobile browser tests and automated axe-core accessibility checks. CI runs these checks automatically on pushes to `main`. Automated checks do not replace manual screen-reader review.
