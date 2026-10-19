@@ -2,9 +2,9 @@
 
 **Every calculation. One place.**
 
-AllRoundCalc is planned as a broad, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
+AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phase 01 — repository foundation. Calculator implementation has not started.
+> **Project status:** Phase 01 is signed off. Phase 02 is in progress: the responsive UI shell, category navigation, search, and reusable calculator-page preview are now in the repository. No calculator calculations are active yet.
 
 ## Principles
 
@@ -40,8 +40,8 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 
 | Phase | Scope |
 |---|---|
-| 01 | Create and document the GitHub repository |
-| 02 | Design the complete responsive UI model and shared page templates |
+| 01 | Create and document the GitHub repository — **complete** |
+| 02 | Design the complete responsive UI model and shared page templates — **in progress** |
 | 03 | Basic & Everyday Mathematics |
 | 04 | Advanced Mathematics |
 | 05 | Physics |
@@ -67,6 +67,18 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 
 Large categories may be split into additional subphases. The roadmap is a planning baseline, not a limit on the eventual number of calculators.
 
+## Repository structure
+
+- `index.html` — single-page site shell and shared footer/header.
+- `assets/css/styles.css` — responsive design system, page layouts, and reduced-motion styling.
+- `assets/js/app.js` — category data, hash-based navigation, category search, menu behavior, and page templates.
+- `assets/icons/favicon.svg` — project favicon.
+- `docs/UI-MODEL.md` — Phase 02 scope, page patterns, interactions, and acceptance requirements.
+- `CONTRIBUTING.md` — coding, privacy, accessibility, and verification conventions.
+- `.gitignore` — ignores local environment files, secrets, and generated output.
+
+The initial UI uses semantic HTML, CSS, and browser-native JavaScript without third-party libraries or a build step. The GitHub repository description is intentionally left blank as requested.
+
 ## Required review process for each calculator
 
 Before implementation, publish and review:
@@ -90,18 +102,22 @@ Only after formula review should implementation begin. After implementation, run
 
 Privacy claims must reflect verified production behavior, including unavoidable technical data processing by hosting or external providers.
 
-## Current phase acceptance criteria
+## Phase 01 sign-off
 
 - [x] Repository created under the connected GitHub account.
-- [x] Public repository verified.
-- [x] README documents the purpose, principles, roadmap, and review process.
-- [ ] GitHub repository short description added in repository settings.
-- [ ] Initial repository structure and contribution/test conventions finalized.
-- [ ] Phase 01 sign-off after the remaining setup items are verified.
+- [x] Public visibility and default branch `main` verified.
+- [x] README purpose, principles, roadmap, and formula-review procedure documented.
+- [x] Ignore rules added for local secrets and generated files.
+- [x] Contribution, coding, accessibility, privacy, and verification conventions documented.
+- [x] Initial repository structure established.
+- [x] Repository description intentionally left blank per user preference.
+- [x] Phase 01 scope kept to repository and project documentation; Phase 02 started as the next phase.
 
-## Scope boundary
+## Phase 02 status
 
-Phase 01 is repository setup and documentation only. UI implementation belongs to Phase 02. Calculator formulas and calculator implementation belong to their respective later phases.
+Implemented in the repository so far: responsive home page styling, sixteen-category data model, searchable category directory, category overview template, reusable calculator layout preview, about page, contact status page, sidebar navigation, keyboard dismissal/focus handling, shared footer/header, and favicon.
+
+Still required before Phase 02 sign-off: real-browser verification of layout and interactions at mobile/tablet/desktop widths; link and keyboard checks; semantic/accessibility review; and any fixes found during those checks. Calculator calculations, production contact delivery, and deployment are not part of the completed work described above.
 
 ## Disclaimer
 
