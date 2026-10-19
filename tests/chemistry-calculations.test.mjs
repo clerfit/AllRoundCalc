@@ -23,7 +23,7 @@ const cases=[
  ["ppm-mass",{soluteMass:"2",solutionMass:"1"},"Concentration: 2 ppm by mass"],
  ["density-chemistry",{mass:"10",volume:"5"},"Density: 2 g/mL"],
  ["ideal-gas-pressure",{moles:"1",temperature:"273.15",volume:"0.022414"},"Absolute pressure: 101324.862325 Pa"],
- ["ideal-gas-volume",{moles:"1",temperature:"298.15",pressure:"101325"},"Gas volume: 0.0244654037 m³"],
+ ["ideal-gas-volume",{moles:"1",temperature:"298.15",pressure:"101325"},"Gas volume: 0.024465403697 m³"],
  ["ideal-gas-temperature",{pressure:"101325",volume:"0.022414",moles:"1"},"Absolute temperature: 273.150371142 K"],
  ["gas-law-combined",{initialPressure:"100000",initialVolume:"0.02",initialTemperature:"300",finalPressure:"100000",finalTemperature:"600"},"Final gas volume: 0.04 m³"],
  ["heat-from-specific-heat",{mass:"1",specificHeat:"4184",temperatureChange:"10"},"Heat transfer: 41840 J"],
