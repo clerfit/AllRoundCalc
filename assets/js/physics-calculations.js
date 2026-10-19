@@ -16,7 +16,20 @@
     {id:"ohms-law",name:"Ohm's Law — Voltage",group:"Electricity and waves",description:"Calculate voltage across an ohmic component from current and resistance.",fields:[["current","Current (A)"],["resistance","Resistance (Ω)"]],formula:"V = IR; resistance ≥ 0; assumes an ohmic component under applicable conditions",example:"2 A × 6 Ω → 12 V"},
     {id:"electrical-power",name:"Electrical Power",group:"Electricity and waves",description:"Calculate electrical power from voltage and current.",fields:[["voltage","Voltage (V)"],["current","Current (A)"]],formula:"P = VI; passive sign convention assumed for signed values",example:"12 V × 2 A → 24 W"},
     {id:"wave-speed",name:"Wave Speed",group:"Electricity and waves",description:"Calculate wave propagation speed from frequency and wavelength.",fields:[["frequency","Frequency (Hz)"],["wavelength","Wavelength (m)"]],formula:"Wave speed v = fλ; frequency and wavelength ≥ 0",example:"50 Hz × 0.4 m → 20 m/s"},
-    {id:"spring-force",name:"Spring Force Magnitude",group:"Forces and energy",description:"Calculate ideal spring-force magnitude from spring constant and extension.",fields:[["springConstant","Spring constant k (N/m)"],["extension","Extension magnitude x (m)"]],formula:"|F| = kx (Hooke's law magnitude); assumes an ideal spring within its elastic range",example:"200 N/m × 0.05 m → 10 N"}
+    {id:"spring-force",name:"Spring Force Magnitude",group:"Forces and energy",description:"Calculate ideal spring-force magnitude from spring constant and extension.",fields:[["springConstant","Spring constant k (N/m)"],["extension","Extension magnitude x (m)"]],formula:"|F| = kx (Hooke's law magnitude); assumes an ideal spring within its elastic range",example:"200 N/m × 0.05 m → 10 N"},
+    {id:"projectile-range",name:"Projectile Range",group:"Motion",description:"Calculate the ideal projectile's horizontal range when launch and landing heights match.",fields:[["speed","Launch speed (m/s)"],["angle","Launch angle (degrees)"],["gravity","Gravitational field strength g (m/s²)"]],formula:"R = v² sin(2θ) / g; same launch and landing height; no air resistance",example:"20 m/s at 30° with g = 9.8 m/s² → about 35.346 m"},
+    {id:"projectile-flight-time",name:"Projectile Flight Time",group:"Motion",description:"Calculate flight time for an ideal projectile returning to its launch height.",fields:[["speed","Launch speed (m/s)"],["angle","Launch angle (degrees)"],["gravity","Gravitational field strength g (m/s²)"]],formula:"T = 2v sin(θ) / g; same launch and landing height; no air resistance",example:"20 m/s at 30° with g = 10 m/s² → 2 s"},
+    {id:"projectile-max-height",name:"Projectile Maximum Height",group:"Motion",description:"Calculate maximum height above the launch point for an ideal projectile.",fields:[["speed","Launch speed (m/s)"],["angle","Launch angle (degrees)"],["gravity","Gravitational field strength g (m/s²)"]],formula:"H = v² sin²(θ) / (2g); no air resistance",example:"20 m/s at 30° with g = 10 m/s² → 5 m"},
+    {id:"impulse",name:"Impulse from Constant Force",group:"Forces and energy",description:"Calculate impulse delivered by a constant force over a time interval.",fields:[["force","Constant force (N)"],["time","Time interval (s)"]],formula:"Impulse J = FΔt = change in momentum for the net force",example:"5 N for 3 s → 15 N·s"},
+    {id:"spring-potential-energy",name:"Spring Potential Energy",group:"Forces and energy",description:"Calculate stored elastic potential energy in an ideal spring.",fields:[["springConstant","Spring constant k (N/m)"],["extension","Extension magnitude x (m)"]],formula:"U = ½kx²; ideal spring within its elastic range",example:"200 N/m and 0.1 m → 1 J"},
+    {id:"gravitation-force",name:"Newtonian Gravitational Force",group:"Forces and energy",description:"Estimate attraction between two point masses separated by a distance.",fields:[["mass1","First mass (kg)"],["mass2","Second mass (kg)"],["distance","Center-to-center separation (m)"]],formula:"F = Gm₁m₂/r²; G = 6.67430 × 10⁻¹¹ N·m²/kg²",example:"Two 1 kg point masses 1 m apart → 6.6743 × 10⁻¹¹ N"},
+    {id:"coulomb-force",name:"Coulomb Force Magnitude",group:"Electricity and waves",description:"Calculate electrostatic force magnitude between two point charges.",fields:[["charge1","First charge (C)"],["charge2","Second charge (C)"],["distance","Separation (m)"]],formula:"F = kₑ|q₁q₂|/r²; point charges in vacuum; kₑ ≈ 8.9875517923 × 10⁹ N·m²/C²",example:"1 μC and 2 μC separated by 1 m → about 0.0179751 N"},
+    {id:"resistance-series",name:"Series Resistance",group:"Electricity and waves",description:"Calculate equivalent resistance for resistors connected in series.",fields:[["resistances","Resistances in ohms, comma-separated"]],formula:"Rₑq = R₁ + R₂ + …; each resistance ≥ 0",example:"2 Ω, 3 Ω, 5 Ω → 10 Ω"},
+    {id:"resistance-parallel",name:"Two Resistors in Parallel",group:"Electricity and waves",description:"Calculate equivalent resistance of two ideal resistors connected in parallel.",fields:[["resistance1","First resistance R₁ (Ω)"],["resistance2","Second resistance R₂ (Ω)"]],formula:"1/Rₑq = 1/R₁ + 1/R₂; ideal zero-ohm branch gives Rₑq = 0",example:"6 Ω ∥ 3 Ω → 2 Ω"},
+    {id:"heat-energy",name:"Heat Transfer by Temperature Change",group:"Properties of matter",description:"Estimate sensible heat transfer using a constant specific heat capacity.",fields:[["mass","Mass (kg)"],["specificHeat","Specific heat capacity c (J/(kg·K))"],["temperatureChange","Temperature change ΔT (K or °C difference)"]],formula:"Q = mcΔT; specific heat is treated as constant over the temperature interval",example:"2 kg × 4200 J/(kg·K) × 5 K → 42000 J"},
+    {id:"thermal-expansion",name:"Linear Thermal Expansion",group:"Properties of matter",description:"Estimate change in length for a uniform temperature change.",fields:[["initialLength","Initial length L₀ (m)"],["coefficient","Linear expansion coefficient α (1/K)"],["temperatureChange","Temperature change ΔT (K or °C difference)"]],formula:"ΔL = αL₀ΔT; small temperature changes and uniform material temperature assumed",example:"2 m × 0.000012/K × 50 K → 0.0012 m"},
+    {id:"thin-lens-image-distance",name:"Thin Lens Image Distance",group:"Optics",description:"Calculate signed image distance using the thin-lens equation and a consistent sign convention.",fields:[["focalLength","Signed focal length f (m)"],["objectDistance","Object distance dₒ (m)"]],formula:"1/f = 1/dₒ + 1/dᵢ, so dᵢ = 1 / (1/f − 1/dₒ); dₒ > 0",example:"f = 0.1 m and dₒ = 0.3 m → dᵢ = 0.15 m"},
+    {id:"lens-magnification",name:"Thin Lens Magnification",group:"Optics",description:"Calculate signed transverse magnification from image and object distances.",fields:[["imageDistance","Signed image distance dᵢ (m)"],["objectDistance","Object distance dₒ (m)"]],formula:"m = −dᵢ/dₒ; object distance dₒ > 0",example:"dᵢ = 0.15 m, dₒ = 0.3 m → m = −0.5"}
   ];
   const byId = Object.fromEntries(definitions.map(item => [item.id,item]));
   function number(values,key,label) {
@@ -118,6 +131,84 @@
         const k=nonnegative(number(values,"springConstant","Spring constant"),"Spring constant"),x=nonnegative(number(values,"extension","Extension"),"Extension");
         result="Spring-force magnitude: "+format(k*x)+" N";
         note="Ideal Hooke's-law behavior is assumed within the spring's elastic range."; break;
+      }
+      case "projectile-range": {
+        const v=nonnegative(number(values,"speed","Launch speed"),"Launch speed"),a=number(values,"angle","Launch angle"),g=positive(number(values,"gravity","Gravitational field strength"),"Gravitational field strength");
+        if(a<0||a>90)throw new Error("Launch angle must be from 0° through 90°.");
+        result="Horizontal range: "+format(v*v*Math.sin(2*a*Math.PI/180)/g)+" m";
+        note="Assumes launch and landing heights are equal and air resistance is negligible.";break;
+      }
+      case "projectile-flight-time": {
+        const v=nonnegative(number(values,"speed","Launch speed"),"Launch speed"),a=number(values,"angle","Launch angle"),g=positive(number(values,"gravity","Gravitational field strength"),"Gravitational field strength");
+        if(a<0||a>90)throw new Error("Launch angle must be from 0° through 90°.");
+        result="Flight time: "+format(2*v*Math.sin(a*Math.PI/180)/g)+" s";
+        note="Assumes launch and landing heights are equal and air resistance is negligible.";break;
+      }
+      case "projectile-max-height": {
+        const v=nonnegative(number(values,"speed","Launch speed"),"Launch speed"),a=number(values,"angle","Launch angle"),g=positive(number(values,"gravity","Gravitational field strength"),"Gravitational field strength");
+        if(a<0||a>90)throw new Error("Launch angle must be from 0° through 90°.");
+        const vertical=v*Math.sin(a*Math.PI/180);
+        result="Maximum height above launch point: "+format(vertical*vertical/(2*g))+" m";
+        note="Assumes constant gravity and negligible air resistance.";break;
+      }
+      case "impulse": {
+        const f=number(values,"force","Constant force"),t=nonnegative(number(values,"time","Time interval"),"Time interval");
+        result="Impulse: "+format(f*t)+" N·s";break;
+      }
+      case "spring-potential-energy": {
+        const k=nonnegative(number(values,"springConstant","Spring constant"),"Spring constant"),x=nonnegative(number(values,"extension","Extension"),"Extension");
+        result="Elastic potential energy: "+format(0.5*k*x*x)+" J";
+        note="Assumes ideal Hooke's-law behavior within the spring's elastic range.";break;
+      }
+      case "gravitation-force": {
+        const m1=nonnegative(number(values,"mass1","First mass"),"First mass"),m2=nonnegative(number(values,"mass2","Second mass"),"Second mass"),r=positive(number(values,"distance","Center-to-center separation"),"Center-to-center separation");
+        const G=6.67430e-11;
+        result="Gravitational force magnitude: "+format((G*m1*m2)/r/r)+" N";
+        note="Newtonian point-mass approximation; extended bodies may require a different model.";break;
+      }
+      case "coulomb-force": {
+        const q1=number(values,"charge1","First charge"),q2=number(values,"charge2","Second charge"),r=positive(number(values,"distance","Separation"),"Separation");
+        const ke=8.9875517923e9;
+        result="Electrostatic force magnitude: "+format((ke*Math.abs(q1)*Math.abs(q2))/r/r)+" N";
+        note="Point charges in vacuum; the magnitude is shown, not attraction/repulsion direction.";break;
+      }
+      case "resistance-series": {
+        const raw=values.resistances;
+        if(raw===undefined||String(raw).trim()==="")throw new Error("Resistances are required.");
+        const parts=String(raw).split(",").map(s=>s.trim());
+        if(parts.some(s=>s===""))throw new Error("Resistance list contains an empty item.");
+        if(parts.length>100)throw new Error("Enter no more than 100 resistors.");
+        const total=parts.reduce((sum,item,index)=>sum+nonnegative(number({v:item},"v","Resistance "+(index+1)),"Resistance"),0);
+        result="Equivalent series resistance: "+format(total)+" Ω";break;
+      }
+      case "resistance-parallel": {
+        const r1=nonnegative(number(values,"resistance1","First resistance"),"First resistance"),r2=nonnegative(number(values,"resistance2","Second resistance"),"Second resistance");
+        const equivalent=(r1===0||r2===0)?0:Math.min(r1,r2)/(1+Math.min(r1,r2)/Math.max(r1,r2));
+        result="Equivalent parallel resistance: "+format(equivalent)+" Ω";
+        note="Assumes ideal resistors; a zero-ohm branch shorts the ideal parallel combination.";break;
+      }
+      case "heat-energy": {
+        const m=nonnegative(number(values,"mass","Mass"),"Mass"),c=nonnegative(number(values,"specificHeat","Specific heat capacity"),"Specific heat capacity"),dt=number(values,"temperatureChange","Temperature change");
+        result="Heat transfer: "+format(m*c*dt)+" J";
+        note="A positive result means heat added under this sign convention; specific heat is assumed constant.";break;
+      }
+      case "thermal-expansion": {
+        const l=nonnegative(number(values,"initialLength","Initial length"),"Initial length"),a=number(values,"coefficient","Linear expansion coefficient"),dt=number(values,"temperatureChange","Temperature change");
+        result="Change in length: "+format(a*l*dt)+" m";
+        note="Small-strain linear approximation with uniform temperature change.";break;
+      }
+      case "thin-lens-image-distance": {
+        const f=number(values,"focalLength","Focal length"),o=positive(number(values,"objectDistance","Object distance"),"Object distance");
+        if(f===0)throw new Error("Focal length must not be zero.");
+        const denominator=1/f-1/o;
+        if(denominator===0)throw new Error("The image is at infinity for this ideal thin-lens case; no finite image distance exists.");
+        result="Signed image distance: "+format(1/denominator)+" m";
+        note="Uses the thin-lens sign convention: converging focal length positive, diverging focal length negative, real object distance positive.";break;
+      }
+      case "lens-magnification": {
+        const i=number(values,"imageDistance","Image distance"),o=positive(number(values,"objectDistance","Object distance"),"Object distance");
+        result="Transverse magnification: "+format(-i/o);
+        note="Negative magnification indicates an inverted image under the stated thin-lens sign convention.";break;
       }
       default: throw new Error("Physics calculator not implemented.");
     }
