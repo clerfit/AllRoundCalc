@@ -197,8 +197,8 @@
           if(scale===0)throw new Error("Cannot divide by zero complex number.");
           // Scale the divisor first to avoid squaring very large or tiny components.
           const cs=c/scale, ds=d/scale, den=cs*cs+ds*ds;
-          re=((a*cs+b*ds)/scale)/den;
-          im=((b*cs-a*ds)/scale)/den;
+          re=((a/scale)*cs+(b/scale)*ds)/den;
+          im=((b/scale)*cs-(a/scale)*ds)/den;
           formula="(a+bi)/(c+di) = ((ac+bd)+(bc−ad)i)/(c²+d²), evaluated with a scaled divisor to reduce overflow/underflow";
         }
         else throw new Error("Choose a valid complex-number operation.");
