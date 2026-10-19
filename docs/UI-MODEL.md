@@ -41,4 +41,5 @@ Phase 02 defines the shared user interface and page patterns only. It does not i
 - Category taxonomy and descriptions are centralized in assets/js/app.js.
 - Calculator pages are interface placeholders only; no calculations are claimed to work in this phase.
 - Contact is informative only; no email address or form delivery has been invented.
+- A dependency-free source-contract test suite is provided at `tests/ui-model.test.mjs`; run it with `node --test tests/ui-model.test.mjs` using Node.js 20 or newer. It checks source-level contracts and contrast ratios but does not emulate a browser.
 - Before Phase 02 can be signed off, syntax, links, narrow-screen layout, keyboard navigation, and screen-reader semantics should be checked in a real browser. Repository edits alone do not establish browser-tested acceptance.
