@@ -20,3 +20,6 @@ build/
 coverage/
 .playwright/
 test-results/
+
+# Browser test reports
+playwright-report/
