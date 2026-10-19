@@ -6,7 +6,7 @@ test("home page renders with key landmarks and project honesty notice", async ({
   await expect(page.getByRole("heading", { name: /Every calculation/i })).toBeVisible();
   await expect(page.getByRole("searchbox", { name: /Search categories/i })).toBeVisible();
   await expect(page.getByText(/The library is being built/i)).toBeVisible();
-  await expect(page.getByRole("link", { name: "Contact us" })).toBeVisible();
+  await expect(page.locator(".header-actions").getByRole("link", { name: "Contact us" })).toBeVisible();
 });
 
 test("all category page contains sixteen categories and filters by query", async ({ page }) => {
