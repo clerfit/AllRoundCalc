@@ -1,6 +1,6 @@
 # Phase 05 — Physics Formula Catalogue
 
-**Status: In progress.** This first implementation slice provides 29 browser-local introductory physics calculators. The formulas are standard introductory models; automated reference examples and domain tests verify the implemented cases, not every possible value or every real-world condition. Independent formula review and broader regression remain part of Phase 21.
+**Status: Implementation and automated verification complete.** This phase provides 29 browser-local introductory physics calculators. Broader independent formula review remains part of Phase 21. The formulas are standard introductory models; automated reference examples and domain tests verify the implemented cases, not every possible value or every real-world condition. Independent formula review and broader regression remain part of Phase 21.
 
 ## Conventions and limitations
 
@@ -68,4 +68,4 @@ These are reference starting points; Phase 21 should confirm the exact relations
 
 ## Scope boundaries
 
-This phase is an introductory first set, not a complete physics library. It does not yet include projectile trajectories, collisions, circuits with multiple components, thermodynamics, optics, relativistic mechanics, uncertainty propagation, vector-component solvers, or unit conversion across arbitrary input units. Those can be considered for later expansion after formula contracts and test fixtures are reviewed.
+This phase is an introductory first set, not a complete physics library. It does not yet include full projectile-trajectory simulation, collision and momentum-conservation solvers, multi-component circuit analysis, comprehensive thermodynamics, advanced optics, relativistic mechanics, uncertainty propagation, vector-component solvers, or unit conversion across arbitrary input units. Those can be considered for later expansion after formula contracts and test fixtures are reviewed.
