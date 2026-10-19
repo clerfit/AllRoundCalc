@@ -189,7 +189,7 @@ test("Phase 4 polynomial integration evaluates a definite integral", async ({ pa
 
 test("Phase 4 calculator form remains keyboard operable", async ({ page }) => {
   await page.goto("/#/calculator/quadratic-equation");
-  const a = page.getByLabel("Coefficient a");
+  const a = page.getByRole("textbox", { name: "Coefficient a" });
   await a.focus();
   await page.keyboard.type("1");
   await page.keyboard.press("Tab");
