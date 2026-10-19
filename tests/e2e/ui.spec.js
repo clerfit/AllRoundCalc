@@ -225,10 +225,10 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
   }
 });
 
-test("Phase 5 Physics category lists all 16 implemented calculators", async ({ page }) => {
+test("Phase 5 Physics category lists all 29 implemented calculators", async ({ page }) => {
   await page.goto("/#/category/physics");
   await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
-  await expect(page.getByText("16 calculators")).toBeVisible();
+  await expect(page.getByText("29 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
@@ -262,7 +262,10 @@ test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks"
   const ids = [
     "speed-distance-time", "acceleration", "kinematic-displacement", "newtons-second-law",
     "weight", "momentum", "kinetic-energy", "gravitational-potential-energy", "mechanical-work",
-    "mechanical-power", "density", "pressure", "ohms-law", "electrical-power", "wave-speed", "spring-force"
+    "mechanical-power", "density", "pressure", "ohms-law", "electrical-power", "wave-speed", "spring-force",
+    "projectile-range", "projectile-flight-time", "projectile-max-height", "impulse", "spring-potential-energy",
+    "gravitation-force", "coulomb-force", "resistance-series", "resistance-parallel", "heat-energy",
+    "thermal-expansion", "thin-lens-image-distance", "lens-magnification"
   ];
   for (const id of ids) {
     const route = "/#/calculator/" + id;
@@ -276,4 +279,18 @@ test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks"
     expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))))
       .toEqual([]);
   }
+});
+
+test("Phase 5 projectile and lens calculators handle standard reference examples", async ({ page }) => {
+  await page.goto("/#/calculator/projectile-flight-time");
+  await page.getByLabel("Launch speed (m/s)").fill("20");
+  await page.getByLabel("Launch angle (degrees)").fill("30");
+  await page.getByLabel("Gravitational field strength g (m/s²)").fill("10");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Flight time: 2 s");
+  await page.goto("/#/calculator/thin-lens-image-distance");
+  await page.getByLabel("Signed focal length f (m)").fill("0.1");
+  await page.getByLabel("Object distance dₒ (m)").fill("0.3");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("Signed image distance: 0.15 m");
 });
