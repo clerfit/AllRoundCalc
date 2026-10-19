@@ -114,8 +114,8 @@ test("Phase 3 mathematics category lists working calculator tools", async ({ pag
 
 test("Phase 3 arithmetic calculator calculates and explains the formula", async ({ page }) => {
   await page.goto("/#/calculator/basic-arithmetic");
-  await page.getByLabel("First number").fill("12");
-  await page.getByLabel("Second number").fill("5");
+  await page.getByRole("textbox", { name: "First number" }).fill("12");
+  await page.getByRole("textbox", { name: "Second number" }).fill("5");
   await page.getByLabel("Operation").selectOption("multiply");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("60");
@@ -124,8 +124,8 @@ test("Phase 3 arithmetic calculator calculates and explains the formula", async 
 
 test("Phase 3 rejects division by zero without displaying a numeric result", async ({ page }) => {
   await page.goto("/#/calculator/basic-arithmetic");
-  await page.getByLabel("First number").fill("12");
-  await page.getByLabel("Second number").fill("0");
+  await page.getByRole("textbox", { name: "First number" }).fill("12");
+  await page.getByRole("textbox", { name: "Second number" }).fill("0");
   await page.getByLabel("Operation").selectOption("divide");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("alert")).toHaveText("Division by zero is undefined.");
@@ -134,8 +134,8 @@ test("Phase 3 rejects division by zero without displaying a numeric result", asy
 
 test("Phase 3 percentage calculator shows its computed value", async ({ page }) => {
   await page.goto("/#/calculator/percentage");
-  await page.getByLabel("Base value").fill("800");
-  await page.getByLabel("Percentage (%)").fill("15");
+  await page.getByRole("textbox", { name: "Base value" }).fill("800");
+  await page.getByRole("textbox", { name: "Percentage (%)" }).fill("15");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("120");
 });
@@ -150,9 +150,9 @@ test("Phase 4 advanced mathematics category lists all reviewed calculator defini
 
 test("Phase 4 quadratic solver handles two real roots and explains discriminant", async ({ page }) => {
   await page.goto("/#/calculator/quadratic-equation");
-  await page.getByLabel("Coefficient a").fill("1");
-  await page.getByLabel("Coefficient b").fill("-3");
-  await page.getByLabel("Coefficient c").fill("2");
+  await page.getByRole("textbox", { name: "Coefficient a" }).fill("1");
+  await page.getByRole("textbox", { name: "Coefficient b" }).fill("-3");
+  await page.getByRole("textbox", { name: "Coefficient c" }).fill("2");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Discriminant: 1; roots: 2, 1");
   await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
@@ -160,11 +160,11 @@ test("Phase 4 quadratic solver handles two real roots and explains discriminant"
 
 test("Phase 4 logarithm checks valid arguments and base", async ({ page }) => {
   await page.goto("/#/calculator/logarithm");
-  await page.getByLabel("Positive argument x").fill("1000");
-  await page.getByLabel("Logarithm base b").fill("10");
+  await page.getByRole("textbox", { name: "Positive argument x" }).fill("1000");
+  await page.getByRole("textbox", { name: "Logarithm base b" }).fill("10");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("log base 10 of 1000 = 3");
-  await page.getByLabel("Logarithm base b").fill("1");
+  await page.getByRole("textbox", { name: "Logarithm base b" }).fill("1");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("alert")).toContainText("base must be positive and not equal to one");
 });
@@ -180,9 +180,9 @@ test("Phase 4 trigonometry function and angle-unit controls calculate correctly"
 
 test("Phase 4 polynomial integration evaluates a definite integral", async ({ page }) => {
   await page.goto("/#/calculator/polynomial-integral");
-  await page.getByLabel("Polynomial coefficients (comma-separated, highest power first)").fill("1,0,0");
-  await page.getByLabel("Lower bound a").fill("0");
-  await page.getByLabel("Upper bound b").fill("3");
+  await page.getByRole("textbox", { name: "Polynomial coefficients (comma-separated, highest power first)" }).fill("1,0,0");
+  await page.getByRole("textbox", { name: "Lower bound a" }).fill("0");
+  await page.getByRole("textbox", { name: "Upper bound b" }).fill("3");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Definite integral: 9");
 });
@@ -237,11 +237,11 @@ test("Phase 5 Physics category lists all 29 implemented calculators", async ({ p
 test("Phase 5 speed calculator calculates, validates, and resets", async ({ page }) => {
   await page.goto("/#/calculator/speed-distance-time");
   await expect(page).toHaveTitle(/Speed from Distance and Time — AllRoundCalc$/);
-  await page.getByLabel("Distance (m)").fill("150");
-  await page.getByLabel("Elapsed time (s)").fill("10");
+  await page.getByRole("textbox", { name: "Distance (m)" }).fill("150");
+  await page.getByRole("textbox", { name: "Elapsed time (s)" }).fill("10");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Average speed: 15 m/s");
-  await page.getByLabel("Elapsed time (s)").fill("0");
+  await page.getByRole("textbox", { name: "Elapsed time (s)" }).fill("0");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("alert")).toContainText("Elapsed time must be greater than zero");
   await page.getByRole("button", { name: "Reset" }).click();
@@ -250,8 +250,8 @@ test("Phase 5 speed calculator calculates, validates, and resets", async ({ page
 
 test("Phase 5 Ohm's law calculator calculates voltage and shows its assumption", async ({ page }) => {
   await page.goto("/#/calculator/ohms-law");
-  await page.getByLabel("Current (A)").fill("2");
-  await page.getByLabel("Resistance (Ω)").fill("6");
+  await page.getByRole("textbox", { name: "Current (A)" }).fill("2");
+  await page.getByRole("textbox", { name: "Resistance (Ω)" }).fill("6");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Voltage: 12 V");
   await expect(page.locator("#calculator-result-note")).toContainText("Ohm's law applies to ohmic behavior");
@@ -283,14 +283,14 @@ test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks"
 
 test("Phase 5 projectile and lens calculators handle standard reference examples", async ({ page }) => {
   await page.goto("/#/calculator/projectile-flight-time");
-  await page.getByLabel("Launch speed (m/s)").fill("20");
-  await page.getByLabel("Launch angle (degrees)").fill("30");
-  await page.getByLabel("Gravitational field strength g (m/s²)").fill("10");
+  await page.getByRole("textbox", { name: "Launch speed (m/s)" }).fill("20");
+  await page.getByRole("textbox", { name: "Launch angle (degrees)" }).fill("30");
+  await page.getByRole("textbox", { name: "Gravitational field strength g (m/s²)" }).fill("10");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Flight time: 2 s");
   await page.goto("/#/calculator/thin-lens-image-distance");
-  await page.getByLabel("Signed focal length f (m)").fill("0.1");
-  await page.getByLabel("Object distance dₒ (m)").fill("0.3");
+  await page.getByRole("textbox", { name: "Signed focal length f (m)" }).fill("0.1");
+  await page.getByRole("textbox", { name: "Object distance dₒ (m)" }).fill("0.3");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Signed image distance: 0.15 m");
 });
@@ -311,9 +311,9 @@ test("Phase 6 dilution calculator exposes a usable field tooltip", async ({ page
   await expect(help).toBeVisible();
   await help.click();
   await expect(page.locator("#field-tip-initialConcentration")).toBeVisible();
-  await page.getByLabel("Initial concentration C₁ (mol/L)").fill("2");
-  await page.getByLabel("Initial volume V₁ (L)").fill("0.1");
-  await page.getByLabel("Final volume V₂ (L)").fill("0.5");
+  await page.getByRole("textbox", { name: "Initial concentration C₁ (mol/L)" }).fill("2");
+  await page.getByRole("textbox", { name: "Initial volume V₁ (L)" }).fill("0.1");
+  await page.getByRole("textbox", { name: "Final volume V₂ (L)" }).fill("0.5");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("Final concentration: 0.4 mol/L");
 });
