@@ -80,9 +80,7 @@
     if (open) {
       lastFocusedElement = document.activeElement;
       closeDrawerButton.focus({ preventScroll: true });
-      window.setTimeout(function () {
-        if (drawer.classList.contains("is-open")) closeDrawerButton.focus({ preventScroll: true });
-      }, 0);
+
     } else if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
       lastFocusedElement.focus();
       lastFocusedElement = null;
@@ -190,6 +188,9 @@
   closeDrawerButton.addEventListener("click", function () { setDrawer(false); });
   backdrop.addEventListener("click", function () { setDrawer(false); });
   drawer.addEventListener("click", function (event) { if (event.target.closest("a")) setDrawer(false); });
+  drawer.addEventListener("transitionend", function (event) {
+    if (event.propertyName === "transform" && drawer.classList.contains("is-open")) closeDrawerButton.focus({ preventScroll: true });
+  });
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
       if (drawer.classList.contains("is-open")) setDrawer(false);
