@@ -152,6 +152,19 @@
         '<div class="status-note"><strong>Phase 4 is in progress.</strong> These calculators run locally in your browser. Check the formula notes and numeric limitations for each method.</div>' + catalogue);
       return;
     }
+    if (id === "physics" && window.AllRoundPhysicsCalculations) {
+      const defs = window.AllRoundPhysicsCalculations.definitions;
+      const groups = [...new Set(defs.map(function (item) { return item.group; }))];
+      const catalogue = groups.map(function (group) {
+        return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
+          return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("atom") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
+        }).join("") + '</div></div></section>';
+      }).join("");
+      app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
+        '<div class="page-title-row"><div><p class="page-eyebrow">Phase 05 · Physics</p><h1>' + escapeHtml(category.name) + '</h1><p>Physics tools with SI units, visible formulas, explicit assumptions, and domain validation.</p></div><span class="status-pill">' + defs.length + ' calculators</span></div>' +
+        '<div class="status-note"><strong>Phase 5 is in progress.</strong> These calculators run locally in your browser. Review the formula, units, and assumptions shown on each calculator.</div>' + catalogue);
+      return;
+    }
     if (id === "basic-mathematics" && window.AllRoundCalculations) {
       const defs = window.AllRoundCalculations.definitions;
       const groups = [...new Set(defs.map(function (item) { return item.group; }))];
@@ -173,12 +186,15 @@
   function renderCalculator(id) {
     const basicApi = window.AllRoundCalculations;
     const advancedApi = window.AllRoundAdvancedCalculations;
+    const physicsApi = window.AllRoundPhysicsCalculations;
     const phase4 = !!(advancedApi && advancedApi.definitions.some(function (item) { return item.id === id; }));
-    const api = phase4 ? advancedApi : basicApi;
+    const phase5 = !!(physicsApi && physicsApi.definitions.some(function (item) { return item.id === id; }));
+    const api = phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
     const def = api && api.definitions.find(function (item) { return item.id === id; });
     if (!def) return renderNotFound();
-    const categoryId = phase4 ? "advanced-mathematics" : "basic-mathematics";
-    const categoryName = phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
+    const categoryId = phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
+    const categoryName = phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
+    const phaseLabel = phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
     const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
@@ -196,11 +212,11 @@
       return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label><input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
     }).join("");
     app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:categoryName,href:"#/category/" + categoryId},{label:def.name}]) +
-      '<div class="page-title-row"><div><p class="page-eyebrow">' + (phase4 ? 'Phase 04 · Advanced Mathematics' : 'Phase 03 · Basic & Everyday Mathematics') + '</p><h1>' + escapeHtml(def.name) + '</h1><p>' + escapeHtml(def.description) + '</p></div><span class="status-pill">Available</span></div>' +
+      '<div class="page-title-row"><div><p class="page-eyebrow">' + phaseLabel + '</p><h1>' + escapeHtml(def.name) + '</h1><p>' + escapeHtml(def.description) + '</p></div><span class="status-pill">Available</span></div>' +
       '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Enter values</h2><span class="status-pill">Runs in browser</span></div><div class="panel-body"><form id="calculator-form" novalidate>' + fields + extra + '<button class="button button-primary" type="submit">Calculate</button> <button class="button" type="reset">Reset</button></form><p id="calculator-error" role="alert" hidden></p></div></section>' +
       '<div><section class="panel"><div class="panel-head"><h2>Result</h2></div><div class="panel-body"><p class="output-label">Calculated result</p><p class="output-value" id="calculator-result" role="status" aria-live="polite" aria-atomic="true">Enter values and select Calculate.</p><p class="body-copy" id="calculator-result-note"></p></div></section>' +
       '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Formula and assumptions</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula</h3><p id="calculator-formula">' + escapeHtml(def.formula) + '</p></article><article><h3>Worked example</h3><p>' + escapeHtml(def.example) + '</p></article><article><h3>Input guidance</h3><p>Enter finite numbers unless a field asks for a comma-separated list or integer. Invalid domains and division by zero are rejected. Results are displayed to a readable precision and are not a substitute for context-specific professional calculations.</p></article><article><h3>Limitations</h3><p>Calculations run locally in this browser. Decimal arithmetic uses JavaScript number precision; outputs are formatted for readability and may not represent arbitrary-precision decimal arithmetic.</p></article></div></div></section></div></div>' +
-      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related mathematics calculators</h2><a class="subtle-link" href="#/category/' + categoryId + '">' + (phase4 ? 'All Phase 4 tools' : 'All Phase 3 tools') + '</a></div><div class="panel-body"><div class="category-grid">' + relatedLinks + '</div></div></section>');
+      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related mathematics calculators</h2><a class="subtle-link" href="#/category/' + categoryId + '">' + (phase5 ? 'All Phase 5 tools' : phase4 ? 'All Phase 4 tools' : 'All Phase 3 tools') + '</a></div><div class="panel-body"><div class="category-grid">' + relatedLinks + '</div></div></section>');
     const form = document.getElementById("calculator-form");
     form.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -274,7 +290,8 @@
     if (routeName === "calculator") {
       const basicDefinition = window.AllRoundCalculations && window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const advancedDefinition = window.AllRoundAdvancedCalculations && window.AllRoundAdvancedCalculations.definitions.find(function (item) { return item.id === path[1]; });
-      document.title = ((advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
+      const physicsDefinition = window.AllRoundPhysicsCalculations && window.AllRoundPhysicsCalculations.definitions.find(function (item) { return item.id === path[1]; });
+      document.title = ((physicsDefinition || advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
     } else {
       document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
         routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
