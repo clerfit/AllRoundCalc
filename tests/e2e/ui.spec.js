@@ -30,9 +30,23 @@ test("sidebar opens, supports keyboard dismissal, and returns focus", async ({ p
   const menu = page.getByRole("button", { name: "Open navigation menu" });
   await menu.click();
   await expect(page.getByRole("navigation", { name: "Calculator categories" })).toBeVisible();
+  await page.keyboard.press("Shift+Tab");
+  await expect(drawerContactLink(page)).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("navigation", { name: "Calculator categories" })).toBeHidden();
   await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeFocused();
+});
+
+function drawerContactLink(page) { return page.locator(".site-drawer").getByRole("link", { name: "Contact us" }); }
+
+test("skip link supports keyboard navigation to main content", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#main")).toBeFocused();
 });
 
 test("header search navigates to filtered category results", async ({ page }) => {
