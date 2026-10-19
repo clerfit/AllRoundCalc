@@ -44,8 +44,8 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 02 | Design the complete responsive UI model and shared page templates — **complete** |
 | 03 | Basic & Everyday Mathematics — **implementation and automated verification complete** |
 | 04 | Advanced Mathematics — **implementation and automated verification complete** |
-| 05 | Physics |
-| 06 | Chemistry |
+| 05 | Physics — initial implementation slice and automated verification complete; broader independent scientific review remains |
+| 06 | Chemistry — in progress; 22 calculators implemented and automated tests added |
 | 07 | Statistics & Probability |
 | 08 | Personal Finance |
 | 09 | Business & Economics |
@@ -73,7 +73,7 @@ Large categories may be split into additional subphases. The roadmap is a planni
 - `assets/css/styles.css` — responsive design system and page layouts.
 - `assets/js/app.js` — navigation, search, category pages, and shared calculator UI.
 - `assets/js/calculations.js` — Phase 03 calculation logic.
-- `assets/js/advanced-calculations.js` — Phase 04 advanced mathematics calculation logic.
+- `assets/js/advanced-calculations.js` — Phase 04 advanced mathematics calculation logic.\n- `assets/js/physics-calculations.js` — Phase 05 physics calculation logic.\n- `assets/js/chemistry-calculations.js` — Phase 06 chemistry calculation logic.\n- `docs/PHASE-06-FORMULA-CATALOG.md` — Phase 06 chemistry formulas, units, assumptions, and acceptance checklist.\n- `tests/chemistry-calculations.test.mjs` — Phase 06 chemistry reference examples and domain tests.
 - `docs/PHASE-03-FORMULA-CATALOG.md` — Phase 03 formula catalogue and verification status.
 - `docs/PHASE-04-FORMULA-CATALOG.md` — Phase 04 formula contracts, reference links, assumptions, examples, and limits.
 - `tests/ui-model.test.mjs` — source-contract tests for the shared interface.
@@ -170,6 +170,6 @@ Browser review links:
 - [Basic & Everyday Mathematics catalogue](https://github.com/clerfit/AllRoundCalc/blob/main/docs/PHASE-03-FORMULA-CATALOG.md)
 - [Calculation engine](https://github.com/clerfit/AllRoundCalc/blob/main/assets/js/calculations.js)
 - [Calculation tests](https://github.com/clerfit/AllRoundCalc/blob/main/tests/calculations.test.cjs)
-\n## Phase 05 progress — Physics\n\n**Status: Initial implementation slice complete; Phase 06 has started.** The current catalogue contains 29 introductory calculators. The browser UI provides formula/assumption notes, and compact field-help buttons are available on advanced mathematics, physics, and chemistry calculators. The automated tests and browser accessibility checks passed in the latest recorded run; independent scientific review is still outstanding. This does not mean every physics topic is covered.\n\n## Phase 06 progress — Chemistry\n\n**Status: In progress.** An initial set of 22 browser-local chemistry calculators has been added. Each input includes contextual help and each calculator documents its formula and assumptions. Tests have been added to the default source-test suite; phase acceptance depends on the new CI run and further independent chemistry review. This is not a complete chemistry library.\n\n## Disclaimer
+\n## Phase 05 progress — Physics\n\n**Status: Initial implementation slice complete; Phase 06 has started.** The current catalogue contains 29 introductory calculators. The browser UI provides formula/assumption notes, and compact field-help buttons are available on advanced mathematics, physics, and chemistry calculators. The automated tests and browser accessibility checks passed in the latest recorded run; independent scientific review is still outstanding. This does not mean every physics topic is covered.\n\n## Phase 06 progress — Chemistry\n\n**Status: In progress.** An initial set of 22 browser-local chemistry calculators has been added. Each input includes contextual help and each calculator documents its formula and assumptions. Tests have been added to the default source-test suite; phase acceptance depends on the new CI run and further independent chemistry review. This is not a complete chemistry library.\n\n## Phase 05 progress — Physics\n\n**Status: Initial implementation slice complete; Phase 06 has started.** The current catalogue contains 29 introductory calculators. Compact field-help buttons are available on advanced mathematics, physics, and chemistry calculator inputs. Independent scientific review and human assistive-technology testing remain outstanding; this is not a claim that every physics topic is covered.\n\n## Phase 06 progress — Chemistry\n\n**Status: In progress.** An initial set of 22 browser-local chemistry calculators has been added. Each input includes contextual help, and the formula catalogue records unit conventions, assumptions, and known limitations. The new source and browser tests must pass before this phase can be signed off. This is not a complete chemistry library.\n\n## Disclaimer
 
 AllRoundCalc is a planned software project. The contents of this repository do not constitute medical, financial, engineering, legal, or other professional advice. Any published calculator must state relevant assumptions and limitations.
