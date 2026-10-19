@@ -26,9 +26,9 @@ jobs:
         with:
           node-version: 20
       - name: Run source contract tests
-        run: node --test tests/ui-model.test.mjs
+        run: npm test
       - name: Check JavaScript syntax
-        run: node --check assets/js/app.js && node --check scripts/serve.mjs && node --check playwright.config.js
+        run: node --check assets/js/app.js && node --check assets/js/calculations.js && node --check scripts/serve.mjs && node --check playwright.config.js
 
   browser-tests:
     name: Chromium browser tests (desktop, tablet, mobile)
