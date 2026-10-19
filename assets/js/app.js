@@ -71,7 +71,8 @@
   function setDrawer(open) {
     drawer.classList.toggle("is-open", open);
     drawer.setAttribute("aria-hidden", String(!open));
-    drawer.inert = !open;
+    if (open) drawer.removeAttribute("inert");
+    else drawer.setAttribute("inert", "");
     backdrop.hidden = !open;
     menuToggle.setAttribute("aria-expanded", String(open));
     menuToggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
