@@ -5,9 +5,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/advanced-calculations.js");
 
-test("Phase 4 catalog contains 23 uniquely identified advanced calculators", () => {
+test("Phase 4 catalog contains 27 uniquely identified advanced calculators", () => {
   assert.equal(definitions.length,27);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 23);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 27);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
