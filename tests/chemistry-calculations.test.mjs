@@ -4,9 +4,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/chemistry-calculations.js");
 
-test("Phase 6 chemistry catalogue contains 30 unique calculators with documented field help",()=>{
-  assert.equal(definitions.length,30);
-  assert.equal(new Set(definitions.map(x=>x.id)).size,30);
+test("Phase 6 chemistry catalogue contains 38 unique calculators with documented field help",()=>{
+  assert.equal(definitions.length,38);
+  assert.equal(new Set(definitions.map(x=>x.id)).size,38);
   for(const d of definitions){assert.ok(d.formula,d.id+" formula");assert.ok(d.example,d.id+" example");assert.ok(d.fields.length,d.id+" fields");for(const f of d.fields){assert.ok(f[2],d.id+" field help "+f[0]);}}
 });
 const cases=[
@@ -66,3 +66,13 @@ test("Phase 6 rejects invalid domains and non-finite values",()=>{
   ["element-mass-percent",{elementCount:"10",elementMolarMass:"20",compoundMolarMass:"100"}],
  ]) assert.throws(()=>calculate(id,values),undefined,id);
 });
+
+test("supplemental chemistry calculators match reference examples and validate dilution", () => {
+  assert.equal(calculate("radioactive-decay",{initialAmount:"80",halfLife:"5",elapsedTime:"10"}).result,"Remaining amount: 20");
+  assert.match(calculate("first-order-rate-constant",{halfLife:"10"}).result,/0\.0693/);
+  assert.match(calculate("ph-strong-base-concentration",{concentration:"0.01"}).result,/pH: 12/);
+  assert.equal(calculate("dilution-factor",{initialConcentration:"10",initialVolume:"10",finalVolume:"100"}).result,"Dilution factor: 10; final concentration: 1");
+  assert.throws(()=>calculate("dilution-factor",{initialConcentration:"1",initialVolume:"10",finalVolume:"5"}),/at least/);
+});
+
+test("extra chemistry tools match reference examples",()=>{assert.equal(calculate("henderson-hasselbalch",{pKa:"4.76",baseConcentration:"1",acidConcentration:"1"}).result,"Estimated buffer pH: 4.76");assert.equal(calculate("equilibrium-quotient",{productConcentrations:"2",productCoefficients:"1",reactantConcentrations:"1,1",reactantCoefficients:"1,1"}).result,"Reaction quotient Qc: 2");assert.match(calculate("faraday-electrolysis-mass",{current:"1",time:"3600",molarMass:"63.546",electrons:"2"}).result,/1\.185/);assert.match(calculate("arrhenius-rate-ratio",{activationEnergy:"50000",temperature1:"300",temperature2:"310"}).result,/1\.9/);});

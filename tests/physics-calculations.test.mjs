@@ -5,9 +5,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/physics-calculations.js");
 
-test("Phase 5 catalogue contains 29 unique physics calculators with documented contracts", () => {
-  assert.equal(definitions.length, 29);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 29);
+test("Phase 5 catalogue contains 38 unique physics calculators with documented contracts", () => {
+  assert.equal(definitions.length,38);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 38);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -107,3 +107,14 @@ test("field-force, circuit, thermal, and optics calculators validate singular ca
   assert.throws(() => calculate("thin-lens-image-distance",{focalLength:"0.1",objectDistance:"0.1"}),/image is at infinity/);
   assert.equal(calculate("heat-energy",{mass:"2",specificHeat:"4200",temperatureChange:"-5"}).result,"Heat transfer: -42000 J");
 });
+
+test("supplemental physics calculators match reference values and validate domains", () => {
+  assert.equal(calculate("centripetal-force",{mass:"2",speed:"3",radius:"1.5"}).result,"Centripetal force: 12 N");
+  assert.match(calculate("frequency-period",{value:"0.02",mode:"0"}).result,/Frequency: 50 Hz/);
+  assert.match(calculate("electrical-energy",{power:"100",time:"60"}).result,/6000 J/);
+  assert.equal(calculate("mechanical-efficiency",{usefulOutput:"750",inputEnergy:"1000"}).result,"Efficiency: 75%");
+  assert.equal(calculate("pressure-from-force-area",{force:"100",area:"0.5"}).result,"Pressure: 200 Pa");
+  assert.throws(()=>calculate("centripetal-force",{mass:"2",speed:"3",radius:"0"}),/greater than zero/);
+});
+
+test("extra physics tools match reference examples",()=>{assert.match(calculate("buoyant-force",{fluidDensity:"1000",displacedVolume:"0.01",gravity:"9.80665"}).result,/98\.0665 N/);assert.match(calculate("simple-pendulum-period",{length:"1",gravity:"9.81"}).result,/Period: 2\.006/);assert.equal(calculate("wave-frequency",{speed:"340",wavelength:"0.5"}).result,"Frequency: 680 Hz");assert.match(calculate("ideal-gas-state",{moles:"1",temperature:"273.15",volume:"0.022414"}).result,/kPa/);});

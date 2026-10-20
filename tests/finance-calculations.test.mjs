@@ -4,8 +4,8 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/finance-calculations.js");
 
-test("Phase 8 catalogue has 13 unique finance calculators with formula, example, and field help", () => {
-  assert.equal(definitions.length, 13);
+test("Phase 8 catalogue has 17 unique finance calculators with formula, example, and field help", () => {
+  assert.equal(definitions.length,20);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
     assert.ok(d.name && d.description && d.group && d.formula && d.example, d.id);
@@ -58,3 +58,13 @@ test("zero-interest loan and savings edge cases remain finite", () => {
   assert.equal(calculate("finance-loan-payment",{principal:"1200",annualRate:"0",years:"1",paymentsPerYear:"12"}).result, "Periodic payment: 100; total scheduled payments: 1200; total interest: 0");
   assert.equal(calculate("finance-savings-future-value",{initialBalance:"0",deposit:"0",annualRate:"0",depositsPerYear:"12",years:"2"}).result, "Projected savings: 0");
 });
+
+test("supplemental finance calculators handle common planning examples", () => {
+  assert.equal(calculate("finance-future-value-annuity",{deposit:"100",annualRate:"0",paymentsPerYear:"12",years:"1"}).result,"Future value of deposits: 1200");
+  assert.equal(calculate("finance-loan-to-value",{loanAmount:"160000",assetValue:"200000"}).result,"Loan-to-value ratio: 80%");
+  assert.equal(calculate("finance-savings-rate",{income:"2500",savings:"500"}).result,"Savings rate: 20%");
+  assert.match(calculate("finance-debt-payoff-time",{balance:"1000",annualRate:"0",monthlyPayment:"250"}).result,/4 whole monthly payments/);
+  assert.throws(()=>calculate("finance-debt-payoff-time",{balance:"1000",annualRate:"12",monthlyPayment:"5"}),/must exceed/);
+});
+
+test("extra personal finance tools match reference examples",()=>{assert.equal(calculate("finance-emergency-fund",{monthlyEssentials:"25000",months:"6"}).result,"Emergency fund target: 150000");assert.equal(calculate("finance-dividend-yield",{annualDividend:"5",sharePrice:"100"}).result,"Dividend yield: 5%");assert.match(calculate("finance-real-return",{nominalReturn:"8",inflationRate:"3"}).result,/4\.854/);});

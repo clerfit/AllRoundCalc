@@ -5,9 +5,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/advanced-calculations.js");
 
-test("Phase 4 catalog contains 18 uniquely identified advanced calculators", () => {
-  assert.equal(definitions.length, 18);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 18);
+test("Phase 4 catalog contains 27 uniquely identified advanced calculators", () => {
+  assert.equal(definitions.length,27);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 27);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -159,3 +159,13 @@ test("linear systems classify zero-coefficient equations by their right-hand sid
   );
 });
 
+
+test("supplemental geometry calculators match reference values and reject invalid dimensions", () => {
+  assert.match(calculate("pythagorean-theorem",{a:"3",b:"4",hypotenuse:"0"}).result,/Hypotenuse: 5/);
+  assert.match(calculate("sphere-volume",{radius:"3"}).result,/Volume: 113\.097/);
+  assert.match(calculate("cylinder-volume",{radius:"2",height:"5"}).result,/Volume: 62\.831/);
+  assert.equal(calculate("distance-3d",{x1:"0",y1:"0",z1:"0",x2:"2",y2:"3",z2:"6"}).result,"Distance: 7");
+  assert.throws(()=>calculate("sphere-volume",{radius:"-1"}),/non-negative/);
+});
+
+test("extra geometry and inequality calculators match reference examples",()=>{assert.match(calculate("cone-volume",{radius:"3",height:"4"}).result,/Volume: 37\.699/);assert.match(calculate("rectangle-measures",{length:"3",width:"4"}).result,/diagonal: 5/);assert.match(calculate("circle-measures",{radius:"2"}).result,/circumference: 12\.566/);assert.equal(calculate("linear-inequality",{a:"-2",b:"4",c:"10",relation:"1"}).result,"x ≥ -3");assert.throws(()=>calculate("cone-volume",{radius:"-1",height:"4"}),/non-negative/);});

@@ -5,9 +5,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/calculations.js");
 
-test("Phase 3 catalog contains 28 uniquely identified calculator tools", () => {
-  assert.equal(definitions.length, 28);
-  assert.equal(new Set(definitions.map((item) => item.id)).size, 28);
+test("Phase 3 catalog contains 34 uniquely identified calculator tools", () => {
+  assert.equal(definitions.length,34);
+  assert.equal(new Set(definitions.map((item) => item.id)).size, 34);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -99,3 +99,13 @@ test("all calculators return a formula and definition with successful results", 
     assert.ok(typeof output.result === "string", id);
   }
 });
+
+test("supplemental basic calculators match reference examples and reject invalid denominators", () => {
+  assert.match(calculate("fraction-to-decimal",{numerator:"3",denominator:"8"}).result,/Decimal: 0\.375; percentage: 37\.5%/);
+  assert.match(calculate("decimal-to-fraction",{value:"0.75",maxDenominator:"10"}).result,/Fraction: 3\/4/);
+  assert.equal(calculate("absolute-percentage-error",{observed:"92",reference:"100"}).result,"8%");
+  assert.match(calculate("percentage-point-change",{oldRate:"12",newRate:"15"}).result,/3 percentage points/);
+  assert.throws(()=>calculate("fraction-to-decimal",{numerator:"1",denominator:"0"}),/Denominator cannot be zero/);
+});
+
+test("extra practical arithmetic calculators match reference results",()=>{assert.match(calculate("unit-price-comparison",{priceA:"120",quantityA:"2",priceB:"90",quantityB:"1.5"}).result,/same unit price/);assert.equal(calculate("weighted-average-basic",{values:"10,20",weights:"1,3"}).result,"Weighted average: 17.5");assert.throws(()=>calculate("unit-price-comparison",{priceA:"10",quantityA:"0",priceB:"10",quantityB:"1"}),/quantities positive/);});
