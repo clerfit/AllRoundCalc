@@ -114,5 +114,5 @@ test("supplemental physics calculators match reference values and validate domai
   assert.match(calculate("electrical-energy",{power:"100",time:"60"}).result,/6000 J/);
   assert.equal(calculate("mechanical-efficiency",{usefulOutput:"750",inputEnergy:"1000"}).result,"Efficiency: 75%");
   assert.equal(calculate("pressure-from-force-area",{force:"100",area:"0.5"}).result,"Pressure: 200 Pa");
-  assert.throws(()=>calculate("centripetal-force",{mass:"2",speed:"3",radius:"0"}),/positive/);
+  assert.throws(()=>calculate("centripetal-force",{mass:"2",speed:"3",radius:"0"}),/greater than zero/);
 });
