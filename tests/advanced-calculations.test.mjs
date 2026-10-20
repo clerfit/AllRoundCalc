@@ -6,8 +6,8 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/advanced-calculations.js");
 
 test("Phase 4 catalog contains 23 uniquely identified advanced calculators", () => {
-  assert.equal(definitions.length,23);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 23);
+  assert.equal(definitions.length,28);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 28);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -166,4 +166,13 @@ test("supplemental geometry calculators match reference values and reject invali
   assert.match(calculate("cylinder-volume",{radius:"2",height:"5"}).result,/Volume: 62\.831/);
   assert.equal(calculate("distance-3d",{x1:"0",y1:"0",z1:"0",x2:"2",y2:"3",z2:"6"}).result,"Distance: 7");
   assert.throws(()=>calculate("sphere-volume",{radius:"-1"}),/non-negative/);
+});
+
+test("additional algebra, vectors and geometry calculators match reference values",()=> {
+  assert.equal(calculate("determinant-3x3",{a:"1",b:"0",c:"0",d:"0",e:"1",f:"0",g:"0",h:"0",i:"1"}).result,"Determinant: 1");
+  assert.match(calculate("vector-cross-product-3d",{ux:"1",uy:"0",uz:"0",vx:"0",vy:"1",vz:"0"}).result,/Cross product: \(0, 0, 1\); magnitude: 1/);
+  assert.match(calculate("quadratic-vertex",{a:"1",b:"-4",c:"3"}).result,/Vertex: \(2, -1\)/);
+  assert.match(calculate("cone-volume",{radius:"3",height:"4"}).result,/slant height: 5/);
+  assert.equal(calculate("arithmetic-series-sum",{firstTerm:"2",commonDifference:"3",terms:"4"}).result,"Sum of first 4 terms: 26");
+  assert.throws(()=>calculate("quadratic-vertex",{a:"0",b:"2",c:"1"}),/must not be zero/);
 });
