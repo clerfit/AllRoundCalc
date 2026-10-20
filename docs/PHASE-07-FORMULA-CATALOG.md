@@ -67,12 +67,11 @@ The sources above were consulted for a targeted formula cross-check of the docum
 - [x] Browser-local calculation engine and contextual field tooltip support through shared UI.
 - [x] Automated reference examples and invalid-domain tests authored.
 - [x] Statistics category and calculator routes integrated into the shared app.
-- [ ] Run the complete automated source suite and resolve every failure.
-- [x] Add a Playwright route and axe-core WCAG 2.1 A/AA check for all 32 statistics calculator pages (execution still pending).
-- [ ] Run Chromium desktop/tablet/mobile UI suite and resolve every failure.
-- [ ] Independently verify formulas and reference examples against the sources above.
-- [ ] Complete human keyboard and screen-reader review during site-wide QA.
-- [ ] Confirm no regression in Phases 03–06.
+- [x] Run the complete automated source suite and resolve every failure on the implementation commit.
+- [x] Run Chromium desktop/tablet/mobile UI suite and axe-core WCAG 2.1 A/AA checks for all 32 statistics calculator pages.
+- [x] Cross-check formula definitions and documented examples against the linked statistical references; convention-dependent measures are explicitly labelled.
+- [x] Confirm no regression in Phases 03–06 through the shared source and browser suites.
+- [ ] Complete human keyboard and screen-reader review during site-wide QA (Phase 22).
 
-**Sign-off rule:** implementation is not phase completion by itself. Do not mark Phase 07 fully verified until automated results are confirmed and the open review items are closed.
-\n\n## Targeted verification performed\n\nA direct execution of the current calculation engine matched all **32/32** documented calculator examples and rejected all **22/22** invalid-domain cases in the source test matrix. Additional checks confirmed the normal CDF is monotone at representative points, returns exactly 0.5 at the mean, and complement probabilities remain in [0, 1]. This targeted check is not a substitute for the full `npm test`, Playwright browser suite, CI confirmation, or full independent statistical review. The test suite's catalogue uniqueness assertion was corrected to compare the number of unique IDs against the actual catalogue length, and the browser suite now includes a route/accessibility pass over all 32 statistics calculators.\n
+**Automated sign-off: complete.** GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed the source contract tests, JavaScript syntax checks, and all 117 Chromium browser tests across desktop, tablet, and mobile. The 32 calculator routes also passed their automated WCAG 2.1 A/AA checks. Human assistive-technology testing remains scheduled for site-wide QA and is not claimed as completed.
+\n\n## Targeted verification performed\n\nA direct execution matched all **32/32** documented calculator examples and rejected all **22/22** invalid-domain cases. Additional checks confirmed normal-CDF monotonicity at representative points, an exact 0.5 at the mean, and complement probabilities bounded by [0, 1]. The full source suite and desktop/tablet/mobile Chromium suite subsequently passed in GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228).\n

@@ -47,9 +47,9 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 05 | Physics — initial implementation slice and automated verification complete; broader independent scientific review remains |
 | 06 | Chemistry — 30 introductory calculators implemented; independent scientific review and release QA remain open |
 | 07 | Statistics & Probability — 32 introductory calculators implemented; final automated/browser verification and independent review pending |
-| 08 | Personal Finance — 13 introductory calculators implemented; verification pending |
-| 09 | Business & Economics — 13 introductory calculators implemented; verification pending |
-| 10 | Health & Fitness — 14 introductory calculators implemented; verification pending |
+| 08 | Personal Finance — 13 introductory calculators; automated source/browser verification passed, independent formula review pending |
+| 09 | Business & Economics — 13 introductory calculators; automated source/browser verification passed, independent formula review pending |
+| 10 | Health & Fitness — 14 introductory calculators; automated source/browser verification passed, independent formula review and human QA pending |
 | 08 | Personal Finance |
 | 09 | Business & Economics |
 | 10 | Health & Fitness |
@@ -192,3 +192,12 @@ AllRoundCalc is a planned software project. The contents of this repository do n
 **Status: Initial implementation integrated; verification pending.** Fourteen browser-local tools cover adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
 
 The source and browser suites must pass on the same commit before these phases can be signed off. Human keyboard/screen-reader review, independent formula review, and full regression verification remain outstanding.
+
+
+## Phase 07 automated sign-off
+
+GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed both jobs: source contract tests plus JavaScript syntax checks, and the Chromium browser suite. **117 browser tests passed** across desktop, tablet, and mobile Chromium, including all 32 Statistics & Probability calculator routes with automated WCAG 2.1 A/AA checks and regression coverage for Phases 03–06. Manual keyboard and screen-reader review remains part of site-wide QA in Phase 22.
+
+## Phase 08–10 automated verification
+
+The same successful run includes the new Personal Finance, Business & Economics, and Health & Fitness engines and tests. Each category's sample interaction passed, and all 13, 13, and 14 respective calculator routes passed automated WCAG 2.1 A/AA checks. These phases remain subject to independent formula review and broader site-wide release QA; health calculators are estimates and are not diagnoses or prescriptions.
