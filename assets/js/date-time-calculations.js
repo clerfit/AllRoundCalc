@@ -34,7 +34,7 @@
     const raw=String(values[key]||"");
     if(!/^\d{4}-\d{2}-\d{2}$/.test(raw)) throw new Error(key+" must use YYYY-MM-DD.");
     const [y,m,d]=raw.split("-").map(Number);
-    const date=new Date(Date.UTC(y,m-1,d));
+    const date=new Date(0); date.setUTCHours(0,0,0,0); date.setUTCFullYear(y,m-1,d);
     if(date.getUTCFullYear()!==y||date.getUTCMonth()!==m-1||date.getUTCDate()!==d) throw new Error(key+" is not a valid calendar date.");
     return date;
   }
@@ -97,7 +97,8 @@
         if(!m)throw new Error("dateTimeLocal must use YYYY-MM-DDTHH:mm.");
         const date=dateValue({d:m[1]},"d"), hh=Number(m[2]), mm=Number(m[3]);
         if(hh>23||mm>59)throw new Error("dateTimeLocal must use a valid 24-hour time.");
-        const utc=Date.UTC(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),hh,mm)-offset(values,"sourceOffset")*60000;
+        const sourceLocal=new Date(date.getTime()); sourceLocal.setUTCHours(hh,mm,0,0);
+        const utc=sourceLocal.getTime()-offset(values,"sourceOffset")*60000;
         const target=utc+offset(values,"targetOffset")*60000;
         result=isoLocal(target); note="Fixed offsets only; daylight-saving and historical time-zone rules are not applied."; break;
       }
