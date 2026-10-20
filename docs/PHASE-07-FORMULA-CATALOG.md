@@ -71,3 +71,4 @@ These are reference starting points for review, not evidence that every formula 
 - [ ] Confirm no regression in Phases 03–06.
 
 **Sign-off rule:** implementation is not phase completion by itself. Do not mark Phase 07 fully verified until automated results are confirmed and the open review items are closed.
+\n\n## Targeted verification performed\n\nA direct execution of the current calculation engine matched all **32/32** documented calculator examples and rejected all **22/22** invalid-domain cases in the source test matrix. Additional checks confirmed the normal CDF is monotone at representative points, returns exactly 0.5 at the mean, and complement probabilities remain in [0, 1]. This targeted check is not a substitute for the full `npm test`, Playwright browser suite, CI confirmation, or independent statistical review.\n
