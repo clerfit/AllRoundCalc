@@ -55,5 +55,5 @@ test("transfer, availability, parity, and IPv4 tools reject invalid domains",()=
   assert.throws(()=>calculate("cs-parity-bit",{bits:"10x",mode:"even"}),/only 0 and 1/);
   assert.throws(()=>calculate("cs-ipv4-cidr",{address:"192.168.1.256",prefix:"24"}),/valid IPv4/);
   assert.throws(()=>calculate("cs-ipv4-cidr",{address:"192.168.1.10",prefix:"33"}),/from 0 through 32/);
-  assert.throws(()=>calculate("cs-ipv4-cidr",{address:"192.168.1.10",prefix:"31"}).result, /anything/);
+  assert.match(calculate("cs-ipv4-cidr",{address:"192.168.1.10",prefix:"31"}).result,/addresses: 2; conventional usable hosts: 2/);
 });
