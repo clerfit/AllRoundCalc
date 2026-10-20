@@ -30,6 +30,11 @@
     {id:"thermal-expansion",name:"Linear Thermal Expansion",group:"Properties of matter",description:"Estimate change in length for a uniform temperature change.",fields:[["initialLength","Initial length L₀ (m)"],["coefficient","Linear expansion coefficient α (1/K)"],["temperatureChange","Temperature change ΔT (K or °C difference)"]],formula:"ΔL = αL₀ΔT; small temperature changes and uniform material temperature assumed",example:"2 m × 0.000012/K × 50 K → 0.0012 m"},
     {id:"thin-lens-image-distance",name:"Thin Lens Image Distance",group:"Optics",description:"Calculate signed image distance using the thin-lens equation and a consistent sign convention.",fields:[["focalLength","Signed focal length f (m)"],["objectDistance","Object distance dₒ (m)"]],formula:"1/f = 1/dₒ + 1/dᵢ, so dᵢ = 1 / (1/f − 1/dₒ); dₒ > 0",example:"f = 0.1 m and dₒ = 0.3 m → dᵢ = 0.15 m"},
     {id:"lens-magnification",name:"Thin Lens Magnification",group:"Optics",description:"Calculate signed transverse magnification from image and object distances.",fields:[["imageDistance","Signed image distance dᵢ (m)"],["objectDistance","Object distance dₒ (m)"]],formula:"m = −dᵢ/dₒ; object distance dₒ > 0",example:"dᵢ = 0.15 m, dₒ = 0.3 m → m = −0.5"}
+    {id:"centripetal-force",name:"Centripetal Force",group:"Circular motion",description:"Calculate the inward net force for circular motion.",fields:[["mass","Mass (kg)"],["speed","Speed (m/s)"],["radius","Radius (m)"]],formula:"F = mv²/r",example:"m = 2 kg, v = 3 m/s, r = 1.5 m → 12 N"},
+    {id:"frequency-period",name:"Frequency and Period",group:"Waves & oscillations",description:"Convert between period and frequency.",fields:[["value","Input value"],["mode","Mode (1 = frequency, 0 = period)"]],formula:"f = 1/T; T = 1/f",example:"Period 0.02 s → 50 Hz"},
+    {id:"electrical-energy",name:"Electrical Energy",group:"Electricity",description:"Calculate electrical energy from power and elapsed time.",fields:[["power","Power (W)"],["time","Time (s)"]],formula:"E = Pt",example:"100 W for 60 s → 6,000 J"},
+    {id:"mechanical-efficiency",name:"Mechanical Efficiency",group:"Work, energy & power",description:"Compare useful output energy with supplied input energy.",fields:[["usefulOutput","Useful output energy (J)"],["inputEnergy","Input energy (J)"]],formula:"efficiency = useful output / input energy × 100%",example:"750 J output from 1,000 J input → 75%"},
+    {id:"pressure-from-force-area",name:"Pressure from Force and Area",group:"Fluids & pressure",description:"Calculate pressure from a normal force over an area.",fields:[["force","Force (N)"],["area","Area (m²)"]],formula:"P = F/A",example:"100 N over 0.5 m² → 200 Pa"}
   ];
   const byId = Object.fromEntries(definitions.map(item => [item.id,item]));
   function number(values,key,label) {
@@ -210,6 +215,11 @@
         result="Transverse magnification: "+format(-i/o);
         note="Negative magnification indicates an inverted image under the stated thin-lens sign convention.";break;
       }
+      case "centripetal-force": { const m=nonnegative(number(values,"mass","Mass"),"Mass"),v=nonnegative(number(values,"speed","Speed"),"Speed"),r=positive(number(values,"radius","Radius"),"Radius");result="Centripetal force: "+format(m*v*v/r)+" N";break; }
+      case "frequency-period": { const x=positive(number(values,"value","Input value"),"Input value"),mode=number(values,"mode","Mode");if(mode!==0&&mode!==1)throw new Error("Mode must be 1 (frequency to period) or 0 (period to frequency).");result=mode===1?"Period: "+format(1/x)+" s":"Frequency: "+format(1/x)+" Hz";note="When mode is 1, enter frequency in Hz; when mode is 0, enter period in seconds.";break; }
+      case "electrical-energy": { const p=nonnegative(number(values,"power","Power"),"Power"),t=nonnegative(number(values,"time","Time"),"Time");result="Electrical energy: "+format(p*t)+" J ("+format(p*t/3600000)+" kWh)";break; }
+      case "mechanical-efficiency": { const out=nonnegative(number(values,"usefulOutput","Useful output energy"),"Useful output energy"),input=positive(number(values,"inputEnergy","Input energy"),"Input energy");if(out>input)throw new Error("Useful output energy cannot exceed input energy in this efficiency estimate.");result="Efficiency: "+format(100*out/input)+"%";break; }
+      case "pressure-from-force-area": { const f=nonnegative(number(values,"force","Force"),"Force"),a=positive(number(values,"area","Area"),"Area");result="Pressure: "+format(f/a)+" Pa";break; }
       default: throw new Error("Physics calculator not implemented.");
     }
     return {result,formula,note,definition:def};
