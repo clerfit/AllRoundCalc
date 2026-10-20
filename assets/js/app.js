@@ -298,7 +298,7 @@
       finalPressure:"Final absolute pressure; do not use gauge pressure in gas-law equations."
     };
     const fields = def.fields.map(function (field) {
-      const listField = field[0] === "values" || field[0] === "weights" || field[0] === "resistances";
+      const listField = ["values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]);
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
       const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11)
