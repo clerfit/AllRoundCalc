@@ -21,9 +21,22 @@ test("all category page contains fifty categories and filters by query", async (
 test("category links open the corresponding category page", async ({ page }) => {
   await page.goto("/#/categories");
   await page.getByRole("link", { name: /Explore Units & Measurement/ }).click();
-  await expect(page.getByRole("heading", { name: "Units & Measurement" })).toBeVisible();
+  await expect(page.locator("h1")).toHaveText("Units & Measurement");
   await expect(page.getByText(/Phase 11 · Unit Converters/i).first()).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
+});
+
+test("Phase 13 Computer Science category lists tools and calculates number-base conversion", async ({ page }) => {
+  await page.goto("/#/category/computer-science");
+  await expect(page.locator("h1")).toHaveText("Computer Science & Algorithms");
+  await expect(page.getByText("15 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Number Base Converter/ }).click();
+  await expect(page.locator("h1")).toHaveText("Number Base Converter");
+  await page.getByLabel(/Integer value/).fill("255");
+  await page.getByLabel(/Source base/).fill("10");
+  await page.getByLabel(/Target base/).fill("16");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("FF");
 });
 
 test("Phase 12 Date & Time category lists 14 working calculators", async ({ page }) => {
