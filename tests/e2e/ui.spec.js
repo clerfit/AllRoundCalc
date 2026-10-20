@@ -26,6 +26,18 @@ test("category links open the corresponding category page", async ({ page }) => 
   await expect(page.getByText("11 calculators")).toBeVisible();
 });
 
+test("Phase 12 Date & Time category lists 14 working calculators", async ({ page }) => {
+  await page.goto("/#/category/date-time");
+  await expect(page.getByRole("heading", { name: "Date & Time" })).toBeVisible();
+  await expect(page.getByText("14 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Date Difference Calculator/ }).click();
+  await expect(page.getByRole("heading", { name: "Date Difference Calculator" })).toBeVisible();
+  await page.getByLabel("Start date (YYYY-MM-DD)").fill("2026-01-01");
+  await page.getByLabel("End date (YYYY-MM-DD)").fill("2026-01-31");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("30 calendar days");
+});
+
 test("sidebar opens, supports keyboard dismissal, and returns focus", async ({ page }) => {
   await page.goto("/");
   const menu = page.getByRole("button", { name: "Open navigation menu" });
