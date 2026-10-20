@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/calculations.js");
 
 test("Phase 3 catalog contains 32 uniquely identified calculator tools", () => {
-  assert.equal(definitions.length, 28);
+  assert.equal(definitions.length,32);
   assert.equal(new Set(definitions.map((item) => item.id)).size, 28);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
