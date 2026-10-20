@@ -139,6 +139,24 @@
   function renderCategory(id) {
     const category = categories.find(function (item) { return item.id === id; });
     if (!category) return renderNotFound();
+    const expansion = {
+      "personal-finance": {api:window.AllRoundFinanceCalculations,phase:"Phase 08 · Personal Finance",icon:"wallet",description:"Browser-local financial scenario calculators with visible formulas and assumptions.",notice:"Scenario estimates only. Results exclude fees, taxes, changing rates, risk, and lender-specific rules unless explicitly represented by the inputs."},
+      "business-economics": {api:window.AllRoundBusinessCalculations,phase:"Phase 09 · Business & Economics",icon:"briefcase",description:"Business metrics, pricing, profitability, break-even analysis, and growth.",notice:"Introductory arithmetic only. Use consistent currencies, accounting definitions, units, and time periods; jurisdiction-specific tax and accounting rules are not inferred."},
+      "health-fitness": {api:window.AllRoundHealthCalculations,phase:"Phase 10 · Health & Fitness",icon:"heart",description:"Body measurements, exercise estimates, and training calculations with explicit limitations.",notice:"These are estimates, not diagnoses or prescriptions. Age-based heart-rate and energy equations can be inaccurate for individuals; follow qualified clinical guidance where relevant."}
+    }[id];
+    if (expansion && expansion.api) {
+      const defs = expansion.api.definitions;
+      const groups = [...new Set(defs.map(function (item) { return item.group; }))];
+      const catalogue = groups.map(function (group) {
+        return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
+          return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon(expansion.icon) + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
+        }).join("") + '</div></div></section>';
+      }).join("");
+      app.innerHTML = pageShell(breadcrumbs([{label:"Home",href:"#/home"},{label:"All categories",href:"#/categories"},{label:category.name}]) +
+        '<div class="page-title-row"><div><p class="page-eyebrow">' + escapeHtml(expansion.phase) + '</p><h1>' + escapeHtml(category.name) + '</h1><p>' + escapeHtml(expansion.description) + '</p></div><span class="status-pill">' + defs.length + ' calculators</span></div>' +
+        '<div class="status-note"><strong>' + escapeHtml(expansion.phase) + ' implementation.</strong> ' + escapeHtml(expansion.notice) + ' Calculations run locally in your browser.</div>' + catalogue);
+      return;
+    }
       if (id === "advanced-mathematics" && window.AllRoundAdvancedCalculations) {
       const defs = window.AllRoundAdvancedCalculations.definitions;
       const groups = [...new Set(defs.map(function (item) { return item.group; }))];
@@ -215,21 +233,28 @@
     const physicsApi = window.AllRoundPhysicsCalculations;
     const chemistryApi = window.AllRoundChemistryCalculations;
     const statisticsApi = window.AllRoundStatisticsCalculations;
+    const financeApi = window.AllRoundFinanceCalculations;
+    const businessApi = window.AllRoundBusinessCalculations;
+    const healthApi = window.AllRoundHealthCalculations;
+    const phase10 = !!(healthApi && healthApi.definitions.some(function (item) { return item.id === id; }));
+    const phase9 = !!(businessApi && businessApi.definitions.some(function (item) { return item.id === id; }));
+    const phase8 = !!(financeApi && financeApi.definitions.some(function (item) { return item.id === id; }));
     const phase7 = !!(statisticsApi && statisticsApi.definitions.some(function (item) { return item.id === id; }));
     const phase4 = !!(advancedApi && advancedApi.definitions.some(function (item) { return item.id === id; }));
     const phase5 = !!(physicsApi && physicsApi.definitions.some(function (item) { return item.id === id; }));
     const phase6 = !!(chemistryApi && chemistryApi.definitions.some(function (item) { return item.id === id; }));
-    const api = phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
+    const api = phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
     const def = api && api.definitions.find(function (item) { return item.id === id; });
     if (!def) return renderNotFound();
-    const categoryId = phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
-    const categoryName = phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
-    const phaseLabel = phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
+    const categoryId = phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
+    const categoryName = phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
+    const phaseLabel = phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
     const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
       : id === "proportion-type" ? '<div class="form-row"><label for="calc-mode">Relationship</label><select id="calc-mode"><option value="direct">Direct proportion</option><option value="inverse">Inverse proportion</option></select></div>'
       : id === "factors-multiples" ? '<div class="form-row"><label for="calc-mode">Find</label><select id="calc-mode"><option value="factors">Positive factors</option><option value="multiples">First multiples</option></select></div>'
+      : id === "health-bmr-mifflin" ? '<div class="form-row"><label for="calc-sex">Equation constant</label><select id="calc-sex"><option value="male">Men’s equation constant</option><option value="female">Women’s equation constant</option></select></div>'
       : id === "trigonometry" ? '<div class="form-row"><label for="calc-function">Function</label><select id="calc-function"><option value="sin">Sine</option><option value="cos">Cosine</option><option value="tan">Tangent</option></select></div><div class="form-row"><label for="calc-unit">Angle unit</label><select id="calc-unit"><option value="degrees">Degrees</option><option value="radians">Radians</option></select></div>'
       : id === "inverse-trigonometry" ? '<div class="form-row"><label for="calc-function">Function</label><select id="calc-function"><option value="asin">Inverse sine (arcsine)</option><option value="acos">Inverse cosine (arccosine)</option><option value="atan">Inverse tangent (arctangent)</option></select></div>'
       : id === "complex-numbers" ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add</option><option value="subtract">Subtract</option><option value="multiply">Multiply</option><option value="divide">Divide</option></select></div>'
@@ -273,7 +298,7 @@
       const listField = field[0] === "values" || field[0] === "weights" || field[0] === "resistances";
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
-      const tip = (phase4 || phase5 || phase6 || phase7)
+      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10)
         ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
       return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
@@ -283,7 +308,7 @@
       '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Enter values</h2><span class="status-pill">Runs in browser</span></div><div class="panel-body"><form id="calculator-form" novalidate>' + fields + extra + '<button class="button button-primary" type="submit">Calculate</button> <button class="button" type="reset">Reset</button></form><p id="calculator-error" role="alert" hidden></p></div></section>' +
       '<div><section class="panel"><div class="panel-head"><h2>Result</h2></div><div class="panel-body"><p class="output-label">Calculated result</p><p class="output-value" id="calculator-result" role="status" aria-live="polite" aria-atomic="true">Enter values and select Calculate.</p><p class="body-copy" id="calculator-result-note"></p></div></section>' +
       '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Formula and assumptions</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula</h3><p id="calculator-formula">' + escapeHtml(def.formula) + '</p></article><article><h3>Worked example</h3><p>' + escapeHtml(def.example) + '</p></article><article><h3>Input guidance</h3><p>Enter finite numbers unless a field asks for a comma-separated list or integer. Invalid domains and division by zero are rejected. Results are displayed to a readable precision and are not a substitute for context-specific professional calculations.</p></article><article><h3>Limitations</h3><p>Calculations run locally in this browser. Decimal arithmetic uses JavaScript number precision; outputs are formatted for readability and may not represent arbitrary-precision decimal arithmetic.</p></article></div></div></section></div></div>' +
-      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related ' + (phase7 ? 'statistics & probability' : phase6 ? 'chemistry' : phase5 ? 'physics' : 'mathematics') + ' calculators</h2><a class="subtle-link" href="#/category/' + categoryId + '">' + (phase7 ? 'All Phase 7 tools' : phase6 ? 'All Phase 6 tools' : phase5 ? 'All Phase 5 tools' : phase4 ? 'All Phase 4 tools' : 'All Phase 3 tools') + '</a></div><div class="panel-body"><div class="category-grid">' + relatedLinks + '</div></div></section>');
+      '<section class="panel" style="margin-top:16px"><div class="panel-head"><h2>Related ' + (phase10 ? 'health & fitness' : phase9 ? 'business & economics' : phase8 ? 'personal finance' : phase7 ? 'statistics & probability' : phase6 ? 'chemistry' : phase5 ? 'physics' : 'mathematics') + ' calculators</h2><a class="subtle-link" href="#/category/' + categoryId + '">' + (phase10 ? 'All Phase 10 tools' : phase9 ? 'All Phase 9 tools' : phase8 ? 'All Phase 8 tools' : phase7 ? 'All Phase 7 tools' : phase6 ? 'All Phase 6 tools' : phase5 ? 'All Phase 5 tools' : phase4 ? 'All Phase 4 tools' : 'All Phase 3 tools') + '</a></div><div class="panel-body"><div class="category-grid">' + relatedLinks + '</div></div></section>');
     const form = document.getElementById("calculator-form");
     form.addEventListener("click", function (event) {
       const trigger = event.target.closest(".tooltip-trigger");
@@ -315,6 +340,8 @@
       const unit = document.getElementById("calc-unit");
       if (fn) values.fn = fn.value;
       if (unit) values.unit = unit.value;
+      const sex = document.getElementById("calc-sex");
+      if (sex) values.sex = sex.value;
       const error = document.getElementById("calculator-error");
       try {
         const output = api.calculate(id, values);
