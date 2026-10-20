@@ -39,9 +39,9 @@ These are review references, not proof of independent accounting or jurisdiction
 - [x] 13 definitions with formulas, examples, assumptions, and field help.
 - [x] Browser-local engine and domain validation.
 - [x] Reference and invalid-domain tests authored.
-- [ ] Full source suite and syntax checks pass.
-- [ ] Chromium desktop/tablet/mobile and accessibility checks pass.
+- [x] Full source suite (112 tests) and JavaScript syntax checks pass.
+- [x] Chromium desktop/tablet/mobile and automated accessibility checks pass.
 - [ ] Independent formula review and human keyboard/screen-reader review completed.
-- [ ] Regression testing completed.
+- [x] Automated regression tests for Phases 03–08 pass.
 
 **Sign-off rule:** phase is not verified until the complete automated runs and remaining reviews are recorded.
