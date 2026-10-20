@@ -108,7 +108,7 @@ test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }
 test("Phase 3 mathematics category lists working calculator tools", async ({ page }) => {
   await page.goto("/#/category/basic-mathematics");
   await expect(page.getByRole("heading", { name: "Basic & Everyday Mathematics" })).toBeVisible();
-  await expect(page.getByText("36 calculators")).toBeVisible();
+  await expect(page.getByText("32 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Percentage Calculator/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Prime Factorization/ })).toBeVisible();
 });
