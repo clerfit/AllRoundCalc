@@ -174,6 +174,7 @@
     const category = categories.find(function (item) { return item.id === id; });
     if (!category) return renderNotFound();
     const expansion = {
+      "computer-science": {api:window.AllRoundComputerScienceCalculations,phase:"Phase 13 · Computer Science & Digital Tools",icon:"code",description:"Browser-local number systems, digital storage, encoding, networking, and reliability tools.",notice:"Integer representation uses exact integer arithmetic. Storage conventions are labeled explicitly; transfer results are estimates and networking outputs are planning aids, not operational guarantees."},
       "date-time": {api:window.AllRoundDateTimeCalculations,phase:"Phase 12 · Date & Time",icon:"calendar",description:"Browser-local calendar, elapsed-time, business-day, time-zone offset, and duration tools.",notice:"Date-only calculations use Gregorian UTC calendar days. Fixed-offset conversion does not apply daylight-saving or historical time-zone rules; public holidays are not excluded from business-day counts."},
       "personal-finance": {api:window.AllRoundFinanceCalculations,phase:"Phase 08 · Personal Finance",icon:"wallet",description:"Browser-local financial scenario calculators with visible formulas and assumptions.",notice:"Scenario estimates only. Results exclude fees, taxes, changing rates, risk, and lender-specific rules unless explicitly represented by the inputs."},
       "business-economics": {api:window.AllRoundBusinessCalculations,phase:"Phase 09 · Business & Economics",icon:"briefcase",description:"Business metrics, pricing, profitability, break-even analysis, and growth.",notice:"Introductory arithmetic only. Use consistent currencies, accounting definitions, units, and time periods; jurisdiction-specific tax and accounting rules are not inferred."},
@@ -274,6 +275,8 @@
     const healthApi = window.AllRoundHealthCalculations;
     const unitApi = window.AllRoundUnitConverters;
     const dateTimeApi = window.AllRoundDateTimeCalculations;
+    const computerScienceApi = window.AllRoundComputerScienceCalculations;
+    const phase13 = !!(computerScienceApi && computerScienceApi.definitions.some(function (item) { return item.id === id; }));
     const phase12 = !!(dateTimeApi && dateTimeApi.definitions.some(function (item) { return item.id === id; }));
     const phase11 = !!(unitApi && unitApi.definitions.some(function (item) { return item.id === id; }));
     const phase10 = !!(healthApi && healthApi.definitions.some(function (item) { return item.id === id; }));
@@ -283,12 +286,12 @@
     const phase4 = !!(advancedApi && advancedApi.definitions.some(function (item) { return item.id === id; }));
     const phase5 = !!(physicsApi && physicsApi.definitions.some(function (item) { return item.id === id; }));
     const phase6 = !!(chemistryApi && chemistryApi.definitions.some(function (item) { return item.id === id; }));
-    const api = phase12 ? dateTimeApi : phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
+    const api = phase13 ? computerScienceApi : phase12 ? dateTimeApi : phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
     const def = api && api.definitions.find(function (item) { return item.id === id; });
     if (!def) return renderNotFound();
-    const categoryId = phase12 ? "date-time" : phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
-    const categoryName = phase12 ? "Date & Time" : phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
-    const phaseLabel = phase12 ? "Phase 12 · Date & Time" : phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
+    const categoryId = phase13 ? "computer-science" : phase12 ? "date-time" : phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
+    const categoryName = phase13 ? "Computer Science & Digital Tools" : phase12 ? "Date & Time" : phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
+    const phaseLabel = phase13 ? "Phase 13 · Computer Science & Digital Tools" : phase12 ? "Phase 12 · Date & Time" : phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
     const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
@@ -298,6 +301,10 @@
       : id === "trigonometry" ? '<div class="form-row"><label for="calc-function">Function</label><select id="calc-function"><option value="sin">Sine</option><option value="cos">Cosine</option><option value="tan">Tangent</option></select></div><div class="form-row"><label for="calc-unit">Angle unit</label><select id="calc-unit"><option value="degrees">Degrees</option><option value="radians">Radians</option></select></div>'
       : id === "inverse-trigonometry" ? '<div class="form-row"><label for="calc-function">Function</label><select id="calc-function"><option value="asin">Inverse sine (arcsine)</option><option value="acos">Inverse cosine (arccosine)</option><option value="atan">Inverse tangent (arctangent)</option></select></div>'
       : id === "complex-numbers" ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add</option><option value="subtract">Subtract</option><option value="multiply">Multiply</option><option value="divide">Divide</option></select></div>'
+      : id === "cs-binary-arithmetic" ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add</option><option value="subtract">Subtract</option><option value="multiply">Multiply</option></select></div>'
+      : id === "cs-bitwise-operations" ? '<div class="form-row"><label for="calc-operation">Bitwise operation</label><select id="calc-operation"><option value="and">AND</option><option value="or">OR</option><option value="xor">XOR</option></select></div>'
+      : id === "cs-integer-range" ? '<div class="form-row"><label for="calc-mode">Representation</label><select id="calc-mode"><option value="signed">Signed two\'s complement</option><option value="unsigned">Unsigned</option></select></div>'
+      : id === "cs-parity-bit" ? '<div class="form-row"><label for="calc-mode">Parity</label><select id="calc-mode"><option value="even">Even</option><option value="odd">Odd</option></select></div>'
       : "";
     const relatedLinks = api.definitions.filter(function (item) { return item.group === def.group && item.id !== id; }).slice(0, 4).map(function (item) {
       return '<a class="category-card" href="#/calculator/' + item.id + '"><span class="category-icon">' + icon("calculator") + '</span><h3>' + escapeHtml(item.name) + '</h3><p>' + escapeHtml(item.description) + '</p><span class="card-arrow" aria-hidden="true">↗</span></a>';
@@ -335,14 +342,19 @@
       finalPressure:"Final absolute pressure; do not use gauge pressure in gas-law equations."
     };
     const fields = def.fields.map(function (field) {
-      const listField = ["values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]);
+      const listField = ["values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]) || (phase13 && ["value","left","right","textValue","bits","address"].includes(field[0]));
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
-      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11 || phase12)
+      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11 || phase12 || phase13)
         ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
-      if (phase11 && (field[0] === "fromUnit" || field[0] === "toUnit")) {
-        const options = unitApi.unitsFor(id).map(function (unit) { return '<option value="' + escapeHtml(unit.value) + '">' + escapeHtml(unit.label) + '</option>'; }).join("");
+      if (phase13 && (field[0] === "fromBase" || field[0] === "toBase")) {
+        const selectedBase = field[0] === "fromBase" ? 10 : 2;
+        const options = Array.from({length:35}, function (_,i) { const base = i + 2; return '<option value="' + base + '"' + (base === selectedBase ? ' selected' : '') + '>' + base + '</option>'; }).join("");
+        return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<select id="calc-' + field[0] + '" name="' + field[0] + '" required>' + options + '</select></div>';
+      }
+      if ((phase11 || (phase13 && id === "cs-data-size")) && (field[0] === "fromUnit" || field[0] === "toUnit")) {
+        const options = (phase11 ? unitApi.unitsFor(id) : computerScienceApi.unitsFor(id)).map(function (unit) { return '<option value="' + escapeHtml(unit.value) + '">' + escapeHtml(unit.label) + '</option>'; }).join("");
         return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<select id="calc-' + field[0] + '" name="' + field[0] + '" required>' + options + '</select></div>';
       }
       return '<div class="form-row"><label for="calc-' + field[0] + '">' + escapeHtml(field[1]) + '</label> ' + tip + '<input id="calc-' + field[0] + '" name="' + field[0] + '" type="text" inputmode="' + (listField ? 'text' : 'decimal') + '" autocomplete="off" placeholder="' + escapeHtml(field[1]) + '" required></div>';
@@ -444,6 +456,7 @@
     else if (routeName === "contact") renderContact();
     else renderNotFound();
     if (routeName === "calculator") {
+      const computerScienceDefinition = window.AllRoundComputerScienceCalculations && window.AllRoundComputerScienceCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const dateTimeDefinition = window.AllRoundDateTimeCalculations && window.AllRoundDateTimeCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const unitDefinition = window.AllRoundUnitConverters && window.AllRoundUnitConverters.definitions.find(function (item) { return item.id === path[1]; });
       const basicDefinition = window.AllRoundCalculations && window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; });
@@ -451,7 +464,7 @@
       const physicsDefinition = window.AllRoundPhysicsCalculations && window.AllRoundPhysicsCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const chemistryDefinition = window.AllRoundChemistryCalculations && window.AllRoundChemistryCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const statisticsDefinition = window.AllRoundStatisticsCalculations && window.AllRoundStatisticsCalculations.definitions.find(function (item) { return item.id === path[1]; });
-      document.title = ((dateTimeDefinition || unitDefinition || statisticsDefinition || chemistryDefinition || physicsDefinition || advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
+      document.title = ((computerScienceDefinition || dateTimeDefinition || unitDefinition || statisticsDefinition || chemistryDefinition || physicsDefinition || advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
     } else {
       document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
         routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
