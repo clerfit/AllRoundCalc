@@ -46,7 +46,8 @@ test("Phase 6 chemistry calculators match reference examples",()=>{
 });
 test("Phase 6 rejects invalid domains and non-finite values",()=>{
  for(const [id,values] of [
-  ["moles-from-mass",{mass:"1",molarMass:"0"}],\n  ["mass-from-moles",{moles:"1",molarMass:"0"}],
+  ["moles-from-mass",{mass:"1",molarMass:"0"}],
+  ["mass-from-moles",{moles:"1",molarMass:"0"}],
   ["molarity",{moles:"1",volume:"0"}],
   ["dilution",{initialConcentration:"1",initialVolume:"2",finalVolume:"1"}],
   ["mass-percent",{soluteMass:"11",solutionMass:"10"}],
@@ -56,9 +57,11 @@ test("Phase 6 rejects invalid domains and non-finite values",()=>{
   ["percent-purity",{pureMass:"11",sampleMass:"10"}],
   ["density-chemistry",{mass:"Infinity",volume:"2"}],
   ["mole-fraction",{componentMoles:"0",otherMoles:"0"}],
-  ["stoichiometric-mole-conversion",{knownMoles:"1",knownCoefficient:"0",targetCoefficient:"1"}],\n  ["stoichiometric-mole-conversion",{knownMoles:"1",knownCoefficient:"1.5",targetCoefficient:"1"}],
+  ["stoichiometric-mole-conversion",{knownMoles:"1",knownCoefficient:"0",targetCoefficient:"1"}],
+  ["stoichiometric-mole-conversion",{knownMoles:"1",knownCoefficient:"1.5",targetCoefficient:"1"}],
   ["titration-concentration",{titrantConcentration:"0.1",titrantVolume:"0.02",unknownVolume:"0",unknownCoefficient:"1",titrantCoefficient:"1"}],
-  ["atom-economy",{desiredCoefficient:"1",desiredMolarMass:"80",reactantMassSum:"0"}],\n  ["atom-economy",{desiredCoefficient:"2",desiredMolarMass:"80",reactantMassSum:"100"}],
+  ["atom-economy",{desiredCoefficient:"1",desiredMolarMass:"80",reactantMassSum:"0"}],
+  ["atom-economy",{desiredCoefficient:"2",desiredMolarMass:"80",reactantMassSum:"100"}],
   ["dalton-partial-pressures",{partialPressures:"100,,200"}],
   ["element-mass-percent",{elementCount:"10",elementMolarMass:"20",compoundMolarMass:"100"}],
  ]) assert.throws(()=>calculate(id,values),undefined,id);
