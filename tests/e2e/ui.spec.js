@@ -108,7 +108,7 @@ test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }
 test("Phase 3 mathematics category lists working calculator tools", async ({ page }) => {
   await page.goto("/#/category/basic-mathematics");
   await expect(page.getByRole("heading", { name: "Basic & Everyday Mathematics" })).toBeVisible();
-  await expect(page.getByText("28 calculators")).toBeVisible();
+  await expect(page.getByText("36 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Percentage Calculator/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Prime Factorization/ })).toBeVisible();
 });
@@ -144,7 +144,7 @@ test("Phase 3 percentage calculator shows its computed value", async ({ page }) 
 test("Phase 4 advanced mathematics category lists all reviewed calculator definitions", async ({ page }) => {
   await page.goto("/#/category/advanced-mathematics");
   await expect(page.getByRole("heading", { name: "Advanced Mathematics" })).toBeVisible();
-  await expect(page.getByText("18 calculators")).toBeVisible();
+  await expect(page.getByText("23 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Quadratic Equation Solver/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Polynomial Definite Integral/ })).toBeVisible();
 });
@@ -236,7 +236,7 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
 test("Phase 5 Physics category lists all 29 implemented calculators", async ({ page }) => {
   await page.goto("/#/category/physics");
   await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
-  await expect(page.getByText("29 calculators")).toBeVisible();
+  await expect(page.getByText("34 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
@@ -306,7 +306,7 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
 test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
   await page.goto("/#/category/chemistry");
   await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
-  await expect(page.getByText("30 calculators")).toBeVisible();
+  await expect(page.getByText("34 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
@@ -353,7 +353,7 @@ test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", 
 test("Phase 7 statistics catalogue exposes working calculators and field help", async ({ page }) => {
   await page.goto("/#/category/statistics-probability");
   await expect(page.getByRole("heading", { name: "Statistics & Probability" })).toBeVisible();
-  await expect(page.getByText("32 calculators")).toBeVisible();
+  await expect(page.getByText("36 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Arithmetic Mean/ }).click();
   await expect(page.getByRole("heading", { name: "Arithmetic Mean" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Show field help: Data values/ })).toBeVisible();
@@ -396,7 +396,7 @@ test("all 32 Phase 7 statistics calculator routes render with accessible result 
 test("Phase 8 Personal Finance category and fixed-rate loan calculator work", async ({ page }) => {
   await page.goto("/#/category/personal-finance");
   await expect(page.getByRole("heading", { name: "Personal Finance" })).toBeVisible();
-  await expect(page.getByText("13 calculators")).toBeVisible();
+  await expect(page.getByText("17 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Fixed-Rate Loan Payment/ }).click();
   await page.getByRole("textbox", { name: "Loan principal" }).fill("10000");
   await page.getByRole("textbox", { name: "Nominal annual interest rate (%)" }).fill("6");
@@ -409,7 +409,7 @@ test("Phase 8 Personal Finance category and fixed-rate loan calculator work", as
 test("Phase 9 Business & Economics category and gross margin calculator work", async ({ page }) => {
   await page.goto("/#/category/business-economics");
   await expect(page.getByRole("heading", { name: "Business & Economics" })).toBeVisible();
-  await expect(page.getByText("13 calculators")).toBeVisible();
+  await expect(page.getByText("17 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Gross Profit Margin/ }).click();
   await page.getByRole("textbox", { name: "Revenue" }).fill("10000");
   await page.getByRole("textbox", { name: "Cost of goods sold" }).fill("6000");
@@ -420,7 +420,7 @@ test("Phase 9 Business & Economics category and gross margin calculator work", a
 test("Phase 10 Health & Fitness category and resting energy estimate work", async ({ page }) => {
   await page.goto("/#/category/health-fitness");
   await expect(page.getByRole("heading", { name: "Health & Fitness" })).toBeVisible();
-  await expect(page.getByText("14 calculators")).toBeVisible();
+  await expect(page.getByText("17 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Resting Energy Estimate/ }).click();
   await page.getByRole("textbox", { name: "Weight (kg)" }).fill("70");
   await page.getByRole("textbox", { name: "Height (cm)" }).fill("175");
