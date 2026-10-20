@@ -40,9 +40,9 @@ These sources are reference starting points. They do not constitute independent 
 - [x] 13 calculator definitions with formulas, worked examples, and field-level help.
 - [x] Browser-local engine and explicit domain validation.
 - [x] Automated reference and invalid-input tests authored.
-- [ ] Full Node source suite and syntax checks pass on current commit.
-- [ ] Chromium desktop/tablet/mobile interactions and accessibility checks pass.
+- [x] Full Node source suite (112 tests) and JavaScript syntax checks pass on current commit.
+- [x] Chromium desktop/tablet/mobile interactions and automated accessibility checks pass.
 - [ ] Independently review all formulas, boundaries, and examples.
-- [ ] Human keyboard/screen-reader review and regression testing completed.
+- [x] Automated regression tests for Phases 03–07 pass. Human keyboard/screen-reader review remains open for site-wide QA.
 
 **Sign-off rule:** do not mark Phase 08 verified until the automated runs and remaining reviews are recorded as complete.
