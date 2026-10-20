@@ -301,7 +301,7 @@
       const listField = field[0] === "values" || field[0] === "weights" || field[0] === "resistances";
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
-      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10)
+      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11)
         ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
       if (phase11 && (field[0] === "fromUnit" || field[0] === "toUnit")) {
