@@ -390,3 +390,78 @@ test("all 32 Phase 7 statistics calculator routes render with accessible result 
       .toEqual([]);
   }
 });
+
+
+test("Phase 8 Personal Finance category and fixed-rate loan calculator work", async ({ page }) => {
+  await page.goto("/#/category/personal-finance");
+  await expect(page.getByRole("heading", { name: "Personal Finance" })).toBeVisible();
+  await expect(page.getByText("13 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Fixed-Rate Loan Payment/ }).click();
+  await page.getByRole("textbox", { name: "Loan principal" }).fill("10000");
+  await page.getByRole("textbox", { name: "Nominal annual interest rate (%)" }).fill("6");
+  await page.getByRole("textbox", { name: "Loan term (years)" }).fill("3");
+  await page.getByRole("textbox", { name: "Payments per year" }).fill("12");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("status")).toContainText("Periodic payment: 304.219374516");
+});
+
+test("Phase 9 Business & Economics category and gross margin calculator work", async ({ page }) => {
+  await page.goto("/#/category/business-economics");
+  await expect(page.getByRole("heading", { name: "Business & Economics" })).toBeVisible();
+  await expect(page.getByText("13 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Gross Profit Margin/ }).click();
+  await page.getByRole("textbox", { name: "Revenue" }).fill("10000");
+  await page.getByRole("textbox", { name: "Cost of goods sold" }).fill("6000");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("status")).toContainText("Gross profit: 4000; gross margin: 40%");
+});
+
+test("Phase 10 Health & Fitness category and resting energy estimate work", async ({ page }) => {
+  await page.goto("/#/category/health-fitness");
+  await expect(page.getByRole("heading", { name: "Health & Fitness" })).toBeVisible();
+  await expect(page.getByText("14 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Resting Energy Estimate/ }).click();
+  await page.getByRole("textbox", { name: "Weight (kg)" }).fill("70");
+  await page.getByRole("textbox", { name: "Height (cm)" }).fill("175");
+  await page.getByRole("textbox", { name: "Age (years)" }).fill("30");
+  await page.getByLabel("Equation constant").selectOption("male");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("status")).toContainText("1648.75 kcal/day");
+  await expect(page.getByText(/not a measured metabolic rate/i)).toBeVisible();
+});
+
+test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = ["finance-simple-interest","finance-compound-interest","finance-effective-annual-rate","finance-loan-payment","finance-loan-balance","finance-savings-future-value","finance-savings-goal","finance-inflation-value","finance-debt-to-income","finance-budget-share","finance-roi","finance-net-present-value","finance-salary-raise"];
+  for (const id of ids) {
+    await page.goto("/#/calculator/" + id);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role","status");
+    const result = await new AxeBuilder({ page }).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa"]).analyze();
+    expect(result.violations, id + " axe violations").toEqual([]);
+  }
+});
+
+test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = ["business-gross-profit-margin","business-markup","business-net-profit-margin","business-contribution-margin","business-break-even-units","business-break-even-revenue","business-revenue-growth","business-cagr","business-roi","business-discount-price","business-sales-tax","business-price-elasticity","business-weighted-average"];
+  for (const id of ids) {
+    await page.goto("/#/calculator/" + id);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role","status");
+    const result = await new AxeBuilder({ page }).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa"]).analyze();
+    expect(result.violations, id + " axe violations").toEqual([]);
+  }
+});
+
+test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = ["health-adult-bmi","health-bmr-mifflin","health-tdee-estimate","health-target-heart-rate","health-heart-rate-reserve","health-waist-height-ratio","health-waist-hip-ratio","health-body-surface-area","health-one-rep-max","health-running-pace","health-running-speed","health-met-energy","health-training-volume","health-body-weight-change"];
+  for (const id of ids) {
+    await page.goto("/#/calculator/" + id);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role","status");
+    const result = await new AxeBuilder({ page }).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa"]).analyze();
+    expect(result.violations, id + " axe violations").toEqual([]);
+  }
+});
