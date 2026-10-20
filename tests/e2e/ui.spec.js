@@ -9,10 +9,10 @@ test("home page renders with key landmarks and project honesty notice", async ({
   await expect(page.locator(".header-actions").getByRole("link", { name: "Contact us" })).toBeVisible();
 });
 
-test("all category page contains sixteen categories and filters by query", async ({ page }) => {
+test("all category page contains fifty categories and filters by query", async ({ page }) => {
   await page.goto("/#/categories");
   await expect(page.getByRole("heading", { name: "Explore all categories" })).toBeVisible();
-  await expect(page.locator("#all-category-grid .category-card")).toHaveCount(16);
+  await expect(page.locator("#all-category-grid .category-card")).toHaveCount(50);
   await page.getByRole("searchbox", { name: "Filter categories" }).fill("physics");
   await expect(page.locator("#all-category-grid .category-card")).toHaveCount(1);
   await expect(page.getByRole("link", { name: /Physics/ })).toBeVisible();
