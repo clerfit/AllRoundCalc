@@ -7,7 +7,7 @@ const { definitions, calculate } = require("../assets/js/calculations.js");
 
 test("Phase 3 catalog contains 32 uniquely identified calculator tools", () => {
   assert.equal(definitions.length,32);
-  assert.equal(new Set(definitions.map((item) => item.id)).size, 28);
+  assert.equal(new Set(definitions.map((item) => item.id)).size, 32);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
