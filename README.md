@@ -55,7 +55,7 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 10 | Health & Fitness |
 | 11 | Unit Converters |
 | 12 | Date & Time — 14 calculators implemented; final CI and independent review pending |
-| 13 | Computer Science & Digital Tools — next implementation phase |
+| 13 | Computer Science & Digital Tools — 15 calculators implemented; final CI and independent review pending |
 | 14 | Engineering |
 | 15 | Construction & Home |
 | 16 | Travel & Vehicles |
