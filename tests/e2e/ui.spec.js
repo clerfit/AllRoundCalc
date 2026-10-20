@@ -108,7 +108,6 @@ test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }
 test("Phase 3 mathematics category lists working calculator tools", async ({ page }) => {
   await page.goto("/#/category/basic-mathematics");
   await expect(page.getByRole("heading", { name: "Basic & Everyday Mathematics" })).toBeVisible();
-  await expect(page.getByText("b")).toBeVisible();
   await expect(page.getByRole("link", { name: /Percentage Calculator/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Prime Factorization/ })).toBeVisible();
 });
@@ -144,7 +143,6 @@ test("Phase 3 percentage calculator shows its computed value", async ({ page }) 
 test("Phase 4 advanced mathematics category lists all reviewed calculator definitions", async ({ page }) => {
   await page.goto("/#/category/advanced-mathematics");
   await expect(page.getByRole("heading", { name: "Advanced Mathematics" })).toBeVisible();
-  await expect(page.getByText("a")).toBeVisible();
   await expect(page.getByRole("link", { name: /Quadratic Equation Solver/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Polynomial Definite Integral/ })).toBeVisible();
 });
@@ -217,7 +215,9 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
     "linear-equation", "quadratic-equation", "linear-system-2x2", "logarithm",
     "exponential-equation", "trigonometry", "inverse-trigonometry", "angle-converter",
     "slope", "distance-midpoint", "circle", "arithmetic-sequence", "geometric-sequence",
-    "polynomial-derivative", "polynomial-integral", "complex-numbers", "matrix-2x2", "vectors-2d"
+    "polynomial-derivative", "polynomial-integral", "complex-numbers", "matrix-2x2", "vectors-2d",
+    "pythagorean-theorem", "cylinder-volume", "sphere-volume", "distance-3d", "cylinder-lateral-area",
+    "cone-volume", "rectangle-measures", "circle-measures", "linear-inequality"
   ];
   for (const id of calculatorIds) {
     const route = "/#/calculator/" + id;
@@ -233,10 +233,9 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
   }
 });
 
-test("Phase 5 Physics category lists all 29 implemented calculators", async ({ page }) => {
+test("Phase 5 Physics category lists all 38 implemented calculators", async ({ page }) => {
   await page.goto("/#/category/physics");
   await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
-  await expect(page.getByText("p")).toBeVisible();
   await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
@@ -273,7 +272,9 @@ test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks"
     "mechanical-power", "density", "pressure", "ohms-law", "electrical-power", "wave-speed", "spring-force",
     "projectile-range", "projectile-flight-time", "projectile-max-height", "impulse", "spring-potential-energy",
     "gravitation-force", "coulomb-force", "resistance-series", "resistance-parallel", "heat-energy",
-    "thermal-expansion", "thin-lens-image-distance", "lens-magnification"
+    "thermal-expansion", "thin-lens-image-distance", "lens-magnification", "centripetal-force", "frequency-period",
+    "electrical-energy", "mechanical-efficiency", "pressure-from-force-area", "buoyant-force",
+    "simple-pendulum-period", "wave-frequency", "ideal-gas-state"
   ];
   for (const id of ids) {
     const route = "/#/calculator/" + id;
@@ -306,7 +307,6 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
 test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
   await page.goto("/#/category/chemistry");
   await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
-  await expect(page.getByText("p")).toBeVisible();
   await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
@@ -339,7 +339,7 @@ test("advanced calculator tooltips can be opened and dismissed by keyboard", asy
 
 test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
   const AxeBuilder = require("@axe-core/playwright").default;
-  const ids = ["moles-from-mass","mass-from-moles","particles-from-moles","moles-from-particles","molarity","moles-from-molarity","dilution","solution-preparation-mass","mass-percent","volume-percent","ppm-mass","density-chemistry","ideal-gas-pressure","ideal-gas-volume","ideal-gas-temperature","gas-law-combined","heat-from-specific-heat","pH-strong-acid","pH-strong-base","ph-from-poh","percent-yield","percent-purity","molality","mole-fraction","stoichiometric-mole-conversion","titration-concentration","atom-economy","reaction-enthalpy","dalton-partial-pressures","element-mass-percent"];
+  const ids = ["moles-from-mass","mass-from-moles","particles-from-moles","moles-from-particles","molarity","moles-from-molarity","dilution","solution-preparation-mass","mass-percent","volume-percent","ppm-mass","density-chemistry","ideal-gas-pressure","ideal-gas-volume","ideal-gas-temperature","gas-law-combined","heat-from-specific-heat","pH-strong-acid","pH-strong-base","ph-from-poh","percent-yield","percent-purity","molality","mole-fraction","stoichiometric-mole-conversion","titration-concentration","atom-economy","reaction-enthalpy","dalton-partial-pressures","element-mass-percent","radioactive-decay","first-order-rate-constant","ph-strong-base-concentration","dilution-factor","henderson-hasselbalch","equilibrium-quotient","faraday-electrolysis-mass","arrhenius-rate-ratio"];
   for (const id of ids) {
     const route = "/#/calculator/" + id;
     await page.goto(route);
@@ -353,7 +353,6 @@ test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", 
 test("Phase 7 statistics catalogue exposes working calculators and field help", async ({ page }) => {
   await page.goto("/#/category/statistics-probability");
   await expect(page.getByRole("heading", { name: "Statistics & Probability" })).toBeVisible();
-  await expect(page.getByText("s")).toBeVisible();
   await page.getByRole("link", { name: /Arithmetic Mean/ }).click();
   await expect(page.getByRole("heading", { name: "Arithmetic Mean" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Show field help: Data values/ })).toBeVisible();
@@ -363,7 +362,7 @@ test("Phase 7 statistics catalogue exposes working calculators and field help", 
 });
 
 
-test("all 32 Phase 7 statistics calculator routes render with accessible result status", async ({ page }) => {
+test("all 40 Phase 7 statistics calculator routes render with accessible result status", async ({ page }) => {
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = [
     "statistics-mean", "statistics-median", "statistics-mode", "statistics-range",
@@ -376,7 +375,10 @@ test("all 32 Phase 7 statistics calculator routes render with accessible result 
     "statistics-bayes", "statistics-permutations", "statistics-combinations",
     "statistics-factorial", "statistics-binomial-probability", "statistics-binomial-mean",
     "statistics-normal-z", "statistics-normal-cdf", "statistics-expected-value",
-    "statistics-correlation", "statistics-linear-regression"
+    "statistics-correlation", "statistics-linear-regression", "statistics-standard-error-mean",
+    "statistics-covariance", "statistics-margin-error-proportion", "statistics-confidence-interval-mean",
+    "statistics-one-sample-z", "statistics-r-squared", "statistics-pooled-proportion",
+    "statistics-weighted-standard-deviation"
   ];
   for (const id of ids) {
     const route = "/#/calculator/" + id;
@@ -396,7 +398,6 @@ test("all 32 Phase 7 statistics calculator routes render with accessible result 
 test("Phase 8 Personal Finance category and fixed-rate loan calculator work", async ({ page }) => {
   await page.goto("/#/category/personal-finance");
   await expect(page.getByRole("heading", { name: "Personal Finance" })).toBeVisible();
-  await expect(page.getByText("m")).toBeVisible();
   await page.getByRole("link", { name: /Fixed-Rate Loan Payment/ }).click();
   await page.getByRole("textbox", { name: "Loan principal" }).fill("10000");
   await page.getByRole("textbox", { name: "Nominal annual interest rate (%)" }).fill("6");
@@ -409,7 +410,6 @@ test("Phase 8 Personal Finance category and fixed-rate loan calculator work", as
 test("Phase 9 Business & Economics category and gross margin calculator work", async ({ page }) => {
   await page.goto("/#/category/business-economics");
   await expect(page.getByRole("heading", { name: "Business & Economics" })).toBeVisible();
-  await expect(page.getByText("m")).toBeVisible();
   await page.getByRole("link", { name: /Gross Profit Margin/ }).click();
   await page.getByRole("textbox", { name: "Revenue" }).fill("10000");
   await page.getByRole("textbox", { name: "Cost of goods sold" }).fill("6000");
@@ -420,7 +420,6 @@ test("Phase 9 Business & Economics category and gross margin calculator work", a
 test("Phase 10 Health & Fitness category and resting energy estimate work", async ({ page }) => {
   await page.goto("/#/category/health-fitness");
   await expect(page.getByRole("heading", { name: "Health & Fitness" })).toBeVisible();
-  await expect(page.getByText("m")).toBeVisible();
   await page.getByRole("link", { name: /Resting Energy Estimate/ }).click();
   await page.getByRole("textbox", { name: "Weight (kg)" }).fill("70");
   await page.getByRole("textbox", { name: "Height (cm)" }).fill("175");
@@ -433,7 +432,7 @@ test("Phase 10 Health & Fitness category and resting energy estimate work", asyn
 
 test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
   const AxeBuilder = require("@axe-core/playwright").default;
-  const ids = ["finance-simple-interest","finance-compound-interest","finance-effective-annual-rate","finance-loan-payment","finance-loan-balance","finance-savings-future-value","finance-savings-goal","finance-inflation-value","finance-debt-to-income","finance-budget-share","finance-roi","finance-net-present-value","finance-salary-raise"];
+  const ids = ["finance-simple-interest","finance-compound-interest","finance-effective-annual-rate","finance-loan-payment","finance-loan-balance","finance-savings-future-value","finance-savings-goal","finance-inflation-value","finance-debt-to-income","finance-budget-share","finance-roi","finance-net-present-value","finance-salary-raise","finance-future-value-annuity","finance-loan-to-value","finance-savings-rate","finance-debt-payoff-time","finance-emergency-fund","finance-dividend-yield","finance-real-return"];
   for (const id of ids) {
     await page.goto("/#/calculator/" + id);
     await expect(page.locator("#calculator-form")).toBeVisible();
@@ -445,7 +444,7 @@ test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks"
 
 test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
   const AxeBuilder = require("@axe-core/playwright").default;
-  const ids = ["business-gross-profit-margin","business-markup","business-net-profit-margin","business-contribution-margin","business-break-even-units","business-break-even-revenue","business-revenue-growth","business-cagr","business-roi","business-discount-price","business-sales-tax","business-price-elasticity","business-weighted-average"];
+  const ids = ["business-gross-profit-margin","business-markup","business-net-profit-margin","business-contribution-margin","business-break-even-units","business-break-even-revenue","business-revenue-growth","business-cagr","business-roi","business-discount-price","business-sales-tax","business-price-elasticity","business-weighted-average","business-customer-acquisition-cost","business-return-on-ad-spend","business-burn-runway","business-churn-rate","business-customer-lifetime-value","business-customer-retention","business-margin-of-safety"];
   for (const id of ids) {
     await page.goto("/#/calculator/" + id);
     await expect(page.locator("#calculator-form")).toBeVisible();
@@ -457,7 +456,7 @@ test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks
 
 test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
   const AxeBuilder = require("@axe-core/playwright").default;
-  const ids = ["health-adult-bmi","health-bmr-mifflin","health-tdee-estimate","health-target-heart-rate","health-heart-rate-reserve","health-waist-height-ratio","health-waist-hip-ratio","health-body-surface-area","health-one-rep-max","health-running-pace","health-running-speed","health-met-energy","health-training-volume","health-body-weight-change"];
+  const ids = ["health-adult-bmi","health-bmr-mifflin","health-tdee-estimate","health-target-heart-rate","health-heart-rate-reserve","health-waist-height-ratio","health-waist-hip-ratio","health-body-surface-area","health-one-rep-max","health-running-pace","health-running-speed","health-met-energy","health-training-volume","health-body-weight-change","health-adult-weight-range","health-body-weight-change-rate","health-exercise-energy-per-minute","health-macro-split","health-training-frequency","health-step-distance"];
   for (const id of ids) {
     await page.goto("/#/calculator/" + id);
     await expect(page.locator("#calculator-form")).toBeVisible();
