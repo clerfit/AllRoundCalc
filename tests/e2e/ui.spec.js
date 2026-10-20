@@ -481,8 +481,8 @@ test("Phase 11 length converter converts units and shows assumptions", async ({ 
   await page.goto("/#/calculator/unit-length");
   await expect(page).toHaveTitle(/Length Converter — AllRoundCalc$/);
   await page.getByRole("textbox", { name: "Value" }).fill("1");
-  await page.getByLabel("Convert from").selectOption("km");
-  await page.getByLabel("Convert to").selectOption("m");
+  await page.getByLabel("Convert from", { exact: true }).selectOption("km");
+  await page.getByLabel("Convert to", { exact: true }).selectOption("m");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("1000 m");
   await expect(page.locator("#calculator-result-note")).toContainText("international definitions");
@@ -491,8 +491,8 @@ test("Phase 11 length converter converts units and shows assumptions", async ({ 
 test("Phase 11 temperature converter rejects values below absolute zero", async ({ page }) => {
   await page.goto("/#/calculator/unit-temperature");
   await page.getByRole("textbox", { name: "Value" }).fill("-274");
-  await page.getByLabel("Convert from").selectOption("°C");
-  await page.getByLabel("Convert to").selectOption("K");
+  await page.getByLabel("Convert from", { exact: true }).selectOption("°C");
+  await page.getByLabel("Convert to", { exact: true }).selectOption("K");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("alert")).toContainText("absolute zero");
   await expect(page.locator("#calculator-result")).toHaveText("No result");
