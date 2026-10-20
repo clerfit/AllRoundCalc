@@ -481,7 +481,7 @@ test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 
 
 test("Phase 11 category lists all 11 unit converters", async ({ page }) => {
   await page.goto("/#/category/unit-converters");
-  await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Units & Measurement" })).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Length Converter/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Temperature Converter/ })).toBeVisible();
