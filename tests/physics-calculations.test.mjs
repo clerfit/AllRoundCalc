@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/physics-calculations.js");
 
 test("Phase 5 catalogue contains 34 unique physics calculators with documented contracts", () => {
-  assert.equal(definitions.length, 29);
+  assert.equal(definitions.length,34);
   assert.equal(new Set(definitions.map(item => item.id)).size, 29);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
