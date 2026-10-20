@@ -50,13 +50,16 @@
 - Quartiles and percentile rank are convention-dependent; this implementation explicitly names its conventions.
 - Calculations run in the browser; visitor inputs are not intentionally transmitted or stored by this calculation engine.
 
-## Verification references
+## Verification references and formula cross-checks
 
-- OpenStax, *Introductory Statistics*: https://openstax.org/details/books/introductory-statistics
-- NIST/SEMATECH e-Handbook of Statistical Methods: https://www.itl.nist.gov/div898/handbook/
-- OpenStax, *Introductory Business Statistics*: https://openstax.org/details/books/introductory-business-statistics
+- OpenStax, *Introductory Statistics 2e*, [Chapter 3 formula review](https://openstax.org/books/introductory-statistics-2e/pages/3-formula-review): probability bounds, conditional probability, independence, union/addition rule.
+- OpenStax, *Introductory Business Statistics*, [Mathematical Phrases, Symbols, and Formulas](https://openstax.org/books/introductory-business-statistics/pages/b-mathematical-phrases-symbols-and-formulas): mean, population/sample variance conventions, coefficient of variation, binomial distribution, and combinatorial formulas.
+- OpenStax, *Introductory Statistics 2e*, [Chapter 9 key terms](https://openstax.org/books/introductory-statistics-2e/pages/9-key-terms): binomial probability, mean, and standard deviation.
+- OpenStax, *Introductory Statistics 2e*, [The Regression Equation](https://openstax.org/books/introductory-statistics-2e/pages/12-3-the-regression-equation): least-squares slope/intercept and Pearson correlation interpretation.
+- OpenStax, *Principles of Data Science*, [Probability Theory](https://openstax.org/books/principles-data-science/pages/3-4-probability-theory): Bayes' theorem and the false-positive term.
+- NIST/SEMATECH, [e-Handbook of Statistical Methods](https://www.itl.nist.gov/div898/handbook/): statistical-methods reference.
 
-These are reference starting points for review, not evidence that every formula has already been independently checked against the sources.
+The sources above were consulted for a targeted formula cross-check of the documented probability rules, common descriptive-statistics definitions, binomial formulas, Bayes' theorem, correlation, and least-squares regression. This is not a full independent review of all 32 implementations, every numerical boundary, or every worked example; that acceptance item remains open until the complete review is recorded.
 
 ## Acceptance checklist
 
@@ -65,10 +68,11 @@ These are reference starting points for review, not evidence that every formula 
 - [x] Automated reference examples and invalid-domain tests authored.
 - [x] Statistics category and calculator routes integrated into the shared app.
 - [ ] Run the complete automated source suite and resolve every failure.
-- [ ] Run Chromium desktop/tablet/mobile UI suite and automated accessibility checks.
+- [x] Add a Playwright route and axe-core WCAG 2.1 A/AA check for all 32 statistics calculator pages (execution still pending).
+- [ ] Run Chromium desktop/tablet/mobile UI suite and resolve every failure.
 - [ ] Independently verify formulas and reference examples against the sources above.
 - [ ] Complete human keyboard and screen-reader review during site-wide QA.
 - [ ] Confirm no regression in Phases 03–06.
 
 **Sign-off rule:** implementation is not phase completion by itself. Do not mark Phase 07 fully verified until automated results are confirmed and the open review items are closed.
-\n\n## Targeted verification performed\n\nA direct execution of the current calculation engine matched all **32/32** documented calculator examples and rejected all **22/22** invalid-domain cases in the source test matrix. Additional checks confirmed the normal CDF is monotone at representative points, returns exactly 0.5 at the mean, and complement probabilities remain in [0, 1]. This targeted check is not a substitute for the full `npm test`, Playwright browser suite, CI confirmation, or independent statistical review.\n
+\n\n## Targeted verification performed\n\nA direct execution of the current calculation engine matched all **32/32** documented calculator examples and rejected all **22/22** invalid-domain cases in the source test matrix. Additional checks confirmed the normal CDF is monotone at representative points, returns exactly 0.5 at the mean, and complement probabilities remain in [0, 1]. This targeted check is not a substitute for the full `npm test`, Playwright browser suite, CI confirmation, or full independent statistical review. The test suite's catalogue uniqueness assertion was corrected to compare the number of unique IDs against the actual catalogue length, and the browser suite now includes a route/accessibility pass over all 32 statistics calculators.\n
