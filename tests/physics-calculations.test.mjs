@@ -6,8 +6,8 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/physics-calculations.js");
 
 test("Phase 5 catalogue contains 34 unique physics calculators with documented contracts", () => {
-  assert.equal(definitions.length,34);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 34);
+  assert.equal(definitions.length,39);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 39);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -115,4 +115,12 @@ test("supplemental physics calculators match reference values and validate domai
   assert.equal(calculate("mechanical-efficiency",{usefulOutput:"750",inputEnergy:"1000"}).result,"Efficiency: 75%");
   assert.equal(calculate("pressure-from-force-area",{force:"100",area:"0.5"}).result,"Pressure: 200 Pa");
   assert.throws(()=>calculate("centripetal-force",{mass:"2",speed:"3",radius:"0"}),/greater than zero/);
+});
+
+test("additional rotational, orbital and electrical physics calculators match references",()=> {
+  assert.equal(calculate("torque-force-lever-arm",{force:"10",leverArm:"0.5",angleDegrees:"90"}).result,"Torque magnitude: 5 N·m");
+  assert.equal(calculate("rotational-kinetic-energy",{momentOfInertia:"2",angularSpeed:"3"}).result,"Rotational kinetic energy: 9 J");
+  assert.equal(calculate("centripetal-acceleration",{speed:"6",radius:"3"}).result,"Centripetal acceleration: 12 m/s²");
+  assert.match(calculate("orbital-speed",{centralMass:"5.972e24",orbitalRadius:"6.771e6"}).result,/Ideal circular orbital speed: 7/);
+  assert.match(calculate("capacitor-energy",{capacitance:"0.0001",voltage:"12"}).result,/Stored energy: 0\.0072 J/);
 });
