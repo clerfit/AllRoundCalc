@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/chemistry-calculations.js");
 
 test("Phase 6 chemistry catalogue contains 34 unique calculators with documented field help",()=>{
-  assert.equal(definitions.length,34);
+  assert.equal(definitions.length,38);
   assert.equal(new Set(definitions.map(x=>x.id)).size,34);
   for(const d of definitions){assert.ok(d.formula,d.id+" formula");assert.ok(d.example,d.id+" example");assert.ok(d.fields.length,d.id+" fields");for(const f of d.fields){assert.ok(f[2],d.id+" field help "+f[0]);}}
 });
@@ -74,3 +74,5 @@ test("supplemental chemistry calculators match reference examples and validate d
   assert.equal(calculate("dilution-factor",{initialConcentration:"10",initialVolume:"10",finalVolume:"100"}).result,"Dilution factor: 10; final concentration: 1");
   assert.throws(()=>calculate("dilution-factor",{initialConcentration:"1",initialVolume:"10",finalVolume:"5"}),/at least/);
 });
+
+test("extra chemistry tools match reference examples",()=>{assert.equal(calculate("henderson-hasselbalch",{pKa:"4.76",baseConcentration:"1",acidConcentration:"1"}).result,"Estimated buffer pH: 4.76");assert.equal(calculate("equilibrium-quotient",{productConcentrations:"2",productCoefficients:"1",reactantConcentrations:"1,1",reactantCoefficients:"1,1"}).result,"Reaction quotient Qc: 2");assert.match(calculate("faraday-electrolysis-mass",{current:"1",time:"3600",molarMass:"63.546",electrons:"2"}).result,/1\.185/);assert.match(calculate("arrhenius-rate-ratio",{activationEnergy:"50000",temperature1:"300",temperature2:"310"}).result,/1\.9/);});
