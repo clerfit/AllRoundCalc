@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01–05 have implementation and automated verification recorded; Phase 05 includes 29 introductory browser-local physics calculators. Phase 06 (Chemistry) has a 30-calculator introductory implementation; independent scientific review and release QA remain open. Phase 07 (Statistics & Probability) has 32 browser-local calculators and expanded source/browser tests; final verification remains pending. Phase 08 adds 13 Personal Finance tools, Phase 09 adds 13 Business & Economics tools, and Phase 10 adds 14 Health & Fitness tools. Their complete verification and review remain pending. The site is not yet launched.
+> **Project status:** Phases 01–05 have implementation and automated verification recorded; Phase 05 includes 29 introductory browser-local physics calculators. Phase 06 (Chemistry) has a 30-calculator introductory implementation; independent scientific review and release QA remain open. Phase 07 (Statistics & Probability) has 32 browser-local calculators and expanded source/browser tests; final verification remains pending. Phase 08 adds 17 Personal Finance tools, Phase 09 adds 17 Business & Economics tools, and Phase 10 adds 17 Health & Fitness tools. Phase 11 adds 11 unit converter tools. This branch also expands the Basic Mathematics, Advanced Mathematics, Physics, Chemistry, Statistics, Finance, Business, and Health registries with 33 supplemental calculators. Automated verification and independent review remain pending. The site is not yet launched.
 
 ## Principles
 
