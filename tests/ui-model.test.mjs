@@ -37,11 +37,11 @@ test("JavaScript syntax is valid without executing browser code", () => {
   assert.doesNotThrow(() => new Script(appJs, { filename: "assets/js/app.js" }));
 });
 
-test("the taxonomy contains sixteen uniquely identified categories", () => {
+test("the taxonomy contains fifty uniquely identified categories", () => {
   const entries = [...appJs.matchAll(/\{ id:"([^"]+)", name:"([^"]+)"/g)];
   const ids = entries.map((match) => match[1]);
-  assert.equal(entries.length, 16);
-  assert.equal(new Set(ids).size, 16);
+  assert.equal(entries.length, 50);
+  assert.equal(new Set(ids).size, 50);
   for (const id of ids) assert.match(id, /^[a-z0-9-]+$/);
 });
 
