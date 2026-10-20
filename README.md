@@ -45,7 +45,7 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 03 | Basic & Everyday Mathematics — **implementation and automated verification complete** |
 | 04 | Advanced Mathematics — **implementation and automated verification complete** |
 | 05 | Physics — initial implementation slice and automated verification complete; broader independent scientific review remains |
-| 06 | Chemistry — in progress; 22 calculators implemented and automated tests added |
+| 06 | Chemistry — 30 introductory calculators implemented; independent scientific review and release QA remain open |
 | 07 | Statistics & Probability — 32 introductory calculators implemented; automated verification and independent review pending |
 | 08 | Personal Finance |
 | 09 | Business & Economics |
