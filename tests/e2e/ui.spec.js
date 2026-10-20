@@ -13,15 +13,15 @@ test("all category page contains fifty categories and filters by query", async (
   await page.goto("/#/categories");
   await expect(page.getByRole("heading", { name: "Explore all categories" })).toBeVisible();
   await expect(page.locator("#all-category-grid .category-card")).toHaveCount(50);
-  await page.getByRole("searchbox", { name: "Filter categories" }).fill("physics");
+  await page.getByRole("searchbox", { name: "Filter categories" }).fill("astronomy");
   await expect(page.locator("#all-category-grid .category-card")).toHaveCount(1);
-  await expect(page.getByRole("link", { name: /Physics/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Astronomy/ })).toBeVisible();
 });
 
 test("category links open the corresponding category page", async ({ page }) => {
   await page.goto("/#/categories");
-  await page.getByRole("link", { name: /Explore Unit Converters/ }).click();
-  await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
+  await page.getByRole("link", { name: /Explore Units & Measurement/ }).click();
+  await expect(page.getByRole("heading", { name: "Units & Measurement" })).toBeVisible();
   await expect(page.getByText(/Phase 11 · Unit Converters/i).first()).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
 });
@@ -247,7 +247,7 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
 
 test("Phase 5 Physics category lists all 38 implemented calculators", async ({ page }) => {
   await page.goto("/#/category/physics");
-  await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Physics — Mechanics", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
