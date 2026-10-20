@@ -36,3 +36,8 @@
 - [ ] Independent reference review and human assistive-technology review completed.
 
 **Status:** Initial implementation is present on the Phase 11 branch. Do not sign off until the full CI run and human review are complete.
+
+
+## Supplemental implementation on the Phase 11 branch
+
+This branch also adds 33 tools to previously started categories: 4 basic mathematics, 5 advanced mathematics, 5 physics, 4 chemistry, 4 statistics, 4 personal finance, 4 business/economics, and 3 health/fitness calculators. These additions have reference tests in the category test files. They do not imply that the entire 50-category roadmap is implemented; the other roadmap categories still require their own registries, formulas, and tests.
