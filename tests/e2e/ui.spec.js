@@ -28,7 +28,7 @@ test("category links open the corresponding category page", async ({ page }) => 
 
 test("Phase 12 Date & Time category lists 14 working calculators", async ({ page }) => {
   await page.goto("/#/category/date-time");
-  await expect(page.getByRole("heading", { name: "Date & Time" })).toBeVisible();
+  await expect(page.locator("h1")).toHaveText("Date & Time");
   await expect(page.getByText("14 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Date Difference Calculator/ }).click();
   await expect(page.getByRole("heading", { name: "Date Difference Calculator" })).toBeVisible();
@@ -318,7 +318,7 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
 
 test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
   await page.goto("/#/category/chemistry");
-  await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Chemistry — General & Stoichiometry", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
