@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status:** Phases 01–05 have implementation and automated verification recorded; Phase 05 includes 29 introductory browser-local physics calculators. Phase 06 (Chemistry) has a 30-calculator introductory implementation; independent scientific review and release QA remain open. Phase 07 (Statistics & Probability) now has 32 calculator definitions, an integrated browser-local engine, and automated test suites authored; execution and review are pending. The site is not yet launched.
+> **Project status:** Phases 01–05 have implementation and automated verification recorded; Phase 05 includes 29 introductory browser-local physics calculators. Phase 06 (Chemistry) has a 30-calculator introductory implementation; independent scientific review and release QA remain open. Phase 07 (Statistics & Probability) has 32 browser-local calculators and expanded source/browser tests; final verification remains pending. Phase 08 adds 13 Personal Finance tools, Phase 09 adds 13 Business & Economics tools, and Phase 10 adds 14 Health & Fitness tools. Their complete verification and review remain pending. The site is not yet launched.
 
 ## Principles
 
@@ -46,7 +46,10 @@ This is an initial taxonomy, not a claim that all calculators are already implem
 | 04 | Advanced Mathematics — **implementation and automated verification complete** |
 | 05 | Physics — initial implementation slice and automated verification complete; broader independent scientific review remains |
 | 06 | Chemistry — 30 introductory calculators implemented; independent scientific review and release QA remain open |
-| 07 | Statistics & Probability — 32 introductory calculators implemented; automated verification and independent review pending |
+| 07 | Statistics & Probability — 32 introductory calculators implemented; final automated/browser verification and independent review pending |
+| 08 | Personal Finance — 13 introductory calculators implemented; verification pending |
+| 09 | Business & Economics — 13 introductory calculators implemented; verification pending |
+| 10 | Health & Fitness — 14 introductory calculators implemented; verification pending |
 | 08 | Personal Finance |
 | 09 | Business & Economics |
 | 10 | Health & Fitness |
@@ -175,3 +178,17 @@ Browser review links:
 AllRoundCalc is a planned software project. The contents of this repository do not constitute medical, financial, engineering, legal, or other professional advice. Any published calculator must state relevant assumptions and limitations.
 
 \n## Phase 07 progress — Statistics & Probability\n\n**Status: Implementation committed; automated execution and review are pending.** The current scope defines 32 browser-local calculators for descriptive statistics, probability rules, counting, binomial and normal distributions, expected value, correlation, and simple linear regression. The formula catalogue documents formulas, assumptions, conventions, and examples. The shared UI includes field-level tooltips, formula/limitation sections, validation messages, and related-tool navigation. A targeted calculation harness passed all 32 documented reference examples and rejected all 22 invalid-domain cases. The source suite includes 32 reference examples and 22 invalid-domain cases. Playwright now includes an axe-core WCAG 2.1 A/AA route check for all 32 statistics calculator pages, in addition to an end-to-end arithmetic-mean interaction. The complete Node test suite and Chromium desktop/tablet/mobile browser suite still need to run.\n\nOpen acceptance items: obtain a successful full source and browser test run; resolve failures; finish independent verification of all formulas and examples against the listed statistical references; complete human keyboard/screen-reader review and confirm no regression in Phases 03–06. The normal CDF uses an approximation and quartiles/percentile rank follow explicitly documented conventions.\n
+
+## Phase 08 progress — Personal Finance
+
+**Status: Initial implementation integrated; verification pending.** Thirteen browser-local tools cover simple and compound interest, effective annual rate, fixed-rate loan payment and balance, savings projections and goals, inflation scenarios, debt-to-income, budget share, ROI, NPV, and salary increases. Currency is user-defined and must remain consistent. This is not financial advice or a jurisdiction-specific tax/lending engine.
+
+## Phase 09 progress — Business & Economics
+
+**Status: Initial implementation integrated; verification pending.** Thirteen browser-local tools cover gross/net margin, markup, contribution margin, break-even analysis, growth, CAGR, ROI, discounts, generic sales-tax arithmetic, price elasticity, and weighted averages. Accounting definitions and periods must be consistent; the generic tax calculator does not infer local rules.
+
+## Phase 10 progress — Health & Fitness
+
+**Status: Initial implementation integrated; verification pending.** Fourteen browser-local tools cover adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
+
+The source and browser suites must pass on the same commit before these phases can be signed off. Human keyboard/screen-reader review, independent formula review, and full regression verification remain outstanding.
