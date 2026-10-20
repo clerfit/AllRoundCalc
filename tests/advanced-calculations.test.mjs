@@ -7,7 +7,7 @@ const { definitions, calculate } = require("../assets/js/advanced-calculations.j
 
 test("Phase 4 catalog contains 23 uniquely identified advanced calculators", () => {
   assert.equal(definitions.length,23);
-  assert.equal(new Set(definitions.map(item => item.id)).size, 18);
+  assert.equal(new Set(definitions.map(item => item.id)).size, 23);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
