@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/calculations.js");
 
 test("Phase 3 catalog contains 32 uniquely identified calculator tools", () => {
-  assert.equal(definitions.length,32);
+  assert.equal(definitions.length,34);
   assert.equal(new Set(definitions.map((item) => item.id)).size, 32);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
@@ -107,3 +107,5 @@ test("supplemental basic calculators match reference examples and reject invalid
   assert.match(calculate("percentage-point-change",{oldRate:"12",newRate:"15"}).result,/3 percentage points/);
   assert.throws(()=>calculate("fraction-to-decimal",{numerator:"1",denominator:"0"}),/Denominator cannot be zero/);
 });
+
+test("extra practical arithmetic calculators match reference results",()=>{assert.match(calculate("unit-price-comparison",{priceA:"120",quantityA:"2",priceB:"90",quantityB:"1.5"}).result,/same unit price/);assert.equal(calculate("weighted-average-basic",{values:"10,20",weights:"1,3"}).result,"Weighted average: 17.5");assert.throws(()=>calculate("unit-price-comparison",{priceA:"10",quantityA:"0",priceB:"10",quantityB:"1"}),/quantities positive/);});
