@@ -26,6 +26,18 @@ test("category links open the corresponding category page", async ({ page }) => 
   await expect(page.getByText("11 calculators")).toBeVisible();
 });
 
+test("Phase 13 Computer Science category lists 11 calculators and base conversion works", async ({ page }) => {
+  await page.goto("/#/category/computer-science");
+  await expect(page.locator("h1")).toHaveText("Computer Science & Digital Tools");
+  await expect(page.getByText("11 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Base Conversion Calculator/ }).click();
+  await page.getByRole("textbox", { name: "Integer value in source base" }).fill("1010");
+  await page.getByLabel("Source base (2–36)").selectOption("2");
+  await page.getByLabel("Target base (2–36)").selectOption("10");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("10 (base 10) = decimal 10");
+});
+
 test("Phase 12 Date & Time category lists 14 working calculators", async ({ page }) => {
   await page.goto("/#/category/date-time");
   await expect(page.locator("h1")).toHaveText("Date & Time");
