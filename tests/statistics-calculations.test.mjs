@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/statistics-calculations.js");
 
 test("Phase 7 catalogue has 36 unique calculators with formulas, examples, and field help", () => {
-  assert.equal(definitions.length,36);
+  assert.equal(definitions.length,40);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
     assert.ok(d.name && d.description && d.group && d.formula && d.example, d.id);
@@ -98,3 +98,5 @@ test("supplemental sampling calculators match known reference values", () => {
   assert.match(calculate("statistics-margin-error-proportion",{proportion:"50",sampleSize:"400",zValue:"1.96"}).result,/4\.9 percentage points/);
   assert.match(calculate("statistics-confidence-interval-mean",{mean:"50",populationSd:"10",sampleSize:"100",zValue:"1.96"}).result,/\[48\.04, 51\.96\]/);
 });
+
+test("extra inference and descriptive statistics tools match reference examples",()=>{assert.equal(calculate("statistics-one-sample-z",{sampleMean:"52",populationMean:"50",populationSd:"10",sampleSize:"100"}).result,"Z statistic: 2");assert.equal(calculate("statistics-r-squared",{xValues:"1,2,3",yValues:"2,4,6"}).result,"R-squared: 1");assert.equal(calculate("statistics-pooled-proportion",{successes1:"12",sampleSize1:"100",successes2:"18",sampleSize2:"100"}).result,"Pooled proportion: 0.15 (15%)");assert.equal(calculate("statistics-weighted-standard-deviation",{values:"1,3",weights:"1,1"}).result,"Weighted population standard deviation: 1");});
