@@ -41,9 +41,9 @@ These references are starting points for review, not a claim of independent clin
 - [x] 14 definitions with formulas, examples, limitations, and field help.
 - [x] Browser-local engine with adult age restrictions and input validation.
 - [x] Reference and invalid-input tests authored.
-- [ ] Full source suite and syntax checks pass.
-- [ ] Chromium desktop/tablet/mobile and accessibility checks pass.
+- [x] Full source suite (112 tests) and JavaScript syntax checks pass.
+- [x] Chromium desktop/tablet/mobile and automated accessibility checks pass.
 - [ ] Independent formula review and human keyboard/screen-reader review completed.
-- [ ] Regression testing completed.
+- [x] Automated regression tests for Phases 03–09 pass.
 
 **Sign-off rule:** this phase remains unverified until complete automated and human review is recorded.
