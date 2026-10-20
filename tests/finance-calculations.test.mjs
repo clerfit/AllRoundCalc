@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/finance-calculations.js");
 
 test("Phase 8 catalogue has 17 unique finance calculators with formula, example, and field help", () => {
-  assert.equal(definitions.length,17);
+  assert.equal(definitions.length,21);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
     assert.ok(d.name && d.description && d.group && d.formula && d.example, d.id);
@@ -65,4 +65,11 @@ test("supplemental finance calculators handle common planning examples", () => {
   assert.equal(calculate("finance-savings-rate",{income:"2500",savings:"500"}).result,"Savings rate: 20%");
   assert.match(calculate("finance-debt-payoff-time",{balance:"1000",annualRate:"0",monthlyPayment:"250"}).result,/4 whole monthly payments/);
   assert.throws(()=>calculate("finance-debt-payoff-time",{balance:"1000",annualRate:"12",monthlyPayment:"5"}),/must exceed/);
+});
+
+test("additional finance calculators match reference scenarios",()=> {
+  assert.equal(calculate("finance-present-value-annuity",{payment:"100",annualRate:"0",paymentsPerYear:"12",years:"1"}).result,"Present value of payments: 1200");
+  assert.match(calculate("finance-emergency-fund",{monthlyExpenses:"20000",targetMonths:"6",currentSavings:"30000"}).result,/Emergency fund target: 120000; remaining gap: 90000/);
+  assert.match(calculate("finance-real-return",{nominalRate:"8",inflationRate:"3"}).result,/Real return after inflation: 4\.85436893204%/);
+  assert.equal(calculate("finance-retirement-monthly-contribution",{currentBalance:"0",targetBalance:"12000",annualRate:"0",years:"1"}).result,"Required monthly contribution: 1000");
 });
