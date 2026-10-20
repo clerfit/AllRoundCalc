@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/advanced-calculations.js");
 
-test("Phase 4 catalog contains 18 uniquely identified advanced calculators", () => {
+test("Phase 4 catalog contains 23 uniquely identified advanced calculators", () => {
   assert.equal(definitions.length, 18);
   assert.equal(new Set(definitions.map(item => item.id)).size, 18);
   for (const item of definitions) {
@@ -159,3 +159,11 @@ test("linear systems classify zero-coefficient equations by their right-hand sid
   );
 });
 
+
+test("supplemental geometry calculators match reference values and reject invalid dimensions", () => {
+  assert.match(calculate("pythagorean-theorem",{a:"3",b:"4",hypotenuse:"0"}).result,/Hypotenuse: 5/);
+  assert.match(calculate("sphere-volume",{radius:"3"}).result,/Volume: 113\.097/);
+  assert.match(calculate("cylinder-volume",{radius:"2",height:"5"}).result,/Volume: 62\.831/);
+  assert.equal(calculate("distance-3d",{x1:"0",y1:"0",z1:"0",x2:"2",y2:"3",z2:"6"}).result,"Distance: 7");
+  assert.throws(()=>calculate("sphere-volume",{radius:"-1"}),/non-negative/);
+});
