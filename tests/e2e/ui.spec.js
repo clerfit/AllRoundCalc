@@ -32,8 +32,8 @@ test("Phase 12 Date & Time category lists 14 working calculators", async ({ page
   await expect(page.getByText("14 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Date Difference Calculator/ }).click();
   await expect(page.getByRole("heading", { name: "Date Difference Calculator" })).toBeVisible();
-  await page.getByLabel("Start date (YYYY-MM-DD)").fill("2026-01-01");
-  await page.getByLabel("End date (YYYY-MM-DD)").fill("2026-01-31");
+  await page.locator("#calc-startDate").fill("2026-01-01");
+  await page.locator("#calc-endDate").fill("2026-01-31");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("30 calendar days");
 });
