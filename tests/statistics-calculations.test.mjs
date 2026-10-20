@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/statistics-calculations.js");
 
-test("Phase 7 catalogue has 32 unique calculators with formulas, examples, and field help", () => {
+test("Phase 7 catalogue has 36 unique calculators with formulas, examples, and field help", () => {
   assert.equal(definitions.length, 32);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
@@ -90,4 +90,11 @@ test("probabilities are bounded and normal CDF is monotone on representative poi
   const cdf = x => Number(calculate("statistics-normal-cdf",{value:String(x),mean:"0",standardDeviation:"1"}).result.split(": ")[1]);
   assert.ok(cdf(-1) < cdf(0));
   assert.ok(cdf(0) < cdf(1));
+});
+
+test("supplemental sampling calculators match known reference values", () => {
+  assert.equal(calculate("statistics-standard-error-mean",{standardDeviation:"10",sampleSize:"25"}).result,"Standard error: 2");
+  assert.equal(calculate("statistics-covariance",{xValues:"1,2,3",yValues:"2,4,6"}).result,"Sample covariance: 2");
+  assert.match(calculate("statistics-margin-error-proportion",{proportion:"50",sampleSize:"400",zValue:"1.96"}).result,/4\.9 percentage points/);
+  assert.match(calculate("statistics-confidence-interval-mean",{mean:"50",populationSd:"10",sampleSize:"100",zValue:"1.96"}).result,/\[48\.04, 51\.96\]/);
 });
