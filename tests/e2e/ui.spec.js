@@ -187,17 +187,24 @@ test("Phase 4 polynomial integration evaluates a definite integral", async ({ pa
   await expect(page.locator("#calculator-result")).toHaveText("Definite integral: 9");
 });
 
-test("Phase 4 calculator form remains keyboard operable", async ({ page }) => {
+test("Phase 4 calculator form remains keyboard operable with field tooltips", async ({ page }) => {
   await page.goto("/#/calculator/quadratic-equation");
-  const a = page.getByRole("textbox", { name: "Coefficient a" });
-  await a.focus();
-  await page.keyboard.type("1");
-  await page.keyboard.press("Tab");
-  await page.keyboard.type("-3");
-  await page.keyboard.press("Tab");
-  await page.keyboard.type("2");
-  await page.keyboard.press("Tab");
-  await expect(page.getByRole("button", { name: "Calculate" })).toBeFocused();
+  await page.getByRole("textbox", { name: "Coefficient a" }).fill("1");
+  await page.getByRole("textbox", { name: "Coefficient b" }).fill("-3");
+  await page.getByRole("textbox", { name: "Coefficient c" }).fill("2");
+
+  // Tooltip buttons are intentionally keyboard-focusable. Verify Tab navigation
+  // can move through them and still reach the submit button without a mouse.
+  await page.getByRole("textbox", { name: "Coefficient a" }).focus();
+  let reachedCalculate = false;
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press("Tab");
+    if (await page.getByRole("button", { name: "Calculate" }).evaluate(el => el === document.activeElement)) {
+      reachedCalculate = true;
+      break;
+    }
+  }
+  expect(reachedCalculate).toBe(true);
   await page.keyboard.press("Enter");
   await expect(page.locator("#calculator-result")).toHaveText("Discriminant: 1; roots: 2, 1");
   await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
@@ -349,7 +356,7 @@ test("Phase 7 statistics catalogue exposes working calculators and field help", 
   await page.getByRole("link", { name: /Arithmetic Mean/ }).click();
   await expect(page.getByRole("heading", { name: "Arithmetic Mean" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Show field help: Data values/ })).toBeVisible();
-  await page.getByLabel("Data values (comma-separated)").fill("2,4,6");
+  await page.getByRole("textbox", { name: "Data values (comma-separated)" }).fill("2,4,6");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("status").filter({ hasText: "Arithmetic mean: 4" })).toBeVisible();
 });
