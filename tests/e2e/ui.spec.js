@@ -341,3 +341,15 @@ test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", 
     expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)})))).toEqual([]);
   }
 });
+
+test("Phase 7 statistics catalogue exposes working calculators and field help", async ({ page }) => {
+  await page.goto("/#/category/statistics-probability");
+  await expect(page.getByRole("heading", { name: "Statistics & Probability" })).toBeVisible();
+  await expect(page.getByText("32 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Arithmetic Mean/ }).click();
+  await expect(page.getByRole("heading", { name: "Arithmetic Mean" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Show field help: Data values/ })).toBeVisible();
+  await page.getByLabel("Data values (comma-separated)").fill("2,4,6");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Arithmetic mean: 4" })).toBeVisible();
+});
