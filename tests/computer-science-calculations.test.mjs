@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 const require=createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/computer-science-calculations.js");
-test("Phase 13 registry has 14 unique documented tools",()=>{
- assert.equal(definitions.length,14);
- assert.equal(new Set(definitions.map(d=>d.id)).size,14);
+test("Phase 13 registry has 15 unique documented tools",()=>{
+ assert.equal(definitions.length,15);
+ assert.equal(new Set(definitions.map(d=>d.id)).size,15);
  for(const d of definitions)assert.ok(d.name&&d.description&&d.formula&&d.example&&d.fields.length,d.id);
 });
 const cases=[
