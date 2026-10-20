@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/physics-calculations.js");
 
 test("Phase 5 catalogue contains 34 unique physics calculators with documented contracts", () => {
-  assert.equal(definitions.length,34);
+  assert.equal(definitions.length,38);
   assert.equal(new Set(definitions.map(item => item.id)).size, 34);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
@@ -116,3 +116,5 @@ test("supplemental physics calculators match reference values and validate domai
   assert.equal(calculate("pressure-from-force-area",{force:"100",area:"0.5"}).result,"Pressure: 200 Pa");
   assert.throws(()=>calculate("centripetal-force",{mass:"2",speed:"3",radius:"0"}),/greater than zero/);
 });
+
+test("extra physics tools match reference examples",()=>{assert.match(calculate("buoyant-force",{fluidDensity:"1000",displacedVolume:"0.01",gravity:"9.80665"}).result,/98\.0665 N/);assert.match(calculate("simple-pendulum-period",{length:"1",gravity:"9.81"}).result,/Period: 2\.006/);assert.equal(calculate("wave-frequency",{speed:"340",wavelength:"0.5"}).result,"Frequency: 680 Hz");assert.match(calculate("ideal-gas-state",{moles:"1",temperature:"273.15",volume:"0.022414"}).result,/kPa/);});
