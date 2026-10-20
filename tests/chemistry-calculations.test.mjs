@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/chemistry-calculations.js");
 
-test("Phase 6 chemistry catalogue contains 30 unique calculators with documented field help",()=>{
+test("Phase 6 chemistry catalogue contains 34 unique calculators with documented field help",()=>{
   assert.equal(definitions.length,30);
   assert.equal(new Set(definitions.map(x=>x.id)).size,30);
   for(const d of definitions){assert.ok(d.formula,d.id+" formula");assert.ok(d.example,d.id+" example");assert.ok(d.fields.length,d.id+" fields");for(const f of d.fields){assert.ok(f[2],d.id+" field help "+f[0]);}}
@@ -65,4 +65,12 @@ test("Phase 6 rejects invalid domains and non-finite values",()=>{
   ["dalton-partial-pressures",{partialPressures:"100,,200"}],
   ["element-mass-percent",{elementCount:"10",elementMolarMass:"20",compoundMolarMass:"100"}],
  ]) assert.throws(()=>calculate(id,values),undefined,id);
+});
+
+test("supplemental chemistry calculators match reference examples and validate dilution", () => {
+  assert.equal(calculate("radioactive-decay",{initialAmount:"80",halfLife:"5",elapsedTime:"10"}).result,"Remaining amount: 20");
+  assert.match(calculate("first-order-rate-constant",{halfLife:"10"}).result,/0\.0693/);
+  assert.match(calculate("ph-strong-base-concentration",{concentration:"0.01"}).result,/pH: 12/);
+  assert.equal(calculate("dilution-factor",{initialConcentration:"10",initialVolume:"10",finalVolume:"100"}).result,"Dilution factor: 10; final concentration: 1");
+  assert.throws(()=>calculate("dilution-factor",{initialConcentration:"1",initialVolume:"10",finalVolume:"5"}),/at least/);
 });
