@@ -58,3 +58,8 @@ This branch also adds 60 supplemental tools to previously started categories: 6 
 | **Total** | **248** |
 
 This inventory counts unique calculator definitions in the branch's active registries. It does not count the 50 roadmap categories themselves as implemented. The remaining 41 planned fields/categories need their own calculator registries and formula/test coverage; independent scientific and clinical review remains necessary before production claims are made.
+
+
+## Count methodology
+
+Calculator totals count unique active registry definitions, with the 11 converter families counted from the converter-definition registry. Tests assert each active registry's unique IDs and reference behavior. This is an implementation inventory, not a guarantee that every individual subtopic in the 50-category roadmap has a corresponding tool or has passed independent domain review.
