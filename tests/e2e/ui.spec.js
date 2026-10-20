@@ -22,7 +22,7 @@ test("category links open the corresponding category page", async ({ page }) => 
   await page.goto("/#/categories");
   await page.getByRole("link", { name: /Explore Unit Converters/ }).click();
   await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
-  await expect(page.getByText(/Phase 11 · Unit Converters/i)).toBeVisible();
+  await expect(page.getByText(/Phase 11 · Unit Converters/i).first()).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
 });
 
