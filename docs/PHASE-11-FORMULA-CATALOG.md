@@ -40,4 +40,21 @@
 
 ## Supplemental implementation on the Phase 11 branch
 
-This branch also adds 33 tools to previously started categories: 4 basic mathematics, 5 advanced mathematics, 5 physics, 4 chemistry, 4 statistics, 4 personal finance, 4 business/economics, and 3 health/fitness calculators. These additions have reference tests in the category test files. They do not imply that the entire 50-category roadmap is implemented; the other roadmap categories still require their own registries, formulas, and tests.
+This branch also adds 60 supplemental tools to previously started categories: 6 basic mathematics, 9 advanced mathematics, 9 physics, 8 chemistry, 8 statistics, 7 personal finance, 7 business/economics, and 6 health/fitness calculators. These additions have reference tests in the category test files. They do not imply that the entire 50-category roadmap is implemented; the other roadmap categories still require their own registries, formulas, and tests.
+
+## Current branch inventory
+
+| Active calculator registry | Defined tools |
+|---|---:|
+| Basic & Everyday Mathematics | 34 |
+| Advanced Mathematics | 27 |
+| Physics | 38 |
+| Chemistry | 38 |
+| Statistics & Probability | 40 |
+| Personal Finance | 20 |
+| Business & Economics | 20 |
+| Health & Fitness | 20 |
+| Unit Converters | 11 |
+| **Total** | **248** |
+
+This inventory counts unique calculator definitions in the branch's active registries. It does not count the 50 roadmap categories themselves as implemented. The remaining 41 planned fields/categories need their own calculator registries and formula/test coverage; independent scientific and clinical review remains necessary before production claims are made.
