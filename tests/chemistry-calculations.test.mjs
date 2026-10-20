@@ -4,9 +4,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/chemistry-calculations.js");
 
-test("Phase 6 chemistry catalogue contains 34 unique calculators with documented field help",()=>{
+test("Phase 6 chemistry catalogue contains 38 unique calculators with documented field help",()=>{
   assert.equal(definitions.length,38);
-  assert.equal(new Set(definitions.map(x=>x.id)).size,34);
+  assert.equal(new Set(definitions.map(x=>x.id)).size,38);
   for(const d of definitions){assert.ok(d.formula,d.id+" formula");assert.ok(d.example,d.id+" example");assert.ok(d.fields.length,d.id+" fields");for(const f of d.fields){assert.ok(f[2],d.id+" field help "+f[0]);}}
 });
 const cases=[
