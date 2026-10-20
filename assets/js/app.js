@@ -174,6 +174,7 @@
     const category = categories.find(function (item) { return item.id === id; });
     if (!category) return renderNotFound();
     const expansion = {
+      "date-time": {api:window.AllRoundDateTimeCalculations,phase:"Phase 12 · Date & Time",icon:"calendar",description:"Browser-local calendar, elapsed-time, business-day, time-zone offset, and duration tools.",notice:"Date-only calculations use Gregorian UTC calendar days. Fixed-offset conversion does not apply daylight-saving or historical time-zone rules; public holidays are not excluded from business-day counts."},
       "personal-finance": {api:window.AllRoundFinanceCalculations,phase:"Phase 08 · Personal Finance",icon:"wallet",description:"Browser-local financial scenario calculators with visible formulas and assumptions.",notice:"Scenario estimates only. Results exclude fees, taxes, changing rates, risk, and lender-specific rules unless explicitly represented by the inputs."},
       "business-economics": {api:window.AllRoundBusinessCalculations,phase:"Phase 09 · Business & Economics",icon:"briefcase",description:"Business metrics, pricing, profitability, break-even analysis, and growth.",notice:"Introductory arithmetic only. Use consistent currencies, accounting definitions, units, and time periods; jurisdiction-specific tax and accounting rules are not inferred."},
       "health-fitness": {api:window.AllRoundHealthCalculations,phase:"Phase 10 · Health & Fitness",icon:"heart",description:"Body measurements, exercise estimates, and training calculations with explicit limitations.",notice:"These are estimates, not diagnoses or prescriptions. Age-based heart-rate and energy equations can be inaccurate for individuals; follow qualified clinical guidance where relevant."},
@@ -272,6 +273,8 @@
     const businessApi = window.AllRoundBusinessCalculations;
     const healthApi = window.AllRoundHealthCalculations;
     const unitApi = window.AllRoundUnitConverters;
+    const dateTimeApi = window.AllRoundDateTimeCalculations;
+    const phase12 = !!(dateTimeApi && dateTimeApi.definitions.some(function (item) { return item.id === id; }));
     const phase11 = !!(unitApi && unitApi.definitions.some(function (item) { return item.id === id; }));
     const phase10 = !!(healthApi && healthApi.definitions.some(function (item) { return item.id === id; }));
     const phase9 = !!(businessApi && businessApi.definitions.some(function (item) { return item.id === id; }));
@@ -280,12 +283,12 @@
     const phase4 = !!(advancedApi && advancedApi.definitions.some(function (item) { return item.id === id; }));
     const phase5 = !!(physicsApi && physicsApi.definitions.some(function (item) { return item.id === id; }));
     const phase6 = !!(chemistryApi && chemistryApi.definitions.some(function (item) { return item.id === id; }));
-    const api = phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
+    const api = phase12 ? dateTimeApi : phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
     const def = api && api.definitions.find(function (item) { return item.id === id; });
     if (!def) return renderNotFound();
-    const categoryId = phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
-    const categoryName = phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
-    const phaseLabel = phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
+    const categoryId = phase12 ? "date-time" : phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
+    const categoryName = phase12 ? "Date & Time" : phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
+    const phaseLabel = phase12 ? "Phase 12 · Date & Time" : phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
     const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
@@ -335,7 +338,7 @@
       const listField = ["values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]);
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
-      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11)
+      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11 || phase12)
         ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
       if (phase11 && (field[0] === "fromUnit" || field[0] === "toUnit")) {
@@ -441,13 +444,14 @@
     else if (routeName === "contact") renderContact();
     else renderNotFound();
     if (routeName === "calculator") {
+      const dateTimeDefinition = window.AllRoundDateTimeCalculations && window.AllRoundDateTimeCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const unitDefinition = window.AllRoundUnitConverters && window.AllRoundUnitConverters.definitions.find(function (item) { return item.id === path[1]; });
       const basicDefinition = window.AllRoundCalculations && window.AllRoundCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const advancedDefinition = window.AllRoundAdvancedCalculations && window.AllRoundAdvancedCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const physicsDefinition = window.AllRoundPhysicsCalculations && window.AllRoundPhysicsCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const chemistryDefinition = window.AllRoundChemistryCalculations && window.AllRoundChemistryCalculations.definitions.find(function (item) { return item.id === path[1]; });
       const statisticsDefinition = window.AllRoundStatisticsCalculations && window.AllRoundStatisticsCalculations.definitions.find(function (item) { return item.id === path[1]; });
-      document.title = ((unitDefinition || statisticsDefinition || chemistryDefinition || physicsDefinition || advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
+      document.title = ((dateTimeDefinition || unitDefinition || statisticsDefinition || chemistryDefinition || physicsDefinition || advancedDefinition || basicDefinition || {}).name || "Calculator") + " — AllRoundCalc";
     } else {
       document.title = routeName === "home" ? "AllRoundCalc — Every calculation. One place." :
         routeName === "category" ? ((categories.find(function (item) { return item.id === path[1]; }) || {}).name || "Category") + " — AllRoundCalc" :
