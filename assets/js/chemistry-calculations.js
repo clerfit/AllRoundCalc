@@ -44,6 +44,7 @@
   function num(values,key,label){const raw=values[key];if(raw===undefined||String(raw).trim()==="")throw new Error(label+" is required.");const n=Number(raw);if(!Number.isFinite(n))throw new Error(label+" must be a finite number.");return n;}
   function nonneg(n,label){if(n<0)throw new Error(label+" must be zero or greater.");return n;}
   function pos(n,label){if(n<=0)throw new Error(label+" must be greater than zero.");return n;}
+  function list(v,key,label){const raw=v[key];if(raw===undefined||String(raw).trim()==="")throw new Error(label+" is required.");const parts=String(raw).split(",").map(x=>x.trim());if(parts.length>500||parts.some(x=>x===""))throw new Error(label+" must be a comma-separated list of at most 500 numbers.");const values=parts.map(Number);if(values.some(x=>!Number.isFinite(x)))throw new Error(label+" must contain only finite numbers.");return values;}
   function fmt(n){if(!Number.isFinite(n))throw new Error("The result is outside the supported numeric range.");return Number(n.toPrecision(12)).toString();}
   function calculate(id,v){
     const d=definitions.find(x=>x.id===id);if(!d)throw new Error("Chemistry calculator not found.");
