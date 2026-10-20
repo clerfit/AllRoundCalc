@@ -35,4 +35,4 @@
 - [ ] Full Node source suite and Chromium desktop/tablet/mobile tests pass on the same commit.
 - [ ] Independent reference review and human assistive-technology review completed.
 
-**Status:** Implementation is being added in Phase 11. Do not sign off until CI and human review are complete.
+**Status:** Initial implementation is present on the Phase 11 branch. Do not sign off until the full CI run and human review are complete.
