@@ -353,3 +353,33 @@ test("Phase 7 statistics catalogue exposes working calculators and field help", 
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.getByRole("status").filter({ hasText: "Arithmetic mean: 4" })).toBeVisible();
 });
+
+
+test("all 32 Phase 7 statistics calculator routes render with accessible result status", async ({ page }) => {
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const ids = [
+    "statistics-mean", "statistics-median", "statistics-mode", "statistics-range",
+    "statistics-variance-population", "statistics-stddev-population",
+    "statistics-variance-sample", "statistics-stddev-sample", "statistics-quartiles",
+    "statistics-iqr", "statistics-weighted-mean", "statistics-geometric-mean",
+    "statistics-harmonic-mean", "statistics-coefficient-variation", "statistics-z-score",
+    "statistics-percentile-rank", "statistics-probability-basic", "statistics-complement",
+    "statistics-union", "statistics-independent-intersection", "statistics-conditional-probability",
+    "statistics-bayes", "statistics-permutations", "statistics-combinations",
+    "statistics-factorial", "statistics-binomial-probability", "statistics-binomial-mean",
+    "statistics-normal-z", "statistics-normal-cdf", "statistics-expected-value",
+    "statistics-correlation", "statistics-linear-regression"
+  ];
+  for (const id of ids) {
+    const route = "/#/calculator/" + id;
+    await page.goto(route);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-result")).toHaveAttribute("role", "status");
+    await expect(page).toHaveTitle(/— AllRoundCalc$/);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(results.violations, route + " accessibility violations: " + JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) }))))
+      .toEqual([]);
+  }
+});
