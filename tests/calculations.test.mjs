@@ -6,8 +6,8 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/calculations.js");
 
 test("Phase 3 catalog contains 32 uniquely identified calculator tools", () => {
-  assert.equal(definitions.length,32);
-  assert.equal(new Set(definitions.map((item) => item.id)).size, 32);
+  assert.equal(definitions.length,36);
+  assert.equal(new Set(definitions.map((item) => item.id)).size, 36);
   for (const item of definitions) {
     assert.ok(item.name && item.description && item.formula && item.example, item.id);
     assert.ok(Array.isArray(item.fields) && item.fields.length > 0, item.id);
@@ -106,4 +106,12 @@ test("supplemental basic calculators match reference examples and reject invalid
   assert.equal(calculate("absolute-percentage-error",{observed:"92",reference:"100"}).result,"8%");
   assert.match(calculate("percentage-point-change",{oldRate:"12",newRate:"15"}).result,/3 percentage points/);
   assert.throws(()=>calculate("fraction-to-decimal",{numerator:"1",denominator:"0"}),/Denominator cannot be zero/);
+});
+
+test("additional basic calculators match reference examples and reject invalid domains",()=> {
+  assert.match(calculate("fraction-comparison",{a:"3",b:"4",c:"2",d:"3"}).result,/comparison: first is greater/);
+  assert.match(calculate("linear-interpolation",{x0:"0",y0:"10",x1:"5",y1:"20",x:"2"}).result,/Interpolated y: 14/);
+  assert.equal(calculate("integer-division",{dividend:"-17",divisor:"5"}).result,"Quotient: -4; remainder: 3");
+  assert.equal(calculate("percentage-of-total",{part:"18",total:"60"}).result,"Percentage of total: 30%");
+  assert.throws(()=>calculate("integer-division",{dividend:"5",divisor:"0"}),/Divisor cannot be zero/);
 });
