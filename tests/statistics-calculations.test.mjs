@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/statistics-calculations.js");
 
 test("Phase 7 catalogue has 36 unique calculators with formulas, examples, and field help", () => {
-  assert.equal(definitions.length,36);
+  assert.equal(definitions.length,40);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
     assert.ok(d.name && d.description && d.group && d.formula && d.example, d.id);
@@ -97,4 +97,11 @@ test("supplemental sampling calculators match known reference values", () => {
   assert.equal(calculate("statistics-covariance",{xValues:"1,2,3",yValues:"2,4,6"}).result,"Sample covariance: 2");
   assert.match(calculate("statistics-margin-error-proportion",{proportion:"50",sampleSize:"400",zValue:"1.96"}).result,/4\.9 percentage points/);
   assert.match(calculate("statistics-confidence-interval-mean",{mean:"50",populationSd:"10",sampleSize:"100",zValue:"1.96"}).result,/\[48\.04, 51\.96\]/);
+});
+
+test("additional sample-size and regression calculators match reference values",()=> {
+  assert.equal(calculate("statistics-sample-size-proportion",{proportion:"50",marginError:"5",zValue:"1.96"}).result,"Required sample size (rounded up): 385");
+  assert.equal(calculate("statistics-sample-size-mean",{populationSd:"10",marginError:"2",zValue:"1.96"}).result,"Required sample size (rounded up): 97");
+  assert.equal(calculate("statistics-finite-population-sample-size",{populationSize:"1000",proportion:"50",marginError:"5",zValue:"1.96"}).result,"Required finite-population sample size (rounded up): 278");
+  assert.equal(calculate("statistics-r-squared",{xValues:"1,2,3",yValues:"2,4,6"}).result,"Coefficient of determination R²: 1");
 });
