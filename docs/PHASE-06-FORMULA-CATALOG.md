@@ -1,6 +1,6 @@
 # Phase 06 — Chemistry Formula Catalogue
 
-**Status: Implementation and automated verification complete for this documented introductory scope.** The current library provides 30 browser-local chemistry calculators. This is not an exhaustive chemistry reference; independent scientific review remains in Phase 21. Automated examples and domain tests verify selected cases only; they do not certify every possible input or replace independent chemistry review.
+**Status: Implementation present for the documented introductory scope; do not sign off until the latest CI run and independent review are confirmed.** The current library provides 30 browser-local chemistry calculators. This is not an exhaustive chemistry reference; independent scientific review remains in Phase 21. Automated examples and domain tests verify selected cases only; they do not certify every possible input or replace independent chemistry review.
 
 ## Calculator inventory
 
@@ -33,7 +33,7 @@
 
 ## Phase 06 acceptance checklist
 
-- [x] Current implementation inventory and assumptions documented.\n- [x] 30 calculator definitions with input-level help, formula notes, and stated limitations.\n- [x] Source tests cover reference examples and invalid domains for the documented catalogue.\n- [x] Responsive browser checks and automated WCAG 2.1 A/AA checks cover all 30 chemistry calculator routes.
+- [x] Current implementation inventory and assumptions documented.\n- [x] 30 calculator definitions with input-level help, formula notes, worked examples, and stated limitations.\n- [x] Source tests are defined for reference examples and invalid domains; latest CI result must be checked before sign-off.\n- [x] Browser tests and automated WCAG 2.1 A/AA checks are configured for chemistry routes; latest CI result must be checked before sign-off.
 - [x] Browser-local calculation module with finite-input and domain validation.
 - [x] Field-level help text for chemistry inputs.
 - [x] Automated reference examples and invalid-domain tests added to CI.
@@ -41,4 +41,4 @@
 - [ ] Future expansion may add full limiting-reactant workflows, empirical/molecular formula derivation, equilibrium and buffers, electrochemistry, kinetics, and colligative properties; these are outside this introductory release scope.
 - [ ] Complete broader regression, keyboard, screen-reader, and mobile checks in later release QA.
 
-Phase 06 implementation and automated verification are complete for the documented 30-calculator introductory scope. Independent chemistry review, human screen-reader testing, and full-site release checks remain explicitly open in Phases 20–23.
+The documented 30-calculator introductory implementation is present. Phase 06 should be signed off only after the latest CI run passes. Independent chemistry review, human screen-reader testing, and full-site release checks remain explicitly open in Phases 20–23.
