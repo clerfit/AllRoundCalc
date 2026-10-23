@@ -24,7 +24,7 @@ test("education assessment enforces consistent weights and score bounds",()=>{
  assert.throws(()=>calculate("edu-weighted-grade",{scores:"80,90",weights:"2"}),/matching counts/);
  assert.throws(()=>calculate("edu-required-score",{currentScore:"80",completedWeight:"50",targetScore:"85",remainingWeight:"40"}),/total 100/);
 });
-test("engineering and travel tools reject invalid ranges and zero divisors",()=>{
+test("weighted-grade parser rejects blank entries and numeric overflow is reported",()=>{\n assert.throws(()=>calculate("edu-weighted-grade",{scores:"80,",weights:"1,1"}),/empty values/);\n assert.throws(()=>calculate("home-concrete-volume",{lengthM:"1e308",widthM:"1e308",depthM:"1"}),/numeric range/);\n});\ntest("engineering and travel tools reject invalid ranges and zero divisors",()=>{
  assert.throws(()=>calculate("eng-normal-stress",{forceN:"1000",areaMm2:"0"}),/valid range/);
  assert.throws(()=>calculate("travel-trip-time",{distanceKm:"10",speedKmh:"0"}),/valid range/);
  assert.throws(()=>calculate("home-paint-quantity",{areaM2:"10",coats:"1",coverageM2L:"0"}),/valid range/);
