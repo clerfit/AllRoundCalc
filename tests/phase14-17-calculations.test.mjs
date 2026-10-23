@@ -4,7 +4,7 @@ import {createRequire} from "node:module";
 const require=createRequire(import.meta.url);
 const {definitions,calculate}=require("../assets/js/phase14-17-calculations.js");
 test("Phases 14–17 have eight unique documented calculators",()=>{
- assert.equal(definitions.length,8);
+ assert.equal(definitions.length,9);
  assert.equal(new Set(definitions.map(x=>x.id)).size,8);
  for(const d of definitions)assert.ok(d.category&&d.description&&d.formula&&d.example&&d.limits&&d.fields.length,d.id);
 });
