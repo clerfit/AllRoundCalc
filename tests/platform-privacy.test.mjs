@@ -25,7 +25,7 @@ test("Phase 19 registers every specialist tool under its matching category",()=>
    assert.ok(app.includes('item.category === expansion.category'),"Category filtering missing");
  }
  assert.ok(app.includes("const phase18 = !!(specializedApi"));
- assert.ok(app.includes("const api = phase18 ? specializedApi"));
+ assert.ok(app.includes("const api = phase14to17 ? phase14to17Api : phase18 ? specializedApi"));
 });
 
 test("Phases 14–17 register every initial calculator under its matching category",()=>{
