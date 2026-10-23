@@ -117,7 +117,8 @@ test("no uncaught page errors while navigating primary views", async ({ page }) 
   expect(errors).toEqual([]);
 });
 
-test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }) => {
+test("primary pages have no automated WCAG 2.1 A/AA violations", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   for (const route of ["/#/home", "/#/categories", "/#/category/physics", "/#/calculator-preview", "/#/about", "/#/contact"]) {
     await page.goto(route);
@@ -234,7 +235,8 @@ test("Phase 4 calculator form remains keyboard operable with field tooltips", as
   await expect(page.locator("#calculator-formula")).toContainText("D = b² − 4ac");
 });
 
-test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const calculatorIds = [
     "linear-equation", "quadratic-equation", "linear-system-2x2", "logarithm",
@@ -289,7 +291,8 @@ test("Phase 5 Ohm's law calculator calculates voltage and shows its assumption",
   await expect(page.locator("#calculator-result-note")).toContainText("Ohm's law applies to ohmic behavior");
 });
 
-test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("all Phase 5 physics calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = [
     "speed-distance-time", "acceleration", "kinematic-displacement", "newtons-second-law",
@@ -362,7 +365,8 @@ test("advanced calculator tooltips can be opened and dismissed by keyboard", asy
   await expect(page.locator("#field-tip-a")).toBeHidden();
 });
 
-test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("Phase 6 chemistry calculator routes pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = ["moles-from-mass","mass-from-moles","particles-from-moles","moles-from-particles","molarity","moles-from-molarity","dilution","solution-preparation-mass","mass-percent","volume-percent","ppm-mass","density-chemistry","ideal-gas-pressure","ideal-gas-volume","ideal-gas-temperature","gas-law-combined","heat-from-specific-heat","pH-strong-acid","pH-strong-base","ph-from-poh","percent-yield","percent-purity","molality","mole-fraction","stoichiometric-mole-conversion","titration-concentration","atom-economy","reaction-enthalpy","dalton-partial-pressures","element-mass-percent","radioactive-decay","first-order-rate-constant","ph-strong-base-concentration","dilution-factor","henderson-hasselbalch","equilibrium-quotient","faraday-electrolysis-mass","arrhenius-rate-ratio"];
   for (const id of ids) {
@@ -387,7 +391,8 @@ test("Phase 7 statistics catalogue exposes working calculators and field help", 
 });
 
 
-test("all 40 Phase 7 statistics calculator routes render with accessible result status", async ({ page }) => {
+test("all 40 Phase 7 statistics calculator routes render with accessible result status", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = [
     "statistics-mean", "statistics-median", "statistics-mode", "statistics-range",
@@ -455,7 +460,8 @@ test("Phase 10 Health & Fitness category and resting energy estimate work", asyn
   await expect(page.getByText(/not a measured metabolic rate/i)).toBeVisible();
 });
 
-test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = ["finance-simple-interest","finance-compound-interest","finance-effective-annual-rate","finance-loan-payment","finance-loan-balance","finance-savings-future-value","finance-savings-goal","finance-inflation-value","finance-debt-to-income","finance-budget-share","finance-roi","finance-net-present-value","finance-salary-raise","finance-future-value-annuity","finance-loan-to-value","finance-savings-rate","finance-debt-payoff-time","finance-emergency-fund","finance-dividend-yield","finance-real-return"];
   for (const id of ids) {
@@ -467,7 +473,8 @@ test("all Phase 8 finance routes render and pass automated WCAG 2.1 A/AA checks"
   }
 });
 
-test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = ["business-gross-profit-margin","business-markup","business-net-profit-margin","business-contribution-margin","business-break-even-units","business-break-even-revenue","business-revenue-growth","business-cagr","business-roi","business-discount-price","business-sales-tax","business-price-elasticity","business-weighted-average","business-customer-acquisition-cost","business-return-on-ad-spend","business-burn-runway","business-churn-rate","business-customer-lifetime-value","business-customer-retention","business-margin-of-safety"];
   for (const id of ids) {
@@ -479,7 +486,8 @@ test("all Phase 9 business routes render and pass automated WCAG 2.1 A/AA checks
   }
 });
 
-test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }) => {
+test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 A/AA checks", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run exhaustive axe scans once on desktop; responsive browser projects still run interaction and layout tests.");
   const AxeBuilder = require("@axe-core/playwright").default;
   const ids = ["health-adult-bmi","health-bmr-mifflin","health-tdee-estimate","health-target-heart-rate","health-heart-rate-reserve","health-waist-height-ratio","health-waist-hip-ratio","health-body-surface-area","health-one-rep-max","health-running-pace","health-running-speed","health-met-energy","health-training-volume","health-body-weight-change","health-adult-weight-range","health-body-weight-change-rate","health-exercise-energy-per-minute","health-macro-split","health-training-frequency","health-step-distance"];
   for (const id of ids) {
