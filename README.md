@@ -4,7 +4,7 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status (Phase 11 working branch):** 248 calculator tools are currently defined across 9 active registries: 34 Basic Mathematics, 27 Advanced Mathematics, 38 Physics, 38 Chemistry, 40 Statistics & Probability, 20 Personal Finance, 20 Business & Economics, 20 Health & Fitness, and 11 Unit Converters. This branch adds 60 tools to the earlier 177 calculator definitions. The remaining roadmap categories are not implemented yet, and scientific review plus release QA are still open. This is a working branch, not a claim that all 50 roadmap categories are complete.
+> **Project status (Phase 18–20 working branch):** 286 calculator definitions are present across 12 registries on this branch: the earlier 248 tools across 9 registries, 14 Date & Time tools, 15 Computer Science & Digital Tools, and 9 specialized tools. These are branch counts, not a claim that all tools are independently scientifically reviewed or release-ready. Phases 12–13 and 18 are not yet fully accepted until CI passes; the Phase 18–20 PR adds integration/privacy regression checks. Roadmap phases 14–17 remain unimplemented in this branch and must not be treated as complete. Production privacy/security review and independent formula review remain open.
 
 ## Principles
 
