@@ -32,9 +32,9 @@ test("Phase 13 Computer Science category lists tools and calculates number-base 
   await expect(page.getByText("15 calculators")).toBeVisible();
   await page.getByRole("link", { name: /Number Base Converter/ }).click();
   await expect(page.locator("h1")).toHaveText("Number Base Converter");
-  await page.getByLabel(/Integer value/).fill("255");
-  await page.getByLabel(/Source base/).fill("10");
-  await page.getByLabel(/Target base/).fill("16");
+  await page.getByRole("textbox", { name: /Integer value/ }).fill("255");
+  await page.getByRole("textbox", { name: /Source base/ }).fill("10");
+  await page.getByRole("textbox", { name: /Target base/ }).fill("16");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("FF");
 });
