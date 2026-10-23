@@ -288,6 +288,8 @@
     const dateTimeApi = window.AllRoundDateTimeCalculations;
     const computerScienceApi = window.AllRoundComputerScienceCalculations;
     const specializedApi = window.AllRoundSpecializedCalculations;
+    const phase14to17Api = window.AllRoundPhase14to17Calculations;
+    const phase14to17 = !!(phase14to17Api && phase14to17Api.definitions.some(function (item) { return item.id === id; }));
     const phase18 = !!(specializedApi && specializedApi.definitions.some(function (item) { return item.id === id; }));
     const phase13 = !!(computerScienceApi && computerScienceApi.definitions.some(function (item) { return item.id === id; }));
     const phase12 = !!(dateTimeApi && dateTimeApi.definitions.some(function (item) { return item.id === id; }));
