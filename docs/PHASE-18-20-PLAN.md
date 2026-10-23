@@ -1,6 +1,6 @@
 # Phases 18–20: Specialized Calculators, Platform Integration, Privacy & Security
 
-Status: **Implementation submitted for CI review.** The work is tracked in the Phase 18–20 pull request. This document records delivered source changes separately from verification that is still pending.
+Status: **Implementation submitted for CI review.** The work is tracked in the Phase 18–20 pull request. This document records delivered source changes separately from verification that is still pending. The same working branch also adds initial calculator slices for roadmap Phases 14–17 to close the previously documented gap; those phases are not fully complete.
 
 ## Phase 18 — Other Specialized Calculators
 
