@@ -9,21 +9,46 @@ test("home page renders with key landmarks and project honesty notice", async ({
   await expect(page.locator(".header-actions").getByRole("link", { name: "Contact us" })).toBeVisible();
 });
 
-test("all category page contains sixteen categories and filters by query", async ({ page }) => {
+test("all category page contains fifty categories and filters by query", async ({ page }) => {
   await page.goto("/#/categories");
   await expect(page.getByRole("heading", { name: "Explore all categories" })).toBeVisible();
-  await expect(page.locator("#all-category-grid .category-card")).toHaveCount(16);
-  await page.getByRole("searchbox", { name: "Filter categories" }).fill("physics");
+  await expect(page.locator("#all-category-grid .category-card")).toHaveCount(50);
+  await page.getByRole("searchbox", { name: "Filter categories" }).fill("astronomy");
   await expect(page.locator("#all-category-grid .category-card")).toHaveCount(1);
-  await expect(page.getByRole("link", { name: /Physics/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Astronomy/ })).toBeVisible();
 });
 
 test("category links open the corresponding category page", async ({ page }) => {
   await page.goto("/#/categories");
-  await page.getByRole("link", { name: /Explore Unit Converters/ }).click();
-  await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
+  await page.getByRole("link", { name: /Explore Units & Measurement/ }).click();
+  await expect(page.locator("h1")).toHaveText("Units & Measurement");
   await expect(page.getByText(/Phase 11 · Unit Converters/i).first()).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
+});
+
+test("Phase 13 Computer Science category lists tools and calculates number-base conversion", async ({ page }) => {
+  await page.goto("/#/category/computer-science");
+  await expect(page.locator("h1")).toHaveText("Computer Science & Algorithms");
+  await expect(page.getByText("15 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Number Base Converter/ }).click();
+  await expect(page.locator("h1")).toHaveText("Number Base Converter");
+  await page.getByRole("textbox", { name: /Integer value/ }).fill("255");
+  await page.getByRole("textbox", { name: /Source base/ }).fill("10");
+  await page.getByRole("textbox", { name: /Target base/ }).fill("16");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("FF");
+});
+
+test("Phase 12 Date & Time category lists 14 working calculators", async ({ page }) => {
+  await page.goto("/#/category/date-time");
+  await expect(page.locator("h1")).toHaveText("Date & Time");
+  await expect(page.getByText("14 calculators")).toBeVisible();
+  await page.getByRole("link", { name: /Date Difference Calculator/ }).click();
+  await expect(page.getByRole("heading", { name: "Date Difference Calculator" })).toBeVisible();
+  await page.locator("#calc-startDate").fill("2026-01-01");
+  await page.locator("#calc-endDate").fill("2026-01-31");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("30 calendar days");
 });
 
 test("sidebar opens, supports keyboard dismissal, and returns focus", async ({ page }) => {
@@ -235,7 +260,7 @@ test("Phase 4 calculator pages expose live results and pass automated WCAG 2.1 A
 
 test("Phase 5 Physics category lists all 38 implemented calculators", async ({ page }) => {
   await page.goto("/#/category/physics");
-  await expect(page.getByRole("heading", { name: "Physics", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Physics — Mechanics", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Speed from Distance and Time/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ohm's Law/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Wave Speed/ })).toBeVisible();
@@ -306,7 +331,7 @@ test("Phase 5 projectile and lens calculators handle standard reference examples
 
 test("Phase 6 Chemistry category lists the implemented calculator catalogue", async ({ page }) => {
   await page.goto("/#/category/chemistry");
-  await expect(page.getByRole("heading", { name: "Chemistry", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Chemistry — General & Stoichiometry", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: /Molarity of a Solution/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Ideal Gas Pressure/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Percent Yield/ })).toBeVisible();
@@ -469,7 +494,7 @@ test("all Phase 10 health and fitness routes render and pass automated WCAG 2.1 
 
 test("Phase 11 category lists all 11 unit converters", async ({ page }) => {
   await page.goto("/#/category/unit-converters");
-  await expect(page.getByRole("heading", { name: "Unit Converters" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Units & Measurement" })).toBeVisible();
   await expect(page.getByText("11 calculators")).toBeVisible();
   await expect(page.getByRole("link", { name: /Length Converter/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Temperature Converter/ })).toBeVisible();
