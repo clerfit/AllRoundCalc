@@ -36,7 +36,7 @@ test("Phases 14–17 register every initial calculator under its matching catego
 });
 
 test("Phase 20 calculator code does not persist or transmit entered values",()=>{
- const source=index+"\n"+app+"\n"+moduleText;
+ const source=index+"\n"+app+"\n"+earlierModuleText+"\n"+moduleText;
  for(const pattern of [/\blocalStorage\b/,/\bsessionStorage\b/,/document\.cookie/,/navigator\.sendBeacon/,/new XMLHttpRequest\s*\(/, /\bfetch\s*\(/]) {
    assert.doesNotMatch(source,pattern,"Unexpected storage or network API: "+pattern);
  }
