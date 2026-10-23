@@ -529,3 +529,41 @@ test("Phase 11 temperature converter rejects values below absolute zero", async 
   await expect(page.getByRole("alert")).toContainText("absolute zero");
   await expect(page.locator("#calculator-result")).toHaveText("No result");
 });
+
+
+test("Phase 14–17 calculator modules render and calculate through the shared UI", async ({ page }) => {
+  await page.goto("/#/calculator/eng-normal-stress");
+  await expect(page.getByRole("heading", { name: "Normal Stress" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Axial force (N)" }).fill("1000");
+  await page.getByRole("textbox", { name: "Area (mm²)" }).fill("100");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("10 MPa");
+
+  await page.goto("/#/calculator/edu-required-score");
+  await expect(page.getByRole("heading", { name: "Required Exam Score" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Current average (%)" }).fill("80");
+  await page.getByRole("textbox", { name: "Completed weight (%)" }).fill("60");
+  await page.getByRole("textbox", { name: "Target overall average (%)" }).fill("85");
+  await page.getByRole("textbox", { name: "Remaining assessment weight (%)" }).fill("40");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("92.5% required");
+});
+
+test("Phase 18 specialized calculator module renders and calculates reference examples", async ({ page }) => {
+  await page.goto("/#/calculator/sp-great-circle-distance");
+  await expect(page.getByRole("heading", { name: "Great-Circle Distance" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Start latitude (degrees)" }).fill("0");
+  await page.getByRole("textbox", { name: "Start longitude (degrees)" }).fill("0");
+  await page.getByRole("textbox", { name: "End latitude (degrees)" }).fill("0");
+  await page.getByRole("textbox", { name: "End longitude (degrees)" }).fill("1");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("111.19508 km");
+
+  await page.goto("/#/calculator/sp-oee");
+  await expect(page.getByRole("heading", { name: "Overall Equipment Effectiveness (OEE)" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Availability (%)" }).fill("90");
+  await page.getByRole("textbox", { name: "Performance (%)" }).fill("95");
+  await page.getByRole("textbox", { name: "Quality (%)" }).fill("98");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("83.79%");
+});
