@@ -1,7 +1,7 @@
 name: UI verification
 
 concurrency:
-  group: ui-verification-${{ github.ref }}
+  group: ui-verification-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 on:
