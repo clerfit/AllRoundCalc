@@ -31,7 +31,7 @@ test("astronomy parallax rejects zero and negative angles",()=>{
  assert.throws(()=>calculate("sp-parallax-distance",{parallaxArcsec:"0"}),/valid range/);
  assert.throws(()=>calculate("sp-parallax-distance",{parallaxArcsec:"-0.1"}),/valid range/);
 });
-test("physical and economic calculators reject non-finite and invalid inputs",()=>{
+test("finite inputs that overflow a physical result are rejected",()=>{\n assert.throws(()=>calculate("sp-light-travel-time",{distanceAU:"1e308"}),/numeric range/);\n});\ntest("physical and economic calculators reject non-finite and invalid inputs",()=>{
  assert.throws(()=>calculate("sp-light-travel-time",{distanceAU:"Infinity"}),/finite/);
  assert.throws(()=>calculate("sp-electricity-cost",{energyKWh:"-1",ratePerKWh:"8"}),/valid range/);
  assert.throws(()=>calculate("sp-oee",{availabilityPct:"101",performancePct:"90",qualityPct:"90"}),/valid range/);
