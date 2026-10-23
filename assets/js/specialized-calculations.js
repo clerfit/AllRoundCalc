@@ -20,7 +20,7 @@
     if (max !== undefined && n > max) throw new Error(label + " is outside its valid range.");
     return n;
   }
-  function fmt(n,digits=6) { return Number(n.toFixed(digits)).toString(); }
+  function fmt(n,digits=6) { if (!Number.isFinite(n)) throw new Error("Result exceeds the supported numeric range."); return Number(n.toFixed(digits)).toString(); }
   function calculate(id, values) {
     const def = definitions.find(x=>x.id===id);
     if (!def) throw new Error("Calculator not found.");
