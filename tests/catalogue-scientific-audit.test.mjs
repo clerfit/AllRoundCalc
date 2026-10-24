@@ -24,9 +24,13 @@ const inventoryText = readFileSync(new URL("../docs/SCIENTIFIC-CATALOGUE-REVIEW-
 const workflowText = readFileSync(new URL("../.github/workflows/ui-verification.yml", import.meta.url), "utf8");
 
 function inventoryCell(value) {
-  return String(value || "—").replace(/\\|/g, "\\\\|").replace(/\
-/g, " ").replace(/`/g, "\\\\`");
+  return String(value || "—")
+    .split("|").join("\\|")
+    .split("\\n").join(" ")
+    .split(String.fromCharCode(96)).join("\\" + String.fromCharCode(96));
 }
+
+const inventoryQuote = String.fromCharCode(96);
 
 const loaded = catalogues.map((catalogue) => {
   const module = require(catalogue.source);
@@ -62,8 +66,7 @@ test("Phase 21 catalogues and test coverage are connected to the actual module e
 test("Phase 21 scientific inventory contains every registered calculator ID and name", () => {
   for (const catalogue of loaded) {
     for (const definition of catalogue.definitions) {
-      const row = inventoryText.split("
-").find((line) => line.includes("`" + definition.id + "`"));
+      const row = inventoryText.split("\n").find((line) => line.includes(inventoryQuote + definition.id + inventoryQuote));
       assert.ok(row, "missing inventory row for " + definition.id);
       for (const field of ["name", "formula", "example"]) {
         assert.ok(row.includes(inventoryCell(definition[field])), "inventory " + field + " differs from source for " + definition.id);
