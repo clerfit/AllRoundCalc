@@ -43,14 +43,16 @@ Acceptance:
 
 ## Phase 24 — Release and operational sign-off
 
-Planned work (not yet signed off):
+Implemented / in progress:
+- Added a dedicated CI release-readiness job that only runs after source tests and the desktop/tablet/mobile browser suite succeed.
+- The gate verifies that the catalogue inventory, formula-review boundary, privacy review, phase plan, and catalogue/numeric regression tests are present and included in the default test script.
 - Re-run source, catalogue, browser, and syntax checks against one immutable commit.
 - Check all calculator IDs are reachable from the correct category and no preview is presented as a functioning calculator.
 - Document production network requests, dependency advisories, security headers, hosting/privacy terms, contact-form delivery status, and rollback steps.
 - Keep release blockers visible; do not merge or deploy without explicit authorization.
 
 Acceptance:
-- [ ] All required CI checks pass for the release candidate commit.
+- [ ] All required CI checks, including the new release-readiness job, pass for the release candidate commit.
 - [ ] Independent subject-matter review and manual accessibility review are recorded.
 - [ ] Production network/security/privacy and contact-form behavior are checked in the deployed environment.
 - [ ] The release notes state precisely which catalogue slices are reviewed and which remain unverified.
