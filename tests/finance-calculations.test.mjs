@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { definitions, calculate } = require("../assets/js/finance-calculations.js");
 
-test("Phase 8 catalogue has 17 unique finance calculators with formula, example, and field help", () => {
+test("Phase 8 catalogue has 20 unique finance calculators with formula, example, and field help", () => {
   assert.equal(definitions.length,20);
   assert.equal(new Set(definitions.map(x => x.id)).size, definitions.length);
   for (const d of definitions) {
