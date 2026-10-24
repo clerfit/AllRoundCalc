@@ -4,7 +4,7 @@
   "private": true,
   "description": "AllRoundCalc source and UI verification scripts",
   "scripts": {
-    "test": "node --test tests/ui-model.test.mjs tests/calculations.test.mjs tests/advanced-calculations.test.mjs tests/physics-calculations.test.mjs tests/chemistry-calculations.test.mjs tests/statistics-calculations.test.mjs tests/finance-calculations.test.mjs tests/business-calculations.test.mjs tests/health-calculations.test.mjs tests/unit-converters.test.mjs tests/date-time-calculations.test.mjs tests/computer-science-calculations.test.mjs tests/specialized-calculations.test.mjs tests/platform-privacy.test.mjs tests/phase14-17-calculations.test.mjs tests/catalogue-scientific-audit.test.mjs",
+    "test": "node --test tests/ui-model.test.mjs tests/calculations.test.mjs tests/advanced-calculations.test.mjs tests/physics-calculations.test.mjs tests/chemistry-calculations.test.mjs tests/statistics-calculations.test.mjs tests/finance-calculations.test.mjs tests/business-calculations.test.mjs tests/health-calculations.test.mjs tests/unit-converters.test.mjs tests/date-time-calculations.test.mjs tests/computer-science-calculations.test.mjs tests/specialized-calculations.test.mjs tests/platform-privacy.test.mjs tests/phase14-17-calculations.test.mjs tests/catalogue-scientific-audit.test.mjs tests/catalogue-numeric-stability.test.mjs",
     "test:e2e": "playwright test",
     "test:all": "npm test && npm run test:e2e"
   },
