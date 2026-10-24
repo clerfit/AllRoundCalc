@@ -5,19 +5,20 @@
 
 ## Phase 21 — Full-catalogue scientific audit foundation
 
-Implemented:
+Implemented in the current working branch:
 - Add a catalogue-wide test covering the 295 currently registered calculator definitions across 13 modules.
 - Assert the total count, globally unique IDs, expected per-module counts, required formula/example/field metadata, and explicit references to each calculator ID in its module's test file.
 - Include the gate in the default `npm test` command so catalog additions cannot silently bypass audit metadata and test references.
 
 Acceptance:
-- [ ] Catalogue-wide test passes on the final branch head.
+- [x] Catalogue-wide test passes in CI for the commit that introduced the audit gate; rerun against the newest branch head is required after subsequent changes.
 - [ ] Any uncovered calculator IDs are added to real reference/domain tests; metadata-only mentions do not count as scientific validation.
 - [ ] Review each formula against a trustworthy reference and record sources/assumptions, especially health, finance, chemistry, statistics, and engineering tools.
 
 ## Phase 22 — Mathematical edge cases and validation hardening
 
-Planned work:
+Implemented / in progress:
+- Added a cross-catalog numeric-overflow regression suite for core arithmetic, advanced geometry, physics, chemistry, statistics, finance, health, unit conversion, construction, and astronomy.
 - Expand boundary and numerical-stability tests for division by zero, domain boundaries, empty lists, overflow, underflow, precision loss, signed values, and zero-rate special cases.
 - Check input units, percentage/fraction conventions, date/time semantics, rounding, and explanatory limitations.
 - Fix confirmed defects and add a regression test for every fix.
@@ -29,7 +30,8 @@ Acceptance:
 
 ## Phase 23 — UI, accessibility, and responsive verification
 
-Planned work:
+Implemented / in progress:
+- Added a desktop-only end-to-end smoke sweep that visits all 295 registered calculator routes and checks the heading, form, Calculate control, and at least one input. Responsive interaction tests remain enabled across desktop, tablet, and mobile.
 - Keep automated axe scans and keyboard-driven interaction tests, including field help, validation errors, result announcements, and navigation focus.
 - Exercise all registered calculator routes at desktop, tablet, and mobile sizes for render failures and horizontal overflow.
 - Track manual keyboard-only and screen-reader checks separately from automated accessibility results.
@@ -41,7 +43,7 @@ Acceptance:
 
 ## Phase 24 — Release and operational sign-off
 
-Planned work:
+Planned work (not yet signed off):
 - Re-run source, catalogue, browser, and syntax checks against one immutable commit.
 - Check all calculator IDs are reachable from the correct category and no preview is presented as a functioning calculator.
 - Document production network requests, dependency advisories, security headers, hosting/privacy terms, contact-form delivery status, and rollback steps.
