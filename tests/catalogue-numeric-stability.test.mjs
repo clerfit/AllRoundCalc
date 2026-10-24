@@ -9,7 +9,7 @@ const suites = [
   ["physics energy", "../assets/js/physics-calculations.js", "kinetic-energy", { mass: "1e308", speed: "1e308" }],
   ["chemistry amount", "../assets/js/chemistry-calculations.js", "moles-from-mass", { mass: "1e308", molarMass: "1e-308" }],
   ["statistics mean", "../assets/js/statistics-calculations.js", "statistics-mean", { values: "1e308,1e308" }],
-  ["compound interest", "../assets/js/finance-calculations.js", "finance-compound-interest", { principal: "1e308", annualRate: "5", compoundsPerYear: "12", years: "10" }],
+  ["compound interest", "../assets/js/finance-calculations.js", "finance-compound-interest", { principal: "1e308", annualRate: "5", compoundsPerYear: "12", years: "100" }],
   ["adult BMI numeric boundary", "../assets/js/health-calculations.js", "health-adult-bmi", { weight: "1e308", height: "0.01" }],
   ["length conversion", "../assets/js/unit-converters.js", "unit-length", { value: "1e308", fromUnit: "km", toUnit: "m" }],
   ["concrete volume", "../assets/js/phase14-17-calculations.js", "home-concrete-volume", { lengthM: "1e308", widthM: "1e308", depthM: "1e308" }],
