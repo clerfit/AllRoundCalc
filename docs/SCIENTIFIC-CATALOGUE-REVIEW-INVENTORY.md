@@ -299,4 +299,76 @@
 | `unit-power` | Power Converter | hp means mechanical horsepower, not metric horsepower. | 1 kW ≈ 1.34102209 hp | Conversion factors and supported units are documented in the converter definition. |
 | `unit-data` | Digital Storage Converter | Uses decimal SI multiples of 1,000, not binary KiB/MiB/GiB units. | 1 GB = 1,000,000,000 bytes | Conversion factors and supported units are documented in the converter definition. |
 
-**Part 1 extracted entries:** 248. Additional entries for unit/date-time, computer science, and Phases 14–18 are maintained in the companion inventory section.
+
+
+
+## Remaining catalogue sections
+
+### Date and time
+
+| ID | Calculator | Formula / method | Documented example | Limitation / review note |
+|---|---|---|---|---|
+| `dt-date-difference` | Date Difference Calculator | Calendar day difference = (end date − start date) / 86,400,000 using UTC-midnight date-only values. | 2026-01-01 to 2026-01-31 → 30 days | — |
+| `dt-add-days` | Add or Subtract Calendar Days | Result date = start date + integer day count in the UTC calendar. | 2026-01-31 + 1 day → 2026-02-01 | — |
+| `dt-business-days` | Business Days Between Dates | Count weekdays in (start date, end date], excluding weekends. Public holidays are not excluded. | Monday 2026-01-05 to Friday 2026-01-09 → 4 business days | — |
+| `dt-add-business-days` | Add or Subtract Business Days | Advance one calendar day at a time and count weekdays only. Public holidays are not excluded. | Friday 2026-01-09 + 1 business day → Monday 2026-01-12 | — |
+| `dt-age` | Age Between Two Dates | Subtract calendar date components with anniversary-aware month/day borrowing; future birth dates are rejected. | 2000-01-15 to 2026-01-14 → 25 years, 11 months, 30 days | — |
+| `dt-timezone-offset` | Fixed Time-Zone Offset Converter | UTC = source local time − source offset; target local time = UTC + target offset. Daylight-saving and historical zone rules are not inferred. | 2026-01-01T09:00 at UTC+05:30 → 2026-01-01T03:30 at UTC | — |
+| `dt-unix-timestamp` | Unix Timestamp Converter | Unix timestamp = floor(milliseconds since 1970-01-01T00:00:00Z / 1000). | 1970-01-01T00:00:01Z → 1 second | — |
+| `dt-work-hours` | Net Work Hours Calculator | Elapsed minutes = end − start (add 1,440 if crossing midnight); net minutes = elapsed − break. | 09:00 to 17:30 with a 30-minute break → 8 hours | — |
+| `dt-overtime` | Overtime Calculator | Overtime = max(0, total hours − regular threshold); regular counted = min(total hours, threshold). | 10 hours worked and 8 regular hours → 8 regular, 2 overtime | — |
+| `dt-countdown` | Date Countdown Calculator | Difference = target date − reference date, expressed as signed days. | 2026-01-01 to 2026-01-10 → 9 days remaining | — |
+| `dt-recurring-interval` | Recurring Date Generator | Occurrence n = start date + n × interval days, for n = 1…count. | Start 2026-01-01, interval 7, count 3 → Jan 8, Jan 15, Jan 22 | — |
+| `dt-leap-year` | Leap Year Checker | Leap year iff divisible by 4 and (not divisible by 100 unless divisible by 400). | 2000 is a leap year; 1900 is not | — |
+| `dt-iso-week` | ISO Week Number Calculator | ISO weeks start Monday; week 1 contains the year's first Thursday. | 2021-01-01 belongs to ISO week 53 of ISO week-year 2020 | — |
+| `dt-duration-seconds` | Duration to Total Seconds | Total seconds = days × 86,400 + hours × 3,600 + minutes × 60 + seconds. | 1 day, 2 hours, 3 minutes, 4 seconds → 93,784 seconds | — |
+
+### Computer science
+
+| ID | Calculator | Formula / method | Documented example | Limitation / review note |
+|---|---|---|---|---|
+| `cs-base-converter` | Number Base Converter | Parse an exact integer in the selected source radix, then render it in the target radix. | 255 decimal → FF hexadecimal | — |
+| `cs-decimal-binary` | Decimal to Binary and Hexadecimal | Use radix conversion on an exact JavaScript safe integer. | 42 → binary 101010, octal 52, hexadecimal 2A | — |
+| `cs-integer-range` | Integer Type Range Calculator | Unsigned range: 0 to 2^n−1. Signed two's-complement range: −2^(n−1) to 2^(n−1)−1. | 8-bit signed → −128 to 127 | — |
+| `cs-bitwise` | Bitwise Operations Calculator | JavaScript 32-bit bitwise operators are used; NOT uses two's-complement signed 32-bit semantics. | 5 AND 3 → 1 | — |
+| `cs-gcd-lcm` | Greatest Common Divisor and Least Common Multiple | Euclidean algorithm for GCD; LCM = \|a / GCD(a,b) × b\|, with zero handling. | GCD(12, 18) = 6; LCM = 36 | — |
+| `cs-prime-check` | Prime Number Checker | Trial division through the integer square root; this is intended for ordinary-sized values, not cryptographic primality. | 97 is prime | — |
+| `cs-factorial` | Factorial Calculator | n! = n × (n−1) × … × 1, with 0! = 1. | 5! = 120 | — |
+| `cs-combinations` | Permutations and Combinations | nPr = n!/(n−r)!; nCr = n!/(r!(n−r)!). | 5 choose 2 = 10; 5 permute 2 = 20 | — |
+| `cs-ascii-unicode` | Unicode Code Point Inspector | Iterate Unicode code points, not UTF-16 code units; display U+ notation and decimal value. | A → U+0041 (decimal 65) | — |
+| `cs-utf8-size` | UTF-8 Text Size Estimator | UTF-8 byte count = TextEncoder encoding length; line endings are counted as entered. | ASCII 'Hello' → 5 bytes | — |
+| `cs-data-transfer-time` | Data Transfer Time Calculator | Duration seconds = size in bytes × 8 / rate in bits per second. Decimal and binary prefixes are distinguished. | 100 MB at 100 Mbit/s → 8 seconds (decimal MB) | — |
+| `cs-throughput` | Network Throughput Calculator | Throughput (bit/s) = bytes transferred × 8 / elapsed seconds. | 100 MB over 10 seconds → 80 Mbit/s | — |
+| `cs-ipv4-subnet` | IPv4 Subnet Calculator | Apply the CIDR prefix mask to the 32-bit IPv4 address; /31 and /32 follow modern point-to-point/single-address host-count conventions. | 192.168.1.10/24 → network 192.168.1.0/24; broadcast 192.168.1.255 | — |
+| `cs-ipv4-validator` | IPv4 Address Validator | Four decimal octets, each in the range 0–255; value = octet1×2^24 + octet2×2^16 + octet3×2^8 + octet4. | 192.168.1.1 → 3232235777 | — |
+| `cs-hash-checksum` | Text Checksum (FNV-1a 32-bit) | FNV-1a 32-bit over UTF-8 bytes: start 0x811C9DC5; XOR each byte, multiply by 0x01000193 modulo 2^32. | Same UTF-8 input always yields the same checksum; not for security or password storage | — |
+
+### Phases 14–17 initial slice
+
+| ID | Calculator | Formula / method | Documented example | Limitation / review note |
+|---|---|---|---|---|
+| `eng-normal-stress` | Normal Stress | Average normal stress σ = signed axial force / area; 1 N/mm² = 1 MPa. | 1,000 N / 100 mm² = 10 MPa | Average stress only; does not model stress concentrations, bending, buckling, fatigue, or material failure. |
+| `eng-torque` | Torque from Force | τ = F × r for a perpendicular force. | 20 N × 0.5 m = 10 N·m | Assumes force is perpendicular to the lever arm; otherwise use the perpendicular force component. |
+| `eng-voltage-power` | Electrical Power | P = V × I. | 12 V × 2 A = 24 W | For AC systems with phase difference or nonlinear loads, real power may require power factor and waveform information. |
+| `home-concrete-volume` | Concrete Volume Estimate | Volume = length × width × depth. | 5 m × 3 m × 0.1 m = 1.5 m³ | Ideal rectangular geometry only; excludes waste, subgrade variation, reinforcement displacement, and supplier-specific ordering rules. |
+| `home-paint-quantity` | Paint Quantity Estimate | Litres = area × coats / stated coverage. | 40 m² × 2 coats / 10 m²/L = 8 L | Coverage is user-supplied and depends on surface, application, primer, and product; allow for waste separately. |
+| `travel-fuel-cost` | Trip Fuel Cost | Fuel litres = distance × consumption / 100; cost = litres × price per litre. | 300 km × 6 L/100 km × ₹100/L = ₹1,800 | Uses stated average consumption and price; excludes tolls, idling, traffic variation, and return-trip distance unless included. |
+| `travel-trip-time` | Travel Time Estimate | Time (hours) = distance / average speed. | 150 km / 60 km/h = 2.5 hours | Excludes stops, traffic, road conditions, and schedule buffers; average speed must be positive. |
+| `edu-weighted-grade` | Weighted Grade Calculator | Weighted grade = Σ(score × weight) / Σ(weight). | 80, 90 with weights 2, 3 → 86 | Scores must use a consistent scale; weights are relative and do not validate an institution's grading policy. |
+| `edu-required-score` | Required Exam Score | Required remaining score = (target × 100 − current average × completed weight) / remaining weight, with weights in percent. | Current 80%, completed weight 60%, target 85%, remaining 40% → 92.5% | Assumes completed and remaining weights total 100%; required results outside 0–100% indicate the target is unreachable under the stated assumptions. |
+
+### Phase 18 specialized calculators
+
+| ID | Calculator | Formula / method | Documented example | Limitation / review note |
+|---|---|---|---|---|
+| `sp-great-circle-distance` | Great-Circle Distance | Haversine: a = sin²(Δφ/2) + cos φ₁ cos φ₂ sin²(Δλ/2); d = 2R asin(√a), R = 6,371.0088 km. | (0°, 0°) to (0°, 1°) ≈ 111.195 km | Spherical-Earth approximation; not a surveyed distance and does not account for altitude, road routes, or ellipsoidal geodesics. |
+| `sp-initial-bearing` | Initial Compass Bearing | θ = atan2(sin Δλ cos φ₂, cos φ₁ sin φ₂ − sin φ₁ cos φ₂ cos Δλ); normalize to 0°–360°. | From (0°, 0°) toward (0°, 1°) → 90° | Initial true-north bearing on a spherical Earth. Coincident or antipodal points do not have a unique initial bearing. |
+| `sp-light-travel-time` | Light Travel Time | t = distance × 149,597,870,700 m / 299,792,458 m·s⁻¹. | 1 AU → approximately 499.0048 seconds | Vacuum speed of light; ignores propagation through matter, gravitational effects, and uncertainty in the entered distance. |
+| `sp-parallax-distance` | Stellar Parallax Distance | Distance (parsecs) = 1 / parallax (arcseconds). | 0.1 arcsecond → 10 parsecs | Direct inversion assumes a positive parallax with negligible uncertainty; noisy or negative measured parallaxes require statistical treatment. |
+| `sp-plant-population` | Plant Population Estimate | Approximate plants = plot area / ((row spacing in m) × (within-row spacing in m)). | 100 m² at 50 cm × 25 cm spacing → about 800 planting positions | Idealized density estimate; plot edges, paths, germination, plant size, and field layout reduce or change actual counts. |
+| `sp-irrigation-volume` | Irrigation Water Volume | Volume (litres) = area (m²) × depth (mm), because 1 mm over 1 m² equals 1 litre. | 100 m² × 5 mm = 500 litres | Net applied volume only; excludes runoff, evaporation, infiltration variation, and system efficiency. |
+| `sp-electricity-cost` | Electricity Usage Cost | Estimated charge = energy used × entered rate. | 250 kWh × 8.00 per kWh = 2,000.00 currency units | Uses the entered rate only; excludes fixed charges, taxes, time-of-use pricing, subsidies, and tiered tariffs. |
+| `sp-electricity-emissions` | Electricity Emissions Estimate | Estimated emissions (kg CO₂e) = electricity (kWh) × entered factor (kg CO₂e/kWh). | 100 kWh × 0.4 kg CO₂e/kWh = 40 kg CO₂e | Not a universal grid factor. Results depend on the user-supplied source, geography, year, and lifecycle/reporting boundary. |
+| `sp-oee` | Overall Equipment Effectiveness (OEE) | OEE = availability × performance × quality, with each factor expressed as a fraction. | 90% × 95% × 98% = 83.79% OEE | Assumes the three percentages follow compatible definitions and the same measurement window; values above 100% are rejected. |
+
+**Total entries inventoried:** 295. This inventory records the formula and example displayed by each source definition; it must be read alongside the automated tests and the independent-review limitations above.
