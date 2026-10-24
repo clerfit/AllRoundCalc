@@ -60,5 +60,5 @@ test("Phase 21 scientific inventory contains every registered calculator ID and 
       assert.ok(inventoryText.includes(definition.name), "missing inventory name for " + definition.id);
     }
   }
-  assert.match(inventoryText, /Total entries inventoried:\s*295/);
+  assert.match(inventoryText, /Total entries inventoried:\*\*\s*295/);
 });
