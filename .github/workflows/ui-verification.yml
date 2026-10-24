@@ -56,3 +56,19 @@ jobs:
           path: test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  release-readiness:
+    name: Release readiness gate
+    needs: [source-tests, browser-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify audit and release evidence files
+        run: |
+          node -e 'const fs=require("node:fs"); const p=require("./package.json"); const required=["docs/PHASE-21-24-PLAN.md","docs/SCIENTIFIC-CATALOGUE-REVIEW-INVENTORY.md","docs/SCIENTIFIC-MATHEMATICAL-REVIEW-PHASE14-18.md","docs/PHASE-20-PRIVACY-SECURITY-REVIEW.md","tests/catalogue-scientific-audit.test.mjs","tests/catalogue-numeric-stability.test.mjs"]; const missing=required.filter(f=>!fs.existsSync(f)); if(missing.length) throw new Error("Missing release evidence: "+missing.join(", ")); if(!p.scripts.test.includes("catalogue-scientific-audit.test.mjs") || !p.scripts.test.includes("catalogue-numeric-stability.test.mjs")) throw new Error("Catalogue audit tests must run in npm test"); console.log("Release evidence files and catalogue test integration are present.");'
