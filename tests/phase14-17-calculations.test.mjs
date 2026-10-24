@@ -10,6 +10,7 @@ test("Phases 14–17 have nine unique documented calculators",()=>{
 });
 const cases=[
  ["eng-normal-stress",{forceN:"1000",areaMm2:"100"},"10 MPa"],
+ ["eng-normal-stress",{forceN:"-1000",areaMm2:"100"},"-10 MPa"],
  ["eng-torque",{forceN:"20",armM:"0.5"},"10 N·m"],
  ["eng-voltage-power",{voltageV:"12",currentA:"2"},"24 W"],
  ["home-concrete-volume",{lengthM:"5",widthM:"3",depthM:"0.1"},"1.5 m³"],
@@ -30,6 +31,7 @@ test("weighted-grade parser rejects blank entries and numeric overflow is report
 });
 test("engineering and travel tools reject invalid ranges and zero divisors",()=>{
  assert.throws(()=>calculate("eng-normal-stress",{forceN:"1000",areaMm2:"0"}),/valid range/);
+ assert.equal(calculate("eng-normal-stress",{forceN:"-1000",areaMm2:"100"}).result,"-10 MPa");
  assert.throws(()=>calculate("travel-trip-time",{distanceKm:"10",speedKmh:"0"}),/valid range/);
  assert.throws(()=>calculate("home-paint-quantity",{areaM2:"10",coats:"1",coverageM2L:"0"}),/valid range/);
 });
