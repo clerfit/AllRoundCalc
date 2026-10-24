@@ -538,6 +538,9 @@ test("Phase 14–17 calculator modules render and calculate through the shared U
   await page.getByRole("textbox", { name: "Area (mm²)" }).fill("100");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("10 MPa");
+  await page.getByRole("textbox", { name: "Signed axial force (N)" }).fill("-1000");
+  await page.getByRole("button", { name: "Calculate" }).click();
+  await expect(page.locator("#calculator-result")).toHaveText("-10 MPa");
 
   await page.goto("/#/calculator/edu-required-score");
   await expect(page.getByRole("heading", { name: "Required Exam Score" })).toBeVisible();
