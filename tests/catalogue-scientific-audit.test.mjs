@@ -26,7 +26,7 @@ const workflowText = readFileSync(new URL("../.github/workflows/ui-verification.
 function inventoryCell(value) {
   return String(value || "—")
     .split("|").join("\\|")
-    .split("\\n").join(" ")
+    .split(String.fromCharCode(10)).join(" ")
     .split(String.fromCharCode(96)).join("\\" + String.fromCharCode(96));
 }
 
