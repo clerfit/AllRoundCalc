@@ -534,7 +534,7 @@ test("Phase 11 temperature converter rejects values below absolute zero", async 
 test("Phase 14–17 calculator modules render and calculate through the shared UI", async ({ page }) => {
   await page.goto("/#/calculator/eng-normal-stress");
   await expect(page.getByRole("heading", { name: "Normal Stress" })).toBeVisible();
-  await page.getByRole("textbox", { name: "Axial force (N)" }).fill("1000");
+  await page.getByRole("textbox", { name: "Signed axial force (N)" }).fill("1000");
   await page.getByRole("textbox", { name: "Area (mm²)" }).fill("100");
   await page.getByRole("button", { name: "Calculate" }).click();
   await expect(page.locator("#calculator-result")).toHaveText("10 MPa");
