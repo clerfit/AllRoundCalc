@@ -8,7 +8,7 @@
 
 | Calculator | Mathematical model reviewed | Key assumptions / limits |
 |---|---|---|
-| Normal stress | Average axial stress = force / area; N/mm² is MPa | Average stress only; does not assess structural safety, buckling, fatigue, or stress concentration |
+| Normal stress | Signed average axial stress = force / area; N/mm² is MPa | Positive force is tension and negative force is compression; average stress only; does not assess structural safety, buckling, fatigue, or stress concentration |
 | Torque from force | Torque magnitude = force × perpendicular lever arm | Force is perpendicular; angled forces require the perpendicular component |
 | Electrical power | P = V × I | DC/resistive-load model; AC real power may require power factor and waveform data |
 | Concrete volume | Rectangular volume = length × width × depth | Ideal geometry; no waste/order allowance |
@@ -32,6 +32,7 @@
 - Formula examples are stored with each definition and asserted in source-level tests.
 - Tests cover registry uniqueness, representative expected outputs, invalid geographic domains, undefined coincident bearing, non-positive parallax, zero divisors, mismatched weighted-grade lists, inconsistent assessment weights, and invalid percentage domains.
 - Numeric formatting now rejects a non-finite result caused by overflow even when every individual input is finite.
+- The normal-stress calculator now accepts signed axial force and explicitly documents the tension/compression sign convention; a negative-force reference case is covered by regression tests.
 - Weighted-grade input parsing now rejects blank list elements rather than silently interpreting an empty element as zero.
 - All outputs remain estimates where assumptions or user-provided factors materially affect accuracy; the limitations are exposed in the calculator metadata.
 
