@@ -6,7 +6,7 @@ AllRoundCalc is a planned, privacy-first collection of calculators and converter
 
 > **Project status (Phase 18–20 working branch):** 295 calculator definitions are present across 13 registries on this branch: the earlier 248 tools across 9 registries, 14 Date & Time tools, 15 Computer Science & Digital Tools, 8 initial tools across Phases 14–17, and 9 specialized tools for Phase 18. These are branch counts, not a claim that every roadmap category is fully populated, independently scientifically reviewed, or release-ready. Phases 12–13 and 14–18 require passing CI; the current branch adds integration/privacy regression checks. The eight Phase 14–17 tools are an initial implementation slice, not completion of the full breadth of those categories. Production privacy/security review and independent formula review remain open.
 
-## Principles
+## 3,000-calculator expansion plan\n\nThe current 295-tool inventory is a starting point, not the target. Expansion is planned in manageable Phases 25–52, with category pages, deduplication, formula/source review, reference tests, and responsive UI verification required for each batch. See [`docs/3000-CALCULATOR-CATALOGUE-EXPANSION-PLAN.md`](docs/3000-CALCULATOR-CATALOGUE-EXPANSION-PLAN.md). Planned calculators do not count as implemented until their logic, page, and tests pass.\n\n## Principles
 
 - **Privacy first:** calculator inputs and results should be processed in the visitor's browser wherever practical. Do not create user accounts or send calculation inputs to a database by default.
 - **No invented accuracy:** formulas, assumptions, supported ranges, units, and expected results must be reviewed before a calculator is implemented.
