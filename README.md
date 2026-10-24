@@ -189,15 +189,22 @@ AllRoundCalc is a planned software project. The contents of this repository do n
 
 ## Phase 10 progress — Health & Fitness
 
-**Status: Initial implementation integrated; verification pending.** Fourteen browser-local tools cover adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
+**Status: Initial implementation integrated; verification pending.** Twenty registered browser-local tools include adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
 
 The source and browser suites must pass on the same commit before these phases can be signed off. Human keyboard/screen-reader review, independent formula review, and full regression verification remain outstanding.
 
 
 ## Phase 07 automated sign-off
 
-GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed both jobs: source contract tests plus JavaScript syntax checks, and the Chromium browser suite. **117 browser tests passed** across desktop, tablet, and mobile Chromium, including all 32 Statistics & Probability calculator routes with automated WCAG 2.1 A/AA checks and regression coverage for Phases 03–06. Manual keyboard and screen-reader review remains part of site-wide QA in Phase 22.
+GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed both jobs: source contract tests plus JavaScript syntax checks, and the Chromium browser suite. **117 browser tests passed** across desktop, tablet, and mobile Chromium, including all 40 Statistics & Probability calculator routes with automated WCAG 2.1 A/AA checks and regression coverage for Phases 03–06. Manual keyboard and screen-reader review remains part of site-wide QA in Phase 22.
 
 ## Phase 08–10 automated verification
 
-The same successful run includes the new Personal Finance, Business & Economics, and Health & Fitness engines and tests. Each category's sample interaction passed, and all 13, 13, and 14 respective calculator routes passed automated WCAG 2.1 A/AA checks. These phases remain subject to independent formula review and broader site-wide release QA; health calculators are estimates and are not diagnoses or prescriptions.
+The same successful run includes the new Personal Finance, Business & Economics, and Health & Fitness engines and tests. Each category's sample interaction passed, and all 20, 20, and 20 registered calculator definitions passed automated WCAG 2.1 A/AA checks. These phases remain subject to independent formula review and broader site-wide release QA; health calculators are estimates and are not diagnoses or prescriptions.
+
+
+## Phases 21–24 — Catalogue audit and release hardening
+
+**Status: Initial audit gates implemented; full sign-off remains open.** The current branch registers 295 calculator definitions across 13 modules. A catalogue-wide automated test checks global ID uniqueness, expected module counts, formula/example/input metadata, and that each ID is referenced in the module's test suite. The audit found and fixed missing explicit reference coverage for cylinder lateral surface area. A cross-catalog numerical-overflow test suite and desktop-only end-to-end smoke sweep for all 295 calculator routes have also been added.
+
+The normal-stress calculator now accepts signed axial force, documenting positive tension and negative compression. Source tests passed on the Phase 21–23 implementation commit; the latest changes are being re-verified in CI. This is internal regression evidence, not independent scientific certification. Full formula-by-formula review against external references, manual keyboard/screen-reader testing, and production network/security/privacy review remain release blockers. See [Phase 21–24 plan](docs/PHASE-21-24-PLAN.md) and [scientific review boundary](docs/SCIENTIFIC-MATHEMATICAL-REVIEW-PHASE14-18.md).
