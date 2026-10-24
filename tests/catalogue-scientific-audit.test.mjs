@@ -21,6 +21,7 @@ const catalogues = [
 ];
 
 const inventoryText = readFileSync(new URL("../docs/SCIENTIFIC-CATALOGUE-REVIEW-INVENTORY.md", import.meta.url), "utf8");
+const workflowText = readFileSync(new URL("../.github/workflows/ui-verification.yml", import.meta.url), "utf8");
 
 const loaded = catalogues.map((catalogue) => {
   const module = require(catalogue.source);
@@ -61,4 +62,11 @@ test("Phase 21 scientific inventory contains every registered calculator ID and 
     }
   }
   assert.match(inventoryText, /Total entries inventoried:\*\*\s*295/);
+});
+
+
+test("Phase 24 release gate depends on source and browser verification", () => {
+  assert.match(workflowText, /release-readiness:/);
+  assert.match(workflowText, /needs:\s*\[source-tests, browser-tests\]/);
+  assert.match(workflowText, /Verify audit and release evidence files/);
 });
