@@ -549,6 +549,38 @@ test("Phase 14–17 calculator modules render and calculate through the shared U
   await expect(page.locator("#calculator-result")).toHaveText("92.5% required");
 });
 
+test("Phase 23 every registered calculator has a reachable UI route", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Run the full 295-route sweep once on desktop; responsive interaction tests remain enabled in every project.");
+  test.setTimeout(180000);
+  await page.goto("/#/home");
+  const definitions = await page.evaluate(() => {
+    const apis = [
+      window.AllRoundCalculations,
+      window.AllRoundAdvancedCalculations,
+      window.AllRoundPhysicsCalculations,
+      window.AllRoundChemistryCalculations,
+      window.AllRoundStatisticsCalculations,
+      window.AllRoundFinanceCalculations,
+      window.AllRoundBusinessCalculations,
+      window.AllRoundHealthCalculations,
+      window.AllRoundUnitConverters,
+      window.AllRoundDateTimeCalculations,
+      window.AllRoundComputerScienceCalculations,
+      window.AllRoundPhase14to17Calculations,
+      window.AllRoundSpecializedCalculations
+    ].filter(Boolean);
+    return apis.flatMap((api) => api.definitions.map((definition) => ({ id: definition.id, name: definition.name })));
+  });
+  expect(definitions).toHaveLength(295);
+  for (const definition of definitions) {
+    await page.evaluate((id) => { window.location.hash = "#/calculator/" + id; }, definition.id);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(definition.name);
+    await expect(page.locator("#calculator-form")).toBeVisible();
+    await expect(page.locator("#calculator-form button[type='submit']")).toHaveText("Calculate");
+    await expect(page.locator("#calculator-form input, #calculator-form textarea, #calculator-form select").first()).toBeVisible();
+  }
+});
+
 test("Phase 18 specialized calculator module renders and calculates reference examples", async ({ page }) => {
   await page.goto("/#/calculator/sp-great-circle-distance");
   await expect(page.getByRole("heading", { name: "Great-Circle Distance" })).toBeVisible();
