@@ -1,14 +1,14 @@
 name: UI verification
 
 concurrency:
-  group: ui-verification-${{ github.ref }}
+  group: ui-verification-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, phase-12-complete-category-taxonomy]
   workflow_dispatch:
 
 permissions:
@@ -18,6 +18,7 @@ jobs:
   source-tests:
     name: Source contract tests
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -28,11 +29,12 @@ jobs:
       - name: Run source contract tests
         run: npm test
       - name: Check JavaScript syntax
-        run: node --check assets/js/app.js && node --check assets/js/calculations.js && node --check assets/js/advanced-calculations.js && node --check assets/js/physics-calculations.js && node --check assets/js/chemistry-calculations.js && node --check assets/js/statistics-calculations.js && node --check assets/js/finance-calculations.js && node --check assets/js/business-calculations.js && node --check assets/js/health-calculations.js && node --check assets/js/unit-converters.js && node --check assets/js/date-time-calculations.js && node --check assets/js/computer-science-calculations.js && node --check scripts/serve.mjs && node --check playwright.config.js
+        run: node --check assets/js/app.js && node --check assets/js/calculations.js && node --check assets/js/advanced-calculations.js && node --check assets/js/physics-calculations.js && node --check assets/js/chemistry-calculations.js && node --check assets/js/statistics-calculations.js && node --check assets/js/finance-calculations.js && node --check assets/js/business-calculations.js && node --check assets/js/health-calculations.js && node --check assets/js/unit-converters.js && node --check assets/js/date-time-calculations.js && node --check assets/js/computer-science-calculations.js && node --check assets/js/phase14-17-calculations.js && node --check assets/js/specialized-calculations.js && node --check scripts/serve.mjs && node --check playwright.config.js
 
   browser-tests:
     name: Chromium browser tests (desktop, tablet, mobile)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -54,3 +56,19 @@ jobs:
           path: test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  release-readiness:
+    name: Release readiness gate
+    needs: [source-tests, browser-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify audit and release evidence files
+        run: |
+          node -e 'const fs=require("node:fs"); const p=require("./package.json"); const required=["docs/PHASE-21-24-PLAN.md","docs/SCIENTIFIC-CATALOGUE-REVIEW-INVENTORY.md","docs/SCIENTIFIC-REFERENCE-BASELINE.md","docs/SCIENTIFIC-MATHEMATICAL-REVIEW-PHASE14-18.md","docs/PHASE-20-PRIVACY-SECURITY-REVIEW.md","tests/catalogue-scientific-audit.test.mjs","tests/catalogue-numeric-stability.test.mjs"]; const missing=required.filter(f=>!fs.existsSync(f)); if(missing.length) throw new Error("Missing release evidence: "+missing.join(", ")); if(!p.scripts.test.includes("catalogue-scientific-audit.test.mjs") || !p.scripts.test.includes("catalogue-numeric-stability.test.mjs")) throw new Error("Catalogue audit tests must run in npm test"); console.log("Release evidence files and catalogue test integration are present.");'

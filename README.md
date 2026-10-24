@@ -4,9 +4,9 @@
 
 AllRoundCalc is a planned, privacy-first collection of calculators and converters for education, mathematics, science, engineering, finance, health and fitness, business, and everyday use.
 
-> **Project status (Phase 11 working branch):** 248 calculator tools are currently defined across 9 active registries: 34 Basic Mathematics, 27 Advanced Mathematics, 38 Physics, 38 Chemistry, 40 Statistics & Probability, 20 Personal Finance, 20 Business & Economics, 20 Health & Fitness, and 11 Unit Converters. This branch adds 60 tools to the earlier 177 calculator definitions. The remaining roadmap categories are not implemented yet, and scientific review plus release QA are still open. This is a working branch, not a claim that all 50 roadmap categories are complete.
+> **Project status (Phase 18–20 working branch):** 295 calculator definitions are present across 13 registries on this branch: the earlier 248 tools across 9 registries, 14 Date & Time tools, 15 Computer Science & Digital Tools, 8 initial tools across Phases 14–17, and 9 specialized tools for Phase 18. These are branch counts, not a claim that every roadmap category is fully populated, independently scientifically reviewed, or release-ready. Phases 12–13 and 14–18 require passing CI; the current branch adds integration/privacy regression checks. The eight Phase 14–17 tools are an initial implementation slice, not completion of the full breadth of those categories. Production privacy/security review and independent formula review remain open.
 
-## Principles
+## 3,000-calculator expansion plan\n\nThe current 295-tool inventory is a starting point, not the target. Expansion is planned in manageable Phases 25–52, with category pages, deduplication, formula/source review, reference tests, and responsive UI verification required for each batch. See [`docs/3000-CALCULATOR-CATALOGUE-EXPANSION-PLAN.md`](docs/3000-CALCULATOR-CATALOGUE-EXPANSION-PLAN.md). Planned calculators do not count as implemented until their logic, page, and tests pass.\n\n## Principles
 
 - **Privacy first:** calculator inputs and results should be processed in the visitor's browser wherever practical. Do not create user accounts or send calculation inputs to a database by default.
 - **No invented accuracy:** formulas, assumptions, supported ranges, units, and expected results must be reviewed before a calculator is implemented.
@@ -189,15 +189,22 @@ AllRoundCalc is a planned software project. The contents of this repository do n
 
 ## Phase 10 progress — Health & Fitness
 
-**Status: Initial implementation integrated; verification pending.** Fourteen browser-local tools cover adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
+**Status: Initial implementation integrated; verification pending.** Twenty registered browser-local tools include adult BMI, Mifflin–St Jeor resting-energy estimates, activity-factor scenarios, age-based heart-rate estimates, waist ratios, Mosteller body-surface area, Epley 1RM, running pace/speed, MET energy, training volume, and weight-change percentage. Outputs are estimates only. BMI and Mifflin–St Jeor are restricted to adults; heart-rate and energy estimates are not diagnoses or prescriptions.
 
 The source and browser suites must pass on the same commit before these phases can be signed off. Human keyboard/screen-reader review, independent formula review, and full regression verification remain outstanding.
 
 
 ## Phase 07 automated sign-off
 
-GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed both jobs: source contract tests plus JavaScript syntax checks, and the Chromium browser suite. **117 browser tests passed** across desktop, tablet, and mobile Chromium, including all 32 Statistics & Probability calculator routes with automated WCAG 2.1 A/AA checks and regression coverage for Phases 03–06. Manual keyboard and screen-reader review remains part of site-wide QA in Phase 22.
+GitHub Actions run [39390489228](https://github.com/clerfit/AllRoundCalc/actions/runs/39390489228) passed both jobs: source contract tests plus JavaScript syntax checks, and the Chromium browser suite. **117 browser tests passed** across desktop, tablet, and mobile Chromium, including all 40 Statistics & Probability calculator routes with automated WCAG 2.1 A/AA checks and regression coverage for Phases 03–06. Manual keyboard and screen-reader review remains part of site-wide QA in Phase 22.
 
 ## Phase 08–10 automated verification
 
-The same successful run includes the new Personal Finance, Business & Economics, and Health & Fitness engines and tests. Each category's sample interaction passed, and all 13, 13, and 14 respective calculator routes passed automated WCAG 2.1 A/AA checks. These phases remain subject to independent formula review and broader site-wide release QA; health calculators are estimates and are not diagnoses or prescriptions.
+The same successful run includes the new Personal Finance, Business & Economics, and Health & Fitness engines and tests. Each category's sample interaction passed, and all 20, 20, and 20 registered calculator definitions passed automated WCAG 2.1 A/AA checks. These phases remain subject to independent formula review and broader site-wide release QA; health calculators are estimates and are not diagnoses or prescriptions.
+
+
+## Phases 21–24 — Catalogue audit and release hardening
+
+**Status: Initial audit gates implemented; full sign-off remains open.** The current branch registers 295 calculator definitions across 13 modules. A catalogue-wide automated test checks global ID uniqueness, expected module counts, formula/example/input metadata, and that each ID is referenced in the module's test suite. The audit found and fixed missing explicit reference coverage for cylinder lateral surface area. A cross-catalog numerical-overflow test suite and desktop-only end-to-end smoke sweep for all 295 calculator routes have also been added.
+
+The normal-stress calculator now accepts signed axial force, documenting positive tension and negative compression. Source tests passed on the Phase 21–23 implementation commit; the latest changes are being re-verified in CI. This is internal regression evidence, not independent scientific certification. Full formula-by-formula review against external references, manual keyboard/screen-reader testing, and production network/security/privacy review remain release blockers. See the [Phase 21–24 plan](docs/PHASE-21-24-PLAN.md), [295-calculator formula inventory](docs/SCIENTIFIC-CATALOGUE-REVIEW-INVENTORY.md), [scientific reference baseline](docs/SCIENTIFIC-REFERENCE-BASELINE.md), and [scientific review boundary](docs/SCIENTIFIC-MATHEMATICAL-REVIEW-PHASE14-18.md).
