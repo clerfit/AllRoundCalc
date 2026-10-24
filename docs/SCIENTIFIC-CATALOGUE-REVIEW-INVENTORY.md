@@ -1,6 +1,6 @@
-# Scientific Review Inventory — AllRoundCalc Catalogue (Part 1)
+# Scientific Review Inventory — AllRoundCalc Catalogue (295 Definitions)
 
-**Inventory scope:** 248 current calculator definitions across core mathematics, advanced mathematics, physics, chemistry, statistics, personal finance, business, health/fitness, and unit conversion.
+**Inventory scope:** All 295 current calculator definitions across 13 source modules, including core and advanced mathematics, physics, chemistry, statistics, finance, business, health/fitness, units, date/time, computer science, and Phases 14–18.
 
 **How to interpret this inventory:** The formula and worked example are copied from the current source definitions to make the review surface complete and auditable. Existing automated suites exercise documented reference examples and domain cases. This inventory is not, by itself, proof that every formula is scientifically correct, and it does not claim independent external certification. Source-specific assumptions are shown where the definition exposes them.
 
