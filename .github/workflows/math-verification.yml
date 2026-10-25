@@ -1,0 +1,25 @@
+name: Mathematics verification package
+
+on:
+  push:
+    branches: [phase-21-mathematics-300-verification]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  math-engine-tests:
+    name: Math engine regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check engine syntax
+        run: node --check verification/math-engine.cjs
+      - name: Run reference and domain tests
+        run: node --test verification/tests/math-engine.test.cjs
