@@ -12,7 +12,7 @@
     "Calculus & Analysis",
     "Linear Algebra & Matrices"
   ];
-  const rawCatalog = String.raw\`basic-arithmetic|Basic Arithmetic
+  const rawCatalog = String.raw`basic-arithmetic|Basic Arithmetic
 order-of-operations|Order of Operations
 integer-operations|Integer Operations
 decimal-operations|Decimal Operations
