@@ -311,7 +311,7 @@ eigenvalues-2-2|Eigenvalues 2×2
 eigenvector-2-2-helper|Eigenvector 2×2 Helper
 characteristic-polynomial-2-2|Characteristic Polynomial 2×2
 row-reduction-2-2|Row Reduction 2×2
-basis-coordinate-helper|Basis Coordinate Helper\`;
+basis-coordinate-helper|Basis Coordinate Helper`;
   const catalog = rawCatalog.trim().split(/\n/).map(function (line, i) {
     const parts = line.split("|");
     return { id: parts[0], name: parts.slice(1).join("|"), group: groups[Math.floor(i / 30)] };
