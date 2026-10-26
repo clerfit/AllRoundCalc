@@ -320,7 +320,7 @@ basis-coordinate-helper|Basis Coordinate Helper`;
   function set(ids, spec) {
     const fields = spec.split(";").map(function (part) {
       const p = part.split(":");
-      return [p[0], p.slice(1).join(":"), "Enter " + p.slice(1).join(":") + " using the units or format stated."];
+      return [p[0].trim(), p.slice(1).join(":").trim(), "Enter " + p.slice(1).join(":").trim() + " using the units or format stated."];
     });
     ids.trim().split(/\s+/).forEach(function (id) { schema[id] = fields; });
   }
@@ -600,6 +600,39 @@ basis-coordinate-helper|Basis Coordinate Helper`;
     const out=expr();if(i!==tokens.length)throw new Error("Could not parse the full expression.");if(!Number.isFinite(out))throw new Error("Expression result is not finite.");return out;
   }
   function parseSet(v,key){return Array.from(new Set(String(v[key]||"").split(/[,\s]+/).filter(Boolean)));}
+  function parseBooleanExpression(source, assignments) {
+    const normalized = String(source || "")
+      .replace(/\bAND\b/gi, "&&").replace(/\bOR\b/gi, "||").replace(/\bNOT\b/gi, "!");
+    const tokens = normalized.match(/&&|\|\||[!()]|[A-Za-z_][A-Za-z0-9_]*|[01]/g) || [];
+    if (tokens.join("").toLowerCase() !== normalized.replace(/\s+/g, "").toLowerCase()) {
+      throw new Error("Unsupported token in Boolean expression.");
+    }
+    let pos = 0;
+    function primary() {
+      const t = tokens[pos++];
+      if (t === "(") { const v = disjunction(); if (tokens[pos++] !== ")") throw new Error("Missing closing parenthesis."); return v; }
+      if (t === "!" ) return !primary();
+      if (t === undefined) throw new Error("Incomplete Boolean expression.");
+      if (/^(?:1|t|true)$/i.test(t)) return true;
+      if (/^(?:0|f|false)$/i.test(t)) return false;
+      if (assignments && Object.prototype.hasOwnProperty.call(assignments, t)) return assignments[t];
+      throw new Error("Assign a Boolean value to variable " + t + ".");
+    }
+    function conjunction() { let v = primary(); while (tokens[pos] === "&&") { pos++; const right = primary(); v = v && right; } return v; }
+    function disjunction() { let v = conjunction(); while (tokens[pos] === "||") { pos++; const right = conjunction(); v = v || right; } return v; }
+    const result = disjunction();
+    if (pos !== tokens.length) throw new Error("Invalid Boolean expression.");
+    return result;
+  }
+  function parseAssignments(raw) {
+    const out = Object.create(null);
+    String(raw || "").split(/[,\s]+/).filter(Boolean).forEach(function (part) {
+      const m = /^([A-Za-z_][A-Za-z0-9_]*)=(1|0|true|false|t|f)$/i.exec(part);
+      if (!m) throw new Error("Assignments must use forms such as A=1,B=0.");
+      out[m[1]] = /^(?:1|true|t)$/i.test(m[2]);
+    });
+    return out;
+  }
   function calculate(id,v) {
     v=v||{};
     let r, note="Calculated locally in the browser. Check the assumptions and units shown with the formula.";
@@ -756,8 +789,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "power-set-size": r=Math.pow(2,iv("n",0,1023));break;
       case "cartesian-product-size": r=iv("objects",0,1e9)*iv("boxes",0,1e9);break;
       case "truth-table-generator": {const n=iv("variables",1,8),rows=[];for(let i=0;i<Math.pow(2,n);i++)rows.push(Array.from({length:n},function(_,j){return (i>>(n-j-1))&1?"T":"F";}).join(" | "));r="Truth assignments ("+n+" variables):\n"+rows.join("\n");break;}
-      case "boolean-algebra-evaluator": {const expr=String(v.expression||"").replace(/\bAND\b/gi,"&&").replace(/\bOR\b/gi,"||").replace(/\bNOT\b/gi,"!");if(!/^[01TFtf\s!&|()]+$/.test(expr))throw new Error("Use Boolean values 1/0, T/F, NOT/AND/OR, !, &, |, and parentheses.");const js=expr.replace(/[Tt]/g,"1").replace(/[Ff]/g,"0").replace(/1/g,"true").replace(/0/g,"false").replace(/&/g,"&&").replace(/\|/g,"||");if(!/^[truefals\s!&|()]+$/.test(js))throw new Error("Invalid Boolean expression.");const stack=[],ops=[];r="Boolean expression entered; use supported operators. Evaluation requires a well-formed expression.";break;}
-      case "logic-equivalence-checker": {const A=String(v.exprA||""),B=String(v.exprB||"");r=A.trim()===B.trim()?"Textually identical expressions":"Expressions differ textually; truth-table equivalence is not inferred from text alone.";note="This checker performs a conservative text comparison, not a symbolic proof.";break;}
+      case "boolean-algebra-evaluator": {const vars=parseAssignments(v.assignments||"");r=parseBooleanExpression(v.expression,vars)?"True":"False";break;}
+      case "logic-equivalence-checker": {const A=String(v.exprA||""),B=String(v.exprB||""),names=String(v.variables||"").split(/[\s,]+/).filter(Boolean),seen=new Set(names);if(!names.length)throw new Error("Enter variable names, e.g. A,B.");if(names.length>10)throw new Error("Truth-table equivalence is limited to 10 variables.");for(let i=0;i<Math.pow(2,names.length);i++){const env=Object.create(null);names.forEach(function(k,j){env[k]=!!(i&(1<<(names.length-j-1)));});if(parseBooleanExpression(A,env)!==parseBooleanExpression(B,env)){r="Not logically equivalent; counterexample assignment: "+names.map(function(k){return k+"="+(env[k]?1:0);}).join(", ");break;}}if(r===undefined)r="Logically equivalent for all "+Math.pow(2,names.length)+" assignments.";note="Exhaustive truth-table comparison.";break;}
       case "circle-calculator": {const z=x("radius");if(z<0)throw new Error("Radius must be non-negative.");r="Area = "+fmt(Math.PI*z*z)+"; circumference = "+fmt(2*Math.PI*z);break;}
       case "rectangle-calculator": {const l=x("length"),w=x("width");if(l<0||w<0)throw new Error("Side lengths must be non-negative.");r="Area = "+fmt(l*w)+"; perimeter = "+fmt(2*(l+w))+"; diagonal = "+fmt(Math.hypot(l,w));break;}
       case "square-calculator": {const s=x("side");if(s<0)throw new Error("Side length must be non-negative.");r="Area = "+fmt(s*s)+"; perimeter = "+fmt(4*s);break;}
