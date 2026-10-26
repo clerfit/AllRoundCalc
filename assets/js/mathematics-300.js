@@ -470,7 +470,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
   set("matrix-addition matrix-subtraction matrix-multiplication matrix-transpose matrix-rank trace-of-matrix matrix-power row-reduction-2-2", "matrixA:Matrix A (rows separated by semicolons, entries by commas);matrixB:Matrix B in same format (if required);n:Non-negative integer power (for matrix power)");
   set("scalar-matrix-multiplication", "matrixA:Matrix A (rows separated by semicolons, entries by commas);scalar:Scalar multiplier");
   set("matrix-determinant-2-2 matrix-determinant-3-3 matrix-inverse-2-2 matrix-inverse-3-3 eigenvalues-2-2 characteristic-polynomial-2-2 eigenvector-2-2-helper", "a:Matrix entry a;b:Matrix entry b;c:Matrix entry c;d:Matrix entry d;e:Matrix entry e;f:Matrix entry f;g:Matrix entry g;h:Matrix entry h;i:Matrix entry i;lambda:Eigenvalue λ (for eigenvector)");
-  set("vector-addition vector-subtraction vector-magnitude unit-vector dot-product cross-product-3d angle-between-vectors projection-of-vector vector-distance linear-independence-2d basis-coordinate-helper", "x1:Vector A x;y1:Vector A y;z1:Vector A z;x2:Vector B x;y2:Vector B y;z2:Vector B z");
+  set("vector-addition vector-subtraction vector-magnitude unit-vector dot-product cross-product-3d angle-between-vectors projection-of-vector vector-distance linear-independence-2d", "x1:Vector A x;y1:Vector A y;z1:Vector A z;x2:Vector B x;y2:Vector B y;z2:Vector B z");
+  set("basis-coordinate-helper", "x:Target x;y:Target y;x1:Basis vector 1 x;y1:Basis vector 1 y;x2:Basis vector 2 x;y2:Basis vector 2 y");
   schema["identity-matrix-generator"] = [["n","Matrix order n","Enter an integer order from 1 to 10."]];
   schema["gcd-placeholder"] = [["a","First integer"],["b","Second integer"]];
   const formulaText = {
@@ -601,7 +602,6 @@ basis-coordinate-helper|Basis Coordinate Helper`;
     const x=function(k){return number(v,k);};
     const iv=function(k,min,max){return integer(v,k,min,max);};
     const a=function(k){return sequence(v,k);};
-    const a1=x("a1"), d=x("d");
     switch(id) {
       case "basic-arithmetic": case "integer-operations": case "decimal-operations": {
         const u=x("a"),w=x("b"),op=String(v.operation||"add").toLowerCase();
@@ -662,7 +662,9 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "weighted-percentage": {const w=x("weight1")+x("weight2");if(w===0)throw new Error("Weights cannot total zero.");r=(x("score1")*x("weight1")+x("score2")*x("weight2"))/w;break;}
       case "markup-calculator": {const c=x("initial"),p=x("percent");r=c*(1+p/100);break;}
       case "successive-discounts": {const p=x("original"),p1=x("percent1"),p2=x("percent2");if(p1<0||p1>100||p2<0||p2>100)throw new Error("Discount percentages must be between 0 and 100.");r=p*(1-p1/100)*(1-p2/100);break;}
-      case "tax-percentage-calculator": case "tip-percentage-calculator": case "commission-calculator": r=x("initial")*(1+x("percent")/100);break;
+      case "tax-percentage-calculator": {const amount=x("initial"),rate=x("percent");r="Tax = "+fmt(amount*rate/100)+"; total including tax = "+fmt(amount*(1+rate/100));break;}
+      case "tip-percentage-calculator": {const amount=x("initial"),rate=x("percent");r="Tip = "+fmt(amount*rate/100)+"; total including tip = "+fmt(amount*(1+rate/100));break;}
+      case "commission-calculator": r=x("sales")*x("rate")/100;break;
       case "profit-percentage": {const c=x("cost"),s=x("sell");if(c===0)throw new Error("Cost cannot be zero.");r=(s-c)/c*100+"%";break;}
       case "loss-percentage": {const c=x("cost"),s=x("sell");if(c===0)throw new Error("Cost cannot be zero.");r=(c-s)/c*100+"%";break;}
       case "profit-margin-calculator": {const rev=x("revenue");if(rev===0)throw new Error("Revenue cannot be zero.");r=(rev-x("cost"))/rev*100+"%";break;}
@@ -762,7 +764,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "pythagorean-theorem": r=Math.hypot(x("a"),x("b"));break;
       case "equilateral-triangle": {const s=x("side");r="Area = "+fmt(Math.sqrt(3)*s*s/4)+"; perimeter = "+fmt(3*s)+"; height = "+fmt(Math.sqrt(3)*s/2);break;}
       case "isosceles-triangle": {const s=x("equalSide"),b=x("base");if(b>2*s)throw new Error("Base cannot exceed twice the equal side.");const h=Math.sqrt(s*s-b*b/4);r="Area = "+fmt(b*h/2)+"; perimeter = "+fmt(2*s+b);break;}
-      case "parallelogram-area": case "trapezoid-area": {const b=x("base"),h=x("height");if(id==="parallelogram-area")r=b*h;else r=(x("a")+x("b"))*h/2;break;}
+      case "parallelogram-area": r=x("base")*x("height");break;
+      case "trapezoid-area": r=(x("a")+x("b"))*x("height")/2;break;
       case "rhombus-area": case "kite-area": r=x("diagonal1")*x("diagonal2")/2;break;
       case "polygon-interior-angles": {const n=iv("n",3,1000000);r=(n-2)*180+"° total; each regular interior angle = "+fmt((n-2)*180/n)+"°";break;}
       case "regular-polygon-area": case "regular-polygon-perimeter": {const n=iv("n",3,1000000),s=x("side");r=id==="regular-polygon-perimeter"?n*s:n*s*s/(4*Math.tan(Math.PI/n));break;}
