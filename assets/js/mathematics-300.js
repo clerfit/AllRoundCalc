@@ -689,7 +689,7 @@ basis-coordinate-helper|Basis Coordinate Helper\`;
         break;
       }
       case "polynomial-remainder-theorem": case "polynomial-factor-checker": {const cs=parsePoly(v,"coefficients"),root0=x("root"),rem=polyEval(cs,root0);r=id==="polynomial-remainder-theorem"?"Remainder = "+fmt(rem):Math.abs(rem)<1e-9?"The proposed root is a factor (within numerical tolerance).":"Not a factor; remainder = "+fmt(rem);break;}
-      case "expand-algebraic-expression": {const aa=x("a"),bb=x("b"),n=iv("n",0,100);const out=[];for(let k=0;k<=n;k++)out.push(fmt(factorial(n)/(factorial(k)*factorial(n-k)*1)*Math.pow(aa,n-k)*Math.pow(bb,k));r="Coefficients of (a+b)^n: "+out.join(", ");break;}
+      case "expand-algebraic-expression": {const aa=x("a"),bb=x("b"),n=iv("n",0,100);const out=[];for(let k=0;k<=n;k++)out.push(fmt((factorial(n)/(factorial(k)*factorial(n-k)))*Math.pow(aa,n-k)*Math.pow(bb,k)));r="Coefficients of (a+b)^n: "+out.join(", ");break;}
       case "inequality-solver": {const aa=x("a"),bb=x("b"),cc=x("c"),rel=String(v.relation||"<=").trim();if(aa===0){const ok={"<=":bb<=cc,">=":bb>=cc,"<":bb<cc,">":bb>cc}[rel];if(ok===undefined)throw new Error("Relation must be <, <=, >, or >=.");r=ok?"All real x satisfy the inequality.":"No real x satisfies the inequality.";}else {let sign=rel;if(aa<0)sign=({"<=":">=",">=":"<=","<":">",">":"<"})[rel];if(!sign)throw new Error("Relation must be <, <=, >, or >=.");r="x "+sign+" "+fmt((cc-bb)/aa);}break;}
       case "compound-inequality-solver": {const lo=x("lower"),hi=x("upper");if(lo>hi)throw new Error("Lower bound cannot exceed upper bound.");r=fmt(lo)+" ≤ x ≤ "+fmt(hi);break;}
       case "absolute-value-equation": case "absolute-value-inequality": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc<0)throw new Error("Right side c must be non-negative for |ax+b| = c.");if(aa===0)throw new Error("Coefficient a cannot be zero.");r="Boundary values x = "+fmt((-cc-bb)/aa)+" and x = "+fmt((cc-bb)/aa);break;}
@@ -806,7 +806,7 @@ basis-coordinate-helper|Basis Coordinate Helper\`;
       case "law-of-cosines": case "triangle-side-angle-solver": {const aa=x("a"),bb=x("b"),C=x("angle")*Math.PI/180;r=Math.sqrt(aa*aa+bb*bb-2*aa*bb*Math.cos(C));break;}
       case "right-triangle-trigonometry": {const o=x("opposite"),ad=x("adjacent");r="Hypotenuse = "+fmt(Math.hypot(o,ad))+"; angle = "+fmt(Math.atan2(o,ad)*180/Math.PI)+"°";break;}
       case "trigonometric-identity-checker": {const z=x("angle")*Math.PI/180;r="sin²θ + cos²θ = "+fmt(Math.sin(z)**2+Math.cos(z)**2);break;}
-      case "exact-trigonometric-values": {const deg=x("x"),ang=deg*Math.PI/180;r="sin = "+fmt(Math.sin(ang))+"; cos = "+fmt(Math.cos(ang))+"; tan = "+(Math.abs(Math.cos(ang))<1e-12?"undefined":fmt(Math.tan(ang));break;}
+      case "exact-trigonometric-values": {const deg=x("x"),ang=deg*Math.PI/180;r="sin = "+fmt(Math.sin(ang))+"; cos = "+fmt(Math.cos(ang))+"; tan = "+(Math.abs(Math.cos(ang))<1e-12?"undefined":fmt(Math.tan(ang)));break;}
       case "unit-circle-coordinates": {const z=x("x")*Math.PI/180;r="("+fmt(Math.cos(z))+", "+fmt(Math.sin(z))+")";break;}
       case "arc-trigonometric-functions": {const z=x("x");if(Math.abs(z)>1)throw new Error("Input must be in [−1,1] for principal arcsine.");r="arcsin = "+fmt(Math.asin(z))+" rad; arccos = "+fmt(Math.acos(z))+" rad";break;}
       case "secant-calculator": case "cosecant-calculator": case "cotangent-calculator": {const z=x("x")*Math.PI/180,s=Math.sin(z),c=Math.cos(z);if(id==="secant-calculator"){if(Math.abs(c)<1e-12)throw new Error("Secant undefined at this angle.");r=1/c;}else if(id==="cosecant-calculator"){if(Math.abs(s)<1e-12)throw new Error("Cosecant undefined at this angle.");r=1/s;}else {if(Math.abs(s)<1e-12)throw new Error("Cotangent undefined at this angle.");r=c/s;}break;}
@@ -844,6 +844,7 @@ basis-coordinate-helper|Basis Coordinate Helper\`;
       case "gradient-of-scalar-field": r="∇f = ("+fmt(x("a"))+", "+fmt(x("b"))+", "+fmt(x("c"))+")";break;
       case "directional-derivative-of-linear-function": {const dx=x("x"),dy=x("y"),len=Math.hypot(dx,dy);if(len===0)throw new Error("Direction vector cannot be zero.");r=(x("a")*dx+x("b")*dy)/len;break;}
       case "double-integral-rectangle-constant": r=x("f")*(x("x2")-x("x1"))*(x("y2")-x("y1"));break;
+      case "identity-matrix-generator": {const n=iv("n",1,10);r=Array.from({length:n},function(_,i){return "["+Array.from({length:n},function(_,j){return i===j?1:0;}).join(", ")+"]";}).join("\\n");break;}
       case "matrix-addition": case "matrix-subtraction": case "matrix-multiplication": case "matrix-transpose": case "matrix-rank": case "trace-of-matrix": case "matrix-power": case "row-reduction-2-2": {
         const A=matrix(v,"matrixA");
         if(id==="matrix-transpose")r=A[0].map(function(_,j){return A.map(function(row){return row[j];});}).map(function(row){return "["+row.map(fmt).join(", ")+"]";}).join("\n");
