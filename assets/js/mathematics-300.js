@@ -333,7 +333,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
   const vec2 = "x1:Vector or point x-coordinate;y1:Vector or point y-coordinate;x2:Second x-coordinate;y2:Second y-coordinate";
   const vec3 = "x1:First vector x;y1:First vector y;z1:First vector z;x2:Second vector x;y2:Second vector y;z2:Second vector z";
   set("basic-arithmetic integer-operations decimal-operations", "a:First number;b:Second number;operation:Operation (add, subtract, multiply, divide)");
-  set("order-of-operations simplify-algebraic-expression boolean-algebra-evaluator", "expression:Arithmetic or Boolean expression");
+  set("order-of-operations simplify-algebraic-expression", "expression:Arithmetic expression");
+  set("boolean-algebra-evaluator", "expression:Boolean expression using T/F, 1/0, !, AND/OR;assignments:Optional variable assignments like A=1,B=0");
   set("fraction-operations", "n1:First numerator;d1:First denominator;n2:Second numerator;d2:Second denominator;operation:Operation (add, subtract, multiply, divide)");
   set("mixed-number-calculator", "w1:First whole number;n1:First numerator;d1:First denominator;w2:Second whole number;n2:Second numerator;d2:Second denominator;operation:Operation (add, subtract, multiply, divide)");
   set("fraction-to-decimal fraction-to-percentage", "numerator:Numerator;denominator:Denominator");
@@ -341,14 +342,16 @@ basis-coordinate-helper|Basis Coordinate Helper`;
   set("percentage-to-fraction", "percent:Percentage");
   set("rounding-calculator", "x:Number to round;digits:Decimal places (integer)");
   set("significant-figures", "x:Number;sigFigs:Significant figures (integer)");
-  set("scientific-notation standard-form-converter absolute-value reciprocal-calculator radical-simplifier square-root-calculator cube-root-calculator natural-logarithm common-logarithm powers-of-ten hyperbolic-sine hyperbolic-cosine hyperbolic-tangent inverse-sine inverse-cosine inverse-tangent degree-radian-converter sine-calculator cosine-calculator tangent-calculator secant-calculator cosecant-calculator cotangent-calculator exact-trigonometric-values unit-circle-coordinates arc-trigonometric-functions", "x:Number or angle");
+  set("scientific-notation standard-form-converter absolute-value reciprocal-calculator radical-simplifier square-root-calculator cube-root-calculator natural-logarithm common-logarithm hyperbolic-sine hyperbolic-cosine hyperbolic-tangent inverse-sine inverse-cosine inverse-tangent degree-radian-converter sine-calculator cosine-calculator tangent-calculator secant-calculator cosecant-calculator cotangent-calculator exact-trigonometric-values unit-circle-coordinates arc-trigonometric-functions", "x:Number or angle");
+  set("powers-of-ten", "n:Exponent n");
   set("prime-factorization prime-number-checker factors-of-an-integer divisors-count sum-of-divisors parity-checker triangular-number-calculator fibonacci-sequence lucas-sequence catalan-number bell-number partition-number identity-matrix-generator", "n:Integer n");
   set("greatest-common-divisor-gcd least-common-multiple-lcm euclidean-algorithm integer-quotient-and-remainder modulo-calculator", ab);
   set("consecutive-integer-sum", "start:First integer;count:Number of consecutive integers");
   set("arithmetic-sequence-sum arithmetic-sequence-sum-122", "a1:First term a₁;d:Common difference d;n:Number of terms n");
   set("percentage-of-a-number", "value:Base value;percent:Percentage");
   set("percentage-change percentage-difference", "a:First value;b:Second value");
-  set("percentage-increase percentage-decrease markup-calculator markdown-calculator discount-calculator tax-percentage-calculator tip-percentage-calculator commission-calculator", "initial:Original amount;percent:Percentage");
+  set("percentage-increase percentage-decrease markup-calculator markdown-calculator discount-calculator tax-percentage-calculator tip-percentage-calculator", "initial:Original amount;percent:Percentage");
+  set("commission-calculator", "sales:Sales amount;rate:Commission rate (%)");
   set("reverse-percentage", "final:Final amount;percent:Percentage change");
   set("what-percent-is-a-of-b part-to-whole-percentage", "part:Part value;whole:Whole value");
   set("ratio-simplifier ratio-to-fraction", "a:First ratio part;b:Second ratio part");
@@ -444,13 +447,14 @@ basis-coordinate-helper|Basis Coordinate Helper`;
   set("trigonometric-identity-checker", "angle:Angle in degrees");
   set("trigonometric-equation-helper", "target:Function target in [-1,1]");
   set("amplitude-and-period", "amplitude:Amplitude A;frequency:Frequency or angular coefficient");
-  set("phase-shift-calculator", "amplitude:Amplitude A;period:Period;shift:Phase shift; x:Input x");
+  set("phase-shift-calculator", "amplitude:Amplitude A;period:Period;shift:Phase shift;x:Input x");
   set("sinusoid-parameter-solver", "a:Amplitude a;b:Angular frequency b;c:Phase offset c;d:Vertical shift d;x:Input x");
   set("angle-of-elevation angle-of-depression", "height:Vertical height;distance:Horizontal distance");
   set("harmonic-wave-calculator", "amplitude:Amplitude;frequency:Frequency (Hz);time:Time (s);phase:Phase in radians");
   set("radians-per-second angular-frequency", "frequency:Frequency in Hz");
   set("trigonometric-product-to-sum-helper", "a:First angle in degrees;b:Second angle in degrees");
-  set("derivative-calculator-polynomial second-derivative critical-points-of-polynomial increasing-decreasing-intervals antiderivative-of-polynomial maclaurin-polynomial-helper limit-of-polynomial", poly);
+  set("derivative-calculator-polynomial second-derivative critical-points-of-polynomial increasing-decreasing-intervals antiderivative-of-polynomial limit-of-polynomial", poly);
+  set("maclaurin-polynomial-helper", "coefficients:Polynomial coefficients, highest power first");
   set("derivative-from-power-rule", "c:Coefficient c;n:Power n;x:Evaluation point x");
   set("product-rule-derivative", "f:Function value f;g:Function value g;df:Derivative f′;dg:Derivative g′");
   set("quotient-rule-derivative", "f:Numerator f;g:Denominator g;df:Numerator derivative f′;dg:Denominator derivative g′");
@@ -821,6 +825,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "harmonic-wave-calculator": r=x("amplitude")*Math.sin(2*Math.PI*x("frequency")*x("time")+x("phase"));break;
       case "radians-per-second": case "angular-frequency": r=2*Math.PI*x("frequency");break;
       case "trigonometric-product-to-sum-helper": {const A=x("a")*Math.PI/180,B=x("b")*Math.PI/180;r="sin A sin B = ½[cos(A−B) − cos(A+B)] = "+fmt((Math.cos(A-B)-Math.cos(A+B))/2);break;}
+      case "maclaurin-polynomial-helper": {const cs=parsePoly(v,"coefficients");r="Maclaurin polynomial coefficients (highest power first): "+cs.join(", ");note="For a polynomial, its finite Maclaurin expansion equals the polynomial itself.";break;}
+      case "limit-of-polynomial": {const cs=parsePoly(v,"coefficients");r=polyEval(cs,x("x"));note="A polynomial is continuous, so its limit at x=a equals its value p(a).";break;}
       case "derivative-calculator-polynomial": {const cs=parsePoly(v,"coefficients");r="Derivative coefficients: "+derivative(cs).join(", ");break;}
       case "derivative-from-power-rule": {const c=x("c"),n=x("n"),xx=x("x");r="Derivative = "+fmt(c*n)+"x^"+fmt(n-1)+"; value at x = "+fmt(c*n*Math.pow(xx,n-1));break;}
       case "product-rule-derivative": r=x("df")*x("g")+x("f")*x("dg");break;
