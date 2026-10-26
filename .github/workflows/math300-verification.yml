@@ -1,0 +1,29 @@
+name: Mathematics 300 verification
+
+on:
+  push:
+    branches: [phase-22-mathematics-300-integrated]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/js/mathematics-300.js
+          node --check assets/js/advanced-calculations.js
+          node --check assets/js/app.js
+      - name: Run Mathematics 300 smoke and regression tests
+        run: node --test verification/math300-smoke.cjs
