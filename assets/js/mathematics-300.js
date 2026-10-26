@@ -548,7 +548,7 @@ basis-coordinate-helper|Basis Coordinate Helper`;
     return Number(x.toPrecision(10)).toLocaleString(undefined,{maximumFractionDigits:8});
   }
   function polyEval(cs,x){return cs.reduce(function(acc,c){return acc*x+c;},0);}
-  function derivative(cs){const n=cs.length-1;return cs.slice(0,-1).map(function(c,i){return c*(n-i);});}
+  function derivative(cs){if(cs.length<=1)return [0];const n=cs.length-1;return cs.slice(0,-1).map(function(c,i){return c*(n-i);});}
   function polyInt(cs){const n=cs.length;return cs.map(function(c,i){return c/(n-i);}).concat(0);}
   function trim(cs){while(cs.length>1 && Math.abs(cs[0])<1e-12)cs.shift();return cs;}
   function parsePoly(v,key){return trim(sequence(v,key));}
@@ -661,7 +661,7 @@ basis-coordinate-helper|Basis Coordinate Helper`;
         const g=gcd(bestN,bestD);r=(bestN/g)+"/"+(bestD/g);break;
       }
       case "fraction-to-percentage": r=x("numerator")/x("denominator")*100;if(x("denominator")===0)throw new Error("Denominator cannot be zero.");r=fmt(r)+"%";break;
-      case "percentage-to-fraction": {const p=x("percent"),den=100,g=gcd(p,den);r=(p/g)+"/"+(den/g);break;}
+      case "percentage-to-fraction": {const p=x("percent");let den=1000000,num=Math.round(p*den/100);while(den>1&&num%10===0&&den%10===0){num/=10;den/=10;}const g=gcd(num,den);r=(num/g)+"/"+(den/g);break;}
       case "rounding-calculator": {const z=x("x"),places=iv("digits",-12,12),m=Math.pow(10,places);r=Math.round((z+Number.EPSILON)*m)/m;break;}
       case "significant-figures": {const z=x("x"),sig=iv("sigFigs",1,15);r=z===0?"0":z.toPrecision(sig);break;}
       case "scientific-notation": case "standard-form-converter": {const z=x("x");r=z===0?"0 × 10⁰":z.toExponential(8).replace("e"," × 10^");break;}
@@ -670,12 +670,12 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "prime-factorization": case "factors-of-an-integer": case "divisors-count": case "sum-of-divisors": case "prime-number-checker": {
         const n=iv("n",1,1000000000),fs=[];let m=n;for(let p=2;p*p<=m&&p<100000;p+=(p===2?1:2)){let e=0;while(m%p===0){m/=p;e++;}if(e)fs.push([p,e]);}if(m>1)fs.push([m,1]);
         if(id==="prime-factorization")r=fs.map(function(z){return z[0]+(z[1]>1?"^"+z[1]:"");}).join(" × ");
-        else if(id==="prime-number-checker")r=n>1&&fs.length===1&&fs[0][1]===1?"Prime":"Composite";
+        else if(id==="prime-number-checker")r=n===1?"1 is neither prime nor composite":fs.length===1&&fs[0][1]===1?"Prime":"Composite";
         else {const divs=[];for(let i=1;i*i<=n;i++)if(n%i===0){divs.push(i);if(i!==n/i)divs.push(n/i);}divs.sort(function(a,b){return a-b;});if(id==="factors-of-an-integer")r=divs.join(", ");else if(id==="divisors-count")r=divs.length;else r=divs.reduce(function(s,z){return s+z;},0);}
         break;
       }
-      case "greatest-common-divisor-gcd": case "euclidean-algorithm": r=gcd(x("a"),x("b"));break;
-      case "least-common-multiple-lcm": {const u=x("a"),w=x("b");r=(u===0||w===0)?0:Math.abs(u*w)/gcd(u,w);break;}
+      case "greatest-common-divisor-gcd": case "euclidean-algorithm": r=gcd(iv("a"),iv("b"));break;
+      case "least-common-multiple-lcm": {const u=iv("a"),w=iv("b");r=(u===0||w===0)?0:Math.abs(u*w)/gcd(u,w);break;}
       case "integer-quotient-and-remainder": case "modulo-calculator": {const u=iv("a"),w=iv("b");if(w===0)throw new Error("Divisor cannot be zero.");r=id==="modulo-calculator"?u%w:Math.trunc(u/w)+" remainder "+(u%w);break;}
       case "parity-checker": {const n=iv("n");r=n%2===0?"Even":"Odd";break;}
       case "consecutive-integer-sum": {const s=iv("start"),n=iv("count",1,1000000);r=n*(2*s+n-1)/2;break;}
@@ -684,8 +684,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "percentage-of-a-number": r=x("value")*x("percent")/100;break;
       case "percentage-change": {const u=x("a"),w=x("b");if(u===0)throw new Error("First value must not be zero.");r=(w-u)/u*100+"%";break;}
       case "percentage-difference": {const u=x("a"),w=x("b"),avg=(Math.abs(u)+Math.abs(w))/2;if(avg===0)throw new Error("At least one value must be non-zero.");r=Math.abs(u-w)/avg*100+"%";break;}
-      case "percentage-increase": r=x("initial")*(1+x("percent")/100);break;
-      case "percentage-decrease": case "discount-calculator": case "markdown-calculator": r=x("initial")*(1-x("percent")/100);break;
+      case "percentage-increase": r="Increase = "+fmt(x("initial")*x("percent")/100)+"; new value = "+fmt(x("initial")*(1+x("percent")/100));break;
+      case "percentage-decrease": case "discount-calculator": case "markdown-calculator": r="Decrease = "+fmt(x("initial")*x("percent")/100)+"; new value = "+fmt(x("initial")*(1-x("percent")/100));break;
       case "reverse-percentage": {const f=x("final"),p=x("percent");if(p===-100)throw new Error("A −100% change cannot be reversed uniquely.");r=f/(1+p/100);break;}
       case "what-percent-is-a-of-b": case "part-to-whole-percentage": {const w=x("whole");if(w===0)throw new Error("Whole value cannot be zero.");r=x("part")/w*100+"%";break;}
       case "ratio-simplifier": case "ratio-to-fraction": {const u=iv("a"),w=iv("b");if(u===0&&w===0)throw new Error("The ratio 0:0 is undefined.");const g=gcd(u,w);r=id==="ratio-to-fraction"?(u/g)+"/"+(w/g):(u/g)+":"+(w/g);break;}
@@ -731,8 +731,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "expand-algebraic-expression": {const aa=x("a"),bb=x("b"),n=iv("n",0,100);const out=[];for(let k=0;k<=n;k++)out.push(fmt((factorial(n)/(factorial(k)*factorial(n-k)))*Math.pow(aa,n-k)*Math.pow(bb,k)));r="Coefficients of (a+b)^n: "+out.join(", ");break;}
       case "inequality-solver": {const aa=x("a"),bb=x("b"),cc=x("c"),rel=String(v.relation||"<=").trim();if(aa===0){const ok={"<=":bb<=cc,">=":bb>=cc,"<":bb<cc,">":bb>cc}[rel];if(ok===undefined)throw new Error("Relation must be <, <=, >, or >=.");r=ok?"All real x satisfy the inequality.":"No real x satisfies the inequality.";}else {let sign=rel;if(aa<0)sign=({"<=":">=",">=":"<=","<":">",">":"<"})[rel];if(!sign)throw new Error("Relation must be <, <=, >, or >=.");r="x "+sign+" "+fmt((cc-bb)/aa);}break;}
       case "compound-inequality-solver": {const lo=x("lower"),hi=x("upper");if(lo>hi)throw new Error("Lower bound cannot exceed upper bound.");r=fmt(lo)+" ≤ x ≤ "+fmt(hi);break;}
-      case "absolute-value-equation": case "absolute-value-inequality": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc<0)throw new Error("Right side c must be non-negative for |ax+b| = c.");if(aa===0)throw new Error("Coefficient a cannot be zero.");r="Boundary values x = "+fmt((-cc-bb)/aa)+" and x = "+fmt((cc-bb)/aa);break;}
-      case "rational-equation-solver": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc===0)throw new Error("Right side c cannot be zero in this rearrangement.");r="x = "+fmt(bb+aa/cc);break;}
+      case "absolute-value-equation": case "absolute-value-inequality": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc<0)throw new Error("Right side c must be non-negative for |ax+b| = c.");if(aa===0)throw new Error("Coefficient a cannot be zero.");const lo=(-cc-bb)/aa,hi=(cc-bb)/aa;if(id==="absolute-value-equation")r="Solutions: x = "+fmt(lo)+" or x = "+fmt(hi);else r="For |ax+b| ≤ c: x ∈ ["+fmt(Math.min(lo,hi))+", "+fmt(Math.max(lo,hi))+"]; for |ax+b| ≥ c: outside that interval.";break;}
+      case "rational-equation-solver": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc===0)throw new Error("Right side c cannot be zero in this rearrangement.");const sol=bb+aa/cc;if(sol===bb)throw new Error("The rearranged solution is excluded by the original denominator x − b.");r="x = "+fmt(sol);break;}
       case "radical-equation-solver": {const aa=x("a"),bb=x("b"),cc=x("c");if(cc<0||aa===0)throw new Error("Require c ≥ 0 and a ≠ 0.");r="Candidate x = "+fmt((cc*cc-bb)/aa)+" (check the original equation for extraneous roots).";break;}
       case "exponential-equation-solver": {const aa=x("a"),base=x("base"),target=x("target");if(aa===0||base<=0||base===1||target/aa<=0)throw new Error("Require a ≠ 0, base > 0 and base ≠ 1, and target/a > 0.");r=Math.log(target/aa)/Math.log(base);break;}
       case "logarithmic-equation-solver": {const base=x("base"),target=x("target");if(base<=0||base===1)throw new Error("Logarithm base must be positive and not equal to 1.");r=Math.pow(base,target);break;}
@@ -782,7 +782,7 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "convergence-quick-check": {const vals=a("values");if(vals.length<3)throw new Error("Enter at least three terms.");const ratios=[];for(let i=1;i<vals.length;i++)if(vals[i-1]!==0)ratios.push(Math.abs(vals[i]/vals[i-1]));const tail=ratios.slice(-Math.min(4,ratios.length));const avg=tail.reduce(function(s,z){return s+z;},0)/tail.length;r="Heuristic only: recent absolute term ratios average "+fmt(avg)+(avg<1?" (suggests decay)":" (does not establish convergence)");note="A finite list cannot prove convergence or divergence.";break;}
       case "catalan-number": {const n=iv("n",0,35);r=factorial(2*n)/(factorial(n)*factorial(n+1));break;}
       case "bell-number": {const n=iv("n",0,20),tri=Array.from({length:n+1},()=>Array(n+1).fill(0));tri[0][0]=1;for(let i=1;i<=n;i++){tri[i][0]=tri[i-1][i-1];for(let j=1;j<=i;j++)tri[i][j]=tri[i][j-1]+tri[i-1][j-1];}r=tri[n][0];break;}
-      case "partition-number": {const n=iv("n",0,10000),p=Array(n+1).fill(0);p[0]=1;for(let k=1;k<=n;k++)for(let j=k;j<=n;j++)p[j]+=p[j-k];r=p[n];break;}
+      case "partition-number": {const n=iv("n",0,1000),p=Array(n+1).fill(0);p[0]=1;for(let k=1;k<=n;k++)for(let j=k;j<=n;j++)p[j]+=p[j-k];r=p[n];break;}
       case "pigeonhole-principle-calculator": {const o=iv("objects",0,1e9),b=iv("boxes",1,1e9);r="At least one box contains ≥ "+Math.ceil(o/b)+" objects.";break;}
       case "inclusion-exclusion-calculator": {const aa=x("a"),bb=x("b"),ii=x("intersection");if(ii<0||ii>Math.min(aa,bb))throw new Error("Intersection must be between zero and the smaller set size.");r=aa+bb-ii;break;}
       case "set-union-and-intersection": case "set-difference-calculator": {const A=parseSet(v,"setA"),B=parseSet(v,"setB"),inter=A.filter(function(z){return B.includes(z);}),union=Array.from(new Set(A.concat(B)));r=id==="set-difference-calculator"?"A − B = {"+A.filter(function(z){return !B.includes(z);}).join(", ")+"}":"Union = {"+union.join(", ")+"}; intersection = {"+inter.join(", ")+"}";break;}
@@ -882,7 +882,7 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "secant-method-root-finder": {const cs=parsePoly(v,"coefficients");let x0=x("x"),x1=x("upper");for(let i=0;i<(v.iterations?iv("iterations",1,100):50);i++){const f0=polyEval(cs,x0),f1=polyEval(cs,x1);if(Math.abs(f1-f0)<1e-12)throw new Error("Secant denominator became zero.");const next=x1-f1*(x1-x0)/(f1-f0);x0=x1;x1=next;if(Math.abs(x1-x0)<1e-10)break;}r=x1;break;}
       case "taylor-polynomial-coefficients": {const cs=parsePoly(v,"coefficients"),center=x("center"),order=iv("order",0,30);let deriv=cs,values=[];for(let k=0;k<=order;k++){values.push(polyEval(deriv,center)/factorial(k));deriv=derivative(deriv);}r="Taylor coefficients in powers of (x − center): "+values.join(", ");break;}
       case "l-h-pital-rule-applicability-helper": {const n0=x("numerator"),d0=x("denominator");r=d0===0&&n0===0?"0/0 form: L’Hôpital may apply if differentiability conditions hold.":Math.abs(n0)===Infinity&&Math.abs(d0)===Infinity?"∞/∞ form: L’Hôpital may apply if differentiability conditions hold.":"Not the 0/0 or ∞/∞ indeterminate form based on these values.";break;}
-      case "partial-derivative-of-monomial": {const c=x("c"),px=x("xPower"),py=x("yPower"),xx=x("x"),yy=x("y");r="∂f/∂x = "+fmt(c*px*Math.pow(xx,px-1)*Math.pow(yy,py))+"; ∂f/∂y = "+fmt(c*py*Math.pow(xx,px)*Math.pow(yy,py-1));break;}
+      case "partial-derivative-of-monomial": {const c=x("c"),px=x("xPower"),py=x("yPower"),xx=x("x"),yy=x("y");const dx=px===0?0:c*px*Math.pow(xx,px-1)*Math.pow(yy,py),dy=py===0?0:c*py*Math.pow(xx,px)*Math.pow(yy,py-1);r="∂f/∂x = "+fmt(dx)+"; ∂f/∂y = "+fmt(dy);break;}
       case "gradient-of-scalar-field": r="∇f = ("+fmt(x("a"))+", "+fmt(x("b"))+", "+fmt(x("c"))+")";break;
       case "directional-derivative-of-linear-function": {const dx=x("x"),dy=x("y"),len=Math.hypot(dx,dy);if(len===0)throw new Error("Direction vector cannot be zero.");r=(x("a")*dx+x("b")*dy)/len;break;}
       case "double-integral-rectangle-constant": r=x("f")*(x("x2")-x("x1"))*(x("y2")-x("y1"));break;
@@ -911,7 +911,8 @@ basis-coordinate-helper|Basis Coordinate Helper`;
       case "vector-addition": case "vector-subtraction": case "vector-magnitude": case "unit-vector": case "dot-product": case "cross-product-3d": case "angle-between-vectors": case "projection-of-vector": case "vector-distance": case "linear-independence-2d": case "basis-coordinate-helper": {
         const A=[x("x1"),x("y1"),v.z1!==undefined&&String(v.z1).trim()!==""?x("z1"):0],B=[x("x2"),x("y2"),v.z2!==undefined&&String(v.z2).trim()!==""?x("z2"):0],dot=A.reduce(function(s,z,i){return s+z*B[i];},0),mag=A.reduce(function(s,z){return s+z*z;},0)**0.5,magB=B.reduce(function(s,z){return s+z*z;},0)**0.5;
         if(id==="vector-addition")r=A.map(function(z,i){return z+B[i];});
-        else if(id==="vector-subtraction"||id==="vector-distance")r=A.map(function(z,i){return z-B[i];});
+        else if(id==="vector-subtraction")r=A.map(function(z,i){return z-B[i];});
+        else if(id==="vector-distance")r=Math.hypot(A[0]-B[0],A[1]-B[1],A[2]-B[2]);
         else if(id==="vector-magnitude")r=mag;
         else if(id==="unit-vector"){if(mag===0)throw new Error("Zero vector has no unit direction.");r=A.map(function(z){return z/mag;});}
         else if(id==="dot-product")r=dot;
