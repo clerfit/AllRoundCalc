@@ -211,7 +211,7 @@
       return;
     }
     if (id === "basic-mathematics" && window.AllRoundCalculations) {
-      const defs = window.AllRoundCalculations.definitions;
+      const defs = (window.AllRoundPhase1Calculations ? window.AllRoundPhase1Calculations.definitions : []).concat(window.AllRoundCalculations.definitions);
       const groups = [...new Set(defs.map(function (item) { return item.group; }))];
       const catalogue = groups.map(function (group) {
         return '<section class="panel" style="margin-bottom:16px"><div class="panel-head"><h2>' + escapeHtml(group) + '</h2><span class="status-pill">' + defs.filter(function (item) { return item.group === group; }).length + ' tools</span></div><div class="panel-body"><div class="category-grid">' + defs.filter(function (item) { return item.group === group; }).map(function (item) {
@@ -229,6 +229,7 @@
       '<div class="template-page-grid"><section class="panel"><div class="panel-head"><h2>Calculator catalogue</h2><span class="status-pill">Coming in later phases</span></div><div class="panel-body"><div class="empty-state"><h2>No calculators published yet</h2><p>We will add tools to this category after their formulas and expected results have been reviewed.</p></div></div></section><aside class="panel"><div class="panel-head"><h2>Release standards</h2></div><div class="panel-body"><div class="explanation-list"><article><h3>Formula review</h3><p>Document the method, variables, and assumptions.</p></article><article><h3>Inputs and units</h3><p>Specify valid ranges, unit choices, and invalid-value behavior.</p></article><article><h3>Verification</h3><p>Compare outputs with independent examples and test edge cases.</p></article><article><h3>Privacy</h3><p>Keep entered values in the browser wherever practical.</p></article></div></div></aside></div>');
   }
   function renderCalculator(id) {
+    const phase1Api = window.AllRoundPhase1Calculations;
     const basicApi = window.AllRoundCalculations;
     const advancedApi = window.AllRoundAdvancedCalculations;
     const physicsApi = window.AllRoundPhysicsCalculations;
@@ -238,6 +239,7 @@
     const businessApi = window.AllRoundBusinessCalculations;
     const healthApi = window.AllRoundHealthCalculations;
     const unitApi = window.AllRoundUnitConverters;
+    const phase1 = !!(phase1Api && phase1Api.definitions.some(function (item) { return item.id === id; }));
     const phase11 = !!(unitApi && unitApi.definitions.some(function (item) { return item.id === id; }));
     const phase10 = !!(healthApi && healthApi.definitions.some(function (item) { return item.id === id; }));
     const phase9 = !!(businessApi && businessApi.definitions.some(function (item) { return item.id === id; }));
@@ -246,12 +248,12 @@
     const phase4 = !!(advancedApi && advancedApi.definitions.some(function (item) { return item.id === id; }));
     const phase5 = !!(physicsApi && physicsApi.definitions.some(function (item) { return item.id === id; }));
     const phase6 = !!(chemistryApi && chemistryApi.definitions.some(function (item) { return item.id === id; }));
-    const api = phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
+    const api = phase1 ? phase1Api : phase11 ? unitApi : phase10 ? healthApi : phase9 ? businessApi : phase8 ? financeApi : phase7 ? statisticsApi : phase6 ? chemistryApi : phase5 ? physicsApi : phase4 ? advancedApi : basicApi;
     const def = api && api.definitions.find(function (item) { return item.id === id; });
     if (!def) return renderNotFound();
     const categoryId = phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
     const categoryName = phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
-    const phaseLabel = phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
+    const phaseLabel = phase1 ? "Phase 22 · Mathematics Part 1 (50 calculators)" : phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
     const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
