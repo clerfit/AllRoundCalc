@@ -11,7 +11,7 @@ case"range":{let x=list(v,"values");r=Math.max(...x)-Math.min(...x);break;}
 case"round":{let x=num(v,"value"),p=int(v,"places");if(p<0||p>12)throw Error("Places must be 0–12.");r=Number(x.toFixed(p));break;}
 case"sigfig":{let x=num(v,"value"),n=int(v,"figures");if(n<1||n>15)throw Error("Figures must be 1–15.");r=x===0?"0":Number(x.toPrecision(n));break;}
 case"sci":{let x=num(v,"value");r=x===0?"0 × 10^0":fmt(x/10**Math.floor(Math.log10(Math.abs(x))))+" × 10^"+Math.floor(Math.log10(Math.abs(x)));break;}
-case"expr":{let s=String(v.expression||"").trim();if(!s||s.length>200||!/^[0-9eE+*/().%\\s×÷-]+$/.test(s))throw Error("Use numeric arithmetic only.");let n=Function('"use strict";return ('+s.replace(/×/g,"*").replace(/÷/g,"/")+')')();if(!Number.isFinite(n))throw Error("Result must be finite.");r=n;note="Only numeric expressions are accepted.";break;}
+case"expr":{let s=String(v.expression||"").trim();if(!s||s.length>200||!/^[0-9eE+*/().%\s×÷-]+$/.test(s))throw Error("Use numeric arithmetic only.");let n=Function('"use strict";return ('+s.replace(/×/g,"*").replace(/÷/g,"/")+')')();if(!Number.isFinite(n))throw Error("Result must be finite.");r=n;note="Only numeric expressions are accepted.";break;}
 case"abs":r=Math.abs(num(v,"value"));break;
 case"factors":{let n=int(v,"n");if(n<1||n>1e9)throw Error("n must be 1–1,000,000,000.");let z=[];for(let i=1;i*i<=n;i++)if(n%i===0){z.push(i);if(i!==n/i)z.push(n/i)}r=z.sort((a,b)=>a-b).join(", ");break;}
 case"multiples":{let n=int(v,"n"),c=int(v,"count");if(!n||c<1||c>100)throw Error("n must be non-zero and count 1–100.");r=Array.from({length:c},(_,i)=>(i+1)*n).join(", ");break;}
