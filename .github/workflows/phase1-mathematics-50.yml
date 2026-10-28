@@ -1,0 +1,20 @@
+name: Mathematics Part 1 verification
+on:
+  push:
+    branches: [phase-22-mathematics-part-1-50]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  part1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node --check assets/js/phase1-mathematics-50.js
+      - run: node --check assets/js/app.js
+      - run: node --test verification/tests/phase1-mathematics-50.test.cjs
