@@ -254,7 +254,7 @@
     const categoryId = phase11 ? "unit-converters" : phase10 ? "health-fitness" : phase9 ? "business-economics" : phase8 ? "personal-finance" : phase7 ? "statistics-probability" : phase6 ? "chemistry" : phase5 ? "physics" : phase4 ? "advanced-mathematics" : "basic-mathematics";
     const categoryName = phase11 ? "Unit Converters" : phase10 ? "Health & Fitness" : phase9 ? "Business & Economics" : phase8 ? "Personal Finance" : phase7 ? "Statistics & Probability" : phase6 ? "Chemistry" : phase5 ? "Physics" : phase4 ? "Advanced Mathematics" : "Basic & Everyday Mathematics";
     const phaseLabel = phase1 ? "Phase 22 · Mathematics Part 1 (50 calculators)" : phase11 ? "Phase 11 · Unit Converters" : phase10 ? "Phase 10 · Health & Fitness" : phase9 ? "Phase 09 · Business & Economics" : phase8 ? "Phase 08 · Personal Finance" : phase7 ? "Phase 07 · Statistics & Probability" : phase6 ? "Phase 06 · Chemistry" : phase5 ? "Phase 05 · Physics" : phase4 ? "Phase 04 · Advanced Mathematics" : "Phase 03 · Basic & Everyday Mathematics";
-    const extra = (id === "basic-arithmetic" || id === "decimal-calculator" || id === "fraction-calculator")
+    const extra = (["basic-arithmetic","decimal-calculator","fraction-calculator","p1-basic-arithmetic","p1-decimal","p1-fraction","p1-integer","p1-binary"].includes(id))
       ? '<div class="form-row"><label for="calc-operation">Operation</label><select id="calc-operation"><option value="add">Add (+)</option><option value="subtract">Subtract (−)</option><option value="multiply">Multiply (×)</option><option value="divide">Divide (÷)</option></select></div>'
       : id === "tax" ? '<div class="form-row"><label for="calc-mode">Price mode</label><select id="calc-mode"><option value="added">Tax added to pre-tax price</option><option value="included">Tax already included in price</option></select></div>'
       : id === "proportion-type" ? '<div class="form-row"><label for="calc-mode">Relationship</label><select id="calc-mode"><option value="direct">Direct proportion</option><option value="inverse">Inverse proportion</option></select></div>'
@@ -300,10 +300,10 @@
       finalPressure:"Final absolute pressure; do not use gauge pressure in gas-law equations."
     };
     const fields = def.fields.map(function (field) {
-      const listField = ["values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]);
+      const listField = ["expression","values","weights","resistances","productConcentrations","productCoefficients","reactantConcentrations","reactantCoefficients","xValues","yValues"].includes(field[0]);
       const help = field[2] || fieldHelp[field[0]] || ("Meaning and unit: " + field[1] + ". Use the units shown and check the formula and assumptions below before calculating.");
       const tipId = "field-tip-" + field[0];
-      const tip = (phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11)
+      const tip = (phase1 || phase4 || phase5 || phase6 || phase7 || phase8 || phase9 || phase10 || phase11)
         ? '<span class="tooltip-wrap"><button class="tooltip-trigger" type="button" aria-label="Show field help: ' + escapeHtml(field[1]) + '" aria-expanded="false" aria-controls="' + tipId + '">i</button><span class="field-tooltip" id="' + tipId + '" role="tooltip" hidden>' + escapeHtml(help) + '</span></span>'
         : "";
       if (phase11 && (field[0] === "fromUnit" || field[0] === "toUnit")) {
